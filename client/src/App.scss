@@ -1,4 +1,4 @@
-@tailwind base;
+// @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -7,6 +7,10 @@
 // [type='reset'],
 // [type='submit'] {
 //   -webkit-appearance: button;
-//   background-color: transparent;
-//   background-image: none;
+//   background-color: inherit;
+//   background-image: inherit;
 // }
+
+body {
+    margin: 0;
+}
