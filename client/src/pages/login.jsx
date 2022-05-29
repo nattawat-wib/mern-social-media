@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import Paper from '@mui/material/Paper';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -13,8 +12,9 @@ import Container from '@mui/material/Container';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import styled from 'styled-components';
 import RegisterDialog from '../components/register-dialog';
+
+import { PageWrapper, LoginFormWrapper } from '../style/form.style';
 
 const Login = () => {
     const [isPasswordShow, setIsPasswordShow] = useState(false);
@@ -34,7 +34,7 @@ const Login = () => {
     }
 
     return (
-        <LoginPageWrapper>
+        <PageWrapper>
             <RegisterDialog isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
             <Container>
                 <Grid container spacing={4} alignItems='center' justifyContent='space-between'>
@@ -94,23 +94,8 @@ const Login = () => {
                     </Grid>
                 </Grid>
             </Container>
-        </LoginPageWrapper>
+        </PageWrapper>
     )
 }
 
 export default Login;
-
-const LoginPageWrapper = styled.main`
-    height: calc(100vh - 4rem);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    background-color: #f0f2f5;
-`
-
-const LoginFormWrapper = styled(Paper)`
-    padding: 1.5rem;
-    border-radius: .7rem;
-    box-shadow: 0 5px 24px rgba(0, 0, 0, .15)
-`
