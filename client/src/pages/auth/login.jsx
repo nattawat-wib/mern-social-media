@@ -12,9 +12,9 @@ import Container from '@mui/material/Container';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
-import RegisterDialog from '../components/register-dialog';
+import RegisterDialog from '../../components/register-dialog';
 
-import { PageWrapper, LoginFormWrapper } from '../style/form.style';
+import { PageWrapper, LoginFormWrapper } from '../../style/form.style';
 
 const Login = () => {
     const [isPasswordShow, setIsPasswordShow] = useState(false);

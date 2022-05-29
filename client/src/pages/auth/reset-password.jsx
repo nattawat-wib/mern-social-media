@@ -4,30 +4,48 @@ import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 
-import { PageWrapper, FormWrapper } from '../style/form.style';
+import { PageWrapper, FormWrapper } from '../../style/form.style';
 import { Link } from 'react-router-dom';
 
-const ForgetPassword = () => {
+const ResetPassword = () => {
     const [form, setForm] = useState({});
+
+    const handleFormChange = e => {
+        setForm(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }))
+    }
 
     const handleFormSubmit = e => {
         e.preventDefault()
-        console.log(form)
+        console.log(form);
     }
 
     return (
         <PageWrapper>
             <FormWrapper>
                 <form onSubmit={handleFormSubmit}>
-                    <Typography variant='h5' className='font-bold'> Find Your Account </Typography>
+                    <Typography variant='h5' className='font-bold'> Reset Password </Typography>
                     <Divider className='my-4' />
-                    <Typography variant='body1'> Please enter your email address you register to search for your account. </Typography>
+                    <Typography variant='body1'> Create Your Password Below. </Typography>
 
                     <TextField
-                        onChange={e => setForm({ password: e.target.value })}
+                        onChange={handleFormChange}
                         value={form.password || ""}
-                        label='email address'
-                        name='email'
+                        label='password'
+                        name='password'
+                        variant='outlined'
+                        fullWidth
+                        autoFocus
+                        sx={{ mt: 2 }}
+                    />
+
+                    <TextField
+                        onChange={handleFormChange}
+                        value={form.passwordConfirm || ""}
+                        label='password confirm'
+                        name='passwordConfirm'
                         variant='outlined'
                         fullWidth
                         autoFocus
@@ -60,4 +78,5 @@ const ForgetPassword = () => {
     )
 }
 
-export default ForgetPassword;
+export default ResetPassword;
+
