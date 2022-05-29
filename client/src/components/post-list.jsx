@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
@@ -5,15 +7,18 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid'
 
-import { StyledPostList } from './../style/index.style';
+import { StyledPostList, StyledCommentInput } from './../style/index.style';
 import { Link } from 'react-router-dom';
 
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import ReplyIcon from '@mui/icons-material/Reply';
+import TextField from '@mui/material/TextField';
 
 const PostList = () => {
+    const [isCommentSectionShow, setIsCommentSectionShow] = useState(false);
+
     return (
         <StyledPostList>
             <header className='flex items-center'>
@@ -60,7 +65,7 @@ const PostList = () => {
             </section>
             <Divider />
             <footer>
-                <Grid container className='mt-2'>
+                <Grid container className='my-2'>
                     <Grid items xs={4}>
                         <Button size='small' className='flex items-center' fullWidth >
                             <ThumbUpIcon />
@@ -68,7 +73,12 @@ const PostList = () => {
                         </Button>
                     </Grid>
                     <Grid items xs={4}>
-                        <Button size='small' className='flex items-center' fullWidth >
+                        <Button
+                            onClick={() => setIsCommentSectionShow(prev => prev ? false : true)}
+                            size='small'
+                            className='flex items-center'
+                            fullWidth
+                        >
                             <ModeCommentIcon />
                             <Typography className='font-bold ml-2' > Comment </Typography>
                         </Button>
@@ -81,6 +91,20 @@ const PostList = () => {
                     </Grid>
                 </Grid>
             </footer>
+            <Divider />
+            {
+                isCommentSectionShow &&
+                <Box className='pt-4 flex items-center'>
+                    <figure className='relative mr-3' style={{ width: "35px", height: "35px" }}>
+                        <img
+                            className='rounded-full fit-img'
+                            src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
+                        />
+                    </figure>
+
+                    <StyledCommentInput size='small' placeholder='Write a public comment' />
+                </Box>
+            }
         </StyledPostList>
     )
 }

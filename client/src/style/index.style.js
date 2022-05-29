@@ -1,6 +1,7 @@
 import theme from './theme.style'
 import styled from 'styled-components';
 import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
 
 export const IndexPageWrapper = styled.main`
     background-color: #f0f2f5;
@@ -30,4 +31,15 @@ export const StyledPostList = styled(Paper)`
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .12);
     padding: 1rem;
     margin-bottom: 1rem;
+`
+
+export const StyledCommentInput = styled(TextField)`
+    background-color: #f0f2f5;
+    border-radius: 99px;
+    overflow: hidden;
+    width: calc(100% - 35px);
+
+    & fieldset {
+        border: none;
+    }
 `
