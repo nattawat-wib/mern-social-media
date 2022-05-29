@@ -1,20 +1,16 @@
-import Toolbar from '@mui/material/Toolbar';
 import AppBar from '@mui/material/AppBar';
-import Button from '@mui/material/Button';
-import { IconButton, InputAdornment, TextField, Typography } from '@mui/material';
-import styled from 'styled-components';
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import Typography from '@mui/material/Typography';
+import { ProfileButton, AppBarAvatar, AppBarContainer, AppBarSearch } from './../style/navbar.style';
 
-import theme from './../style/theme.style';
-
-import { Link } from 'react-router-dom';
-import { Container } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import DarkModeRoundedIcon from '@mui/icons-material/DarkModeRounded';
 import LightModeRoundedIcon from '@mui/icons-material/LightModeRounded';
 import ExpandCircleDownRoundedIcon from '@mui/icons-material/ExpandCircleDownRounded';
-import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
-import HomeIcon from '@mui/icons-material/Home';
-import { Box } from '@mui/material';
+
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
 
@@ -64,41 +60,3 @@ const Navbar = () => {
 }
 
 export default Navbar
-
-const ProfileButton = styled(Link)`
-    background-color: ${theme.palette.primary.light};
-    text-decoration: none;
-    padding: 5px 10px 5px 5px;
-    border-radius: 99px;
-    display: flex;
-    align-items: center;
-`
-
-const AppBarAvatar = styled.img`
-    border-radius: 99%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-`
-
-const AppBarContainer = styled.nav`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: .5rem 1rem;
-`
-
-const AppBarSearch = styled(TextField)`
-    background-color: #f0f2f5;
-    border-radius: 99px;
-    overflow: hidden;
-
-    & fieldset {
-        border: none;
-    }
-`
-
