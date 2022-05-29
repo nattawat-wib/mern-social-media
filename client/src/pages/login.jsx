@@ -19,6 +19,19 @@ import RegisterDialog from '../components/register-dialog';
 const Login = () => {
     const [isPasswordShow, setIsPasswordShow] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [form, setForm] = useState({});
+
+    const handleFormChange = e => {
+        setForm(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }))
+    }
+
+    const handleFormSubmit = e => {
+        e.preventDefault()
+        console.log(form);
+    }
 
     return (
         <LoginPageWrapper>
@@ -31,10 +44,21 @@ const Login = () => {
                     </Grid>
                     <Grid item xs={12} md={6} lg={5} className='text-center'>
                         <LoginFormWrapper>
-                            <form>
-                                <TextField autoFocus className='mb-4' label="Email" fullWidth />
+                            <form onSubmit={handleFormSubmit}>
                                 <TextField
+                                    onChange={handleFormChange}
+                                    value={form.email || ''}
+                                    name='email'
+                                    autoFocus 
+                                    className='mb-4' 
+                                    label="Email" 
+                                    fullWidth
+                                />
+                                <TextField
+                                    onChange={handleFormChange}
+                                    value={form.password || ''}
                                     type={isPasswordShow ? "text" : "password"}
+                                    name='password'
                                     className='mb-4'
                                     label="Password"
                                     fullWidth
@@ -52,10 +76,10 @@ const Login = () => {
                                         )
                                     }}
                                 />
-                                <Button className='mb-4' variant='contained' color='primary' size='large' fullWidth> LOGIN </Button>
+                                <Button type='submit' className='mb-4' variant='contained' color='primary' size='large' fullWidth> LOGIN </Button>
                             </form>
 
-                            <Button variant='text' component={Link} to="/"> Forget Password ? </Button>
+                            <Button variant='text' component={Link} to="/forget-password"> Forget Password ? </Button>
                             <Divider className='my-8' />
 
                             <Button
@@ -86,7 +110,7 @@ const LoginPageWrapper = styled.main`
 `
 
 const LoginFormWrapper = styled(Paper)`
-    padding: 2rem;
+    padding: 1.5rem;
     border-radius: .7rem;
     box-shadow: 0 5px 24px rgba(0, 0, 0, .15)
 `
