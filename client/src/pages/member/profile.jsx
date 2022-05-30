@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import Container from '@mui/material/Container';
 import styled from 'styled-components';
 import Avatar from '@mui/material/Avatar';
@@ -15,23 +17,33 @@ import Button from '@mui/material/Button';
 
 import { CreatePostCard, CreatePostDialog } from "../../components/create-post";
 import PostItem from '../../components/post-item';
+import EditProfileDialog from '../../components/edit-profile-dialog';
 import { Link } from 'react-router-dom';
+
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 import CakeIcon from '@mui/icons-material/Cake';
 import BusinessIcon from '@mui/icons-material/Business';
+import EditIcon from '@mui/icons-material/Edit';
 
 const Profile = () => {
+    const [isEditProfileDialogOpen, setIsEditProfileDialogOpen] = useState(false);
+
     return (
         <>
+            <CreatePostDialog />
+            <EditProfileDialog
+                isEditProfileDialogOpen={isEditProfileDialogOpen}
+                setIsEditProfileDialogOpen={setIsEditProfileDialogOpen}
+            />
             <header>
                 <Container>
                     <figure className='relative pt-[40%]'>
                         <img className='fit-img rounded-b-lg' src='http://wallup.net/wp-content/uploads/2017/03/29/486048-photography-animals-dog-landscape.jpg' />
                     </figure>
-                    <div className='flex'>
+                    <div className='flex items-center'>
                         <Avatar
-                            sx={{ width: '160px', height: '160px', border: '5px white solid', margin: '-40px 30px 0 40px' }}
+                            sx={{ width: '160px', height: '160px', border: '5px white solid', margin: '-60px 30px 0 40px' }}
                             src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
                         />
                         <div className='mt-2'>
@@ -53,6 +65,13 @@ const Profile = () => {
                                     })
                                 }
                             </AvatarGroup>
+                        </div>
+                        <div className='ml-auto'>
+                            <Button
+                                onClick={() => setIsEditProfileDialogOpen(true)}
+                                variant='contained'
+                                startIcon={<EditIcon />}
+                            > Edit Profile </Button>
                         </div>
                     </div>
                 </Container>
@@ -111,7 +130,6 @@ const Profile = () => {
                         </Grid>
                         <Grid item xs={7} >
                             <CreatePostCard />
-                            <CreatePostDialog />
                             {
                                 Array(5).fill(1).map((item, i) => {
                                     return (<PostItem key={i} />)
