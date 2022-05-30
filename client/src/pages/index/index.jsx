@@ -2,6 +2,7 @@ import Grid from '@mui/material/Grid';
 import { IndexPageWrapper } from '../../style/index.style';
 import MainColumn from './index-main-column';
 import LeftColumn from './index-left-column';
+import RightColumn from './index-right-column';
 
 const Index = () => {
     return (
@@ -14,7 +15,7 @@ const Index = () => {
                     <MainColumn />
                 </Grid>
                 <Grid item xs={3}>
-                    1
+                    <RightColumn />
                 </Grid>
             </Grid>
         </IndexPageWrapper>
