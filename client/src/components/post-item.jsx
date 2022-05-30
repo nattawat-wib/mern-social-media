@@ -6,21 +6,24 @@ import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid'
+import TextField from '@mui/material/TextField';
 
-import { StyledPostList, StyledCommentInput } from './../style/index.style';
+import { StyledPostItem } from '../style/index.style';
 import { Link } from 'react-router-dom';
+
+import { CommentInput, CommentItem } from './comment-item';
 
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import ReplyIcon from '@mui/icons-material/Reply';
-import TextField from '@mui/material/TextField';
 
-const PostList = () => {
+const PostItem = () => {
     const [isCommentSectionShow, setIsCommentSectionShow] = useState(false);
+    const [commentList, setCommentList] = useState([])
 
     return (
-        <StyledPostList>
+        <StyledPostItem>
             <header className='flex items-center'>
                 <figure className='relative mr-3' style={{ width: "50px", height: "50px" }}>
                     <img
@@ -66,13 +69,13 @@ const PostList = () => {
             <Divider />
             <footer>
                 <Grid container className='my-2'>
-                    <Grid items xs={4}>
+                    <Grid item xs={4}>
                         <Button size='small' className='flex items-center' fullWidth >
                             <ThumbUpIcon />
                             <Typography className='font-bold ml-2' > Like </Typography>
                         </Button>
                     </Grid>
-                    <Grid items xs={4}>
+                    <Grid item xs={4}>
                         <Button
                             onClick={() => setIsCommentSectionShow(prev => prev ? false : true)}
                             size='small'
@@ -83,7 +86,7 @@ const PostList = () => {
                             <Typography className='font-bold ml-2' > Comment </Typography>
                         </Button>
                     </Grid>
-                    <Grid items xs={4}>
+                    <Grid item xs={4}>
                         <Button size='small' className='flex items-center' fullWidth >
                             <ReplyIcon />
                             <Typography className='font-bold ml-2' > Share </Typography>
@@ -92,21 +95,22 @@ const PostList = () => {
                 </Grid>
             </footer>
             <Divider />
+            
+            {/* //* comment  */}
             {
                 isCommentSectionShow &&
-                <Box className='pt-4 flex items-center'>
-                    <figure className='relative mr-3' style={{ width: "35px", height: "35px" }}>
-                        <img
-                            className='rounded-full fit-img'
-                            src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
-                        />
-                    </figure>
+                <Box>
+                    <CommentInput />
+                    {
+                        // commentList &&
+                        [1, 2, 3].map((comment, i) => <CommentItem key={i} />)
 
-                    <StyledCommentInput size='small' placeholder='Write a public comment' />
+                    }
+
                 </Box>
             }
-        </StyledPostList>
+        </StyledPostItem>
     )
 }
 
-export default PostList
+export default PostItem

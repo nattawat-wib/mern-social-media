@@ -1,6 +1,7 @@
 import theme from './theme.style'
 import styled from 'styled-components';
 import Paper from '@mui/material/Paper';
+import List from '@mui/material/List';
 import TextField from '@mui/material/TextField';
 
 export const IndexPageWrapper = styled.main`
@@ -27,7 +28,7 @@ export const CreatePostModalToggle = styled.div`
     }
 `
 
-export const StyledPostList = styled(Paper)`
+export const StyledPostItem = styled(Paper)`
     box-shadow: 0 0 8px 0 rgba(0, 0, 0, .12);
     padding: 1rem;
     margin-bottom: 1rem;
@@ -42,4 +43,12 @@ export const StyledCommentInput = styled(TextField)`
     & fieldset {
         border: none;
     }
+`
+
+export const StyledLeftColumnWrapper = styled(List)`
+    box-shadow: 0 0 12px 0 rgba(0, 0, 0, .05);
+    border-radius: 8px;
+    background-color: #fff;
+    position: sticky;
+    width: 100%;
 `

@@ -19,7 +19,7 @@ const Navbar = () => {
             <AppBarContainer>
                 <Box className='flex items-center'>
                     <Link to='/'>
-                        <Typography variant='h5' color='primary' className='font-black mr-4'> FuckBook </Typography>
+                        <Typography variant='h5' color='primary' className='font-black mr-4'> fuckbook </Typography>
                     </Link>
                     <AppBarSearch
                         size='small'

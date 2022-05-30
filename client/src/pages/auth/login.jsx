@@ -39,7 +39,7 @@ const Login = () => {
             <Container>
                 <Grid container spacing={4} alignItems='center' justifyContent='space-between'>
                     <Grid item xs={12} md={6} lg={5} >
-                        <Typography variant='h2' color='primary' className='font-bold'> FuckBook </Typography>
+                        <Typography variant='h2' color='primary' className='font-bold'> fuckbook </Typography>
                         <Typography variant='h6' component='p'> Friend Ster helps you connect and share with the people in your life. </Typography>
                     </Grid>
                     <Grid item xs={12} md={6} lg={5} className='text-center'>

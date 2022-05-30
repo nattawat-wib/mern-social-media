@@ -1,5 +1,5 @@
 import CreatePostCard from "../../components/create-post-card"
-import PostList from '../../components/post-list';
+import PostItem from '../../components/post-item';
 
 const MainColumn = () => {
     return (
@@ -7,7 +7,7 @@ const MainColumn = () => {
             <CreatePostCard />
             {
                 [1, 2, 4, 5].map((item, i) => {
-                    return (<PostList key={i} />)
+                    return (<PostItem key={i} />)
                 })
             }
         </>
