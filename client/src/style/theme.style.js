@@ -20,6 +20,16 @@ const theme = createTheme({
         button: {
             textTransform: 'none'
         }
+    },
+    components: {
+        MuiBackdrop: {
+          styleOverrides: {
+            root: {
+              backgroundColor: 'rgba(255, 255, 255, .6)',
+              backdropFilter: 'blur(2.5px)',
+            },
+          },
+        },
     }
 });
 

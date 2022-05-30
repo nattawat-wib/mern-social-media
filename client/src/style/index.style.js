@@ -1,8 +1,9 @@
-import theme from './theme.style'
+import theme from './theme.style';
 import styled from 'styled-components';
 import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 import TextField from '@mui/material/TextField';
+import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 export const IndexPageWrapper = styled.main`
     background-color: #f0f2f5;
@@ -17,7 +18,7 @@ export const StyledCreatePostCard = styled(Paper)`
 `
 
 export const CreatePostModalToggle = styled.div`
-    width: calc(100% - 40px);
+    width: calc(100% - 90px);
     background-color: rgba(0, 0, 0, .09);
     padding: .7rem 1rem;
     border-radius: 99px;
@@ -51,4 +52,18 @@ export const StyledLeftColumnWrapper = styled(List)`
     background-color: #fff;
     position: sticky;
     width: 100%;
+`
+
+export const StyledTextareaAutosize = styled(TextareaAutosize)`
+    width: calc(100% - 1rem);
+    border: none;
+    resize: none;
+    background-color: #f0f2f5;
+    padding: .5rem;
+    font-family: Roboto, sans-serif;
+    font-size: 1rem;
+
+    &:focus {
+        outline: none;
+    }
 `

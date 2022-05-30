@@ -6,19 +6,19 @@ import RightColumn from './index-right-column';
 
 const Index = () => {
     return (
-        <IndexPageWrapper>
-            <Grid container spacing={2} className='p-4'>
-                <Grid item xs={3} >
-                    <LeftColumn />
+            <IndexPageWrapper>
+                <Grid container spacing={2} className='p-4'>
+                    <Grid item xs={3} className='sticky top-0 h-fit'>
+                        <LeftColumn />
+                    </Grid>
+                    <Grid item xs={6} >
+                        <MainColumn />
+                    </Grid>
+                    <Grid item xs={3} className='sticky top-0 h-fit'>
+                        <RightColumn />
+                    </Grid>
                 </Grid>
-                <Grid item xs={6} >
-                    <MainColumn />
-                </Grid>
-                <Grid item xs={3}>
-                    <RightColumn />
-                </Grid>
-            </Grid>
-        </IndexPageWrapper>
+            </IndexPageWrapper>
     )
 }
 

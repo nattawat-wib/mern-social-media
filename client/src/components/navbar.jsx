@@ -47,10 +47,10 @@ const Navbar = () => {
                         </figure>
                         <Typography className='font-bold' color='primary.dark'> nutella </Typography>
                     </ProfileButton>
-                    <IconButton color='primary' sx={{ backgroundColor: "#f0f2f5", mx: .5 }}>
+                    <IconButton color='primary' sx={{ bgcolor: "#f0f2f5", mx: .5 }}>
                         <ExpandCircleDownRoundedIcon />
                     </IconButton>
-                    <IconButton color='primary' sx={{ backgroundColor: "#f0f2f5", mx: .5 }}>
+                    <IconButton color='primary' sx={{ bgcolor: "#f0f2f5", mx: .5 }}>
                         {false ? <LightModeRoundedIcon /> : <DarkModeRoundedIcon />}
                     </IconButton>
                 </Box>

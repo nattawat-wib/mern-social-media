@@ -1,9 +1,10 @@
-import CreatePostCard from "../../components/create-post-card"
+import { CreatePostCard, CreatePostDialog } from "../../components/create-post"
 import PostItem from '../../components/post-item';
 
 const MainColumn = () => {
     return (
         <>
+            <CreatePostDialog />
             <CreatePostCard />
             {
                 [1, 2, 4, 5].map((item, i) => {

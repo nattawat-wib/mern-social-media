@@ -11,25 +11,29 @@ import Index from './pages/index';
 import PublicLayout from './layout/public';
 import MemberLayout from './layout/member';
 
+import { CreatePostContextProvider } from './context/create-post-context';
+
 function App() {
     return (
         <StyledEngineProvider injectFirst>
             <ThemeProvider theme={theme}>
-                <BrowserRouter>
-                    <Routes>
+                <CreatePostContextProvider>
+                    <BrowserRouter>
+                        <Routes>
 
-                        <Route element={<PublicLayout />} >
-                            <Route path='/login' element={<Login />} />
-                            <Route path='/forget-password' element={<ForgetPassword />} />
-                            <Route path='/reset-password' element={<ResetPassword />} />
-                        </Route>
+                            <Route element={<PublicLayout />} >
+                                <Route path='/login' element={<Login />} />
+                                <Route path='/forget-password' element={<ForgetPassword />} />
+                                <Route path='/reset-password' element={<ResetPassword />} />
+                            </Route>
 
-                        <Route element={<MemberLayout />} >
-                            <Route index element={<Index />} />
-                        </Route>
+                            <Route element={<MemberLayout />} >
+                                <Route index element={<Index />} />
+                            </Route>
 
-                    </Routes>
-                </BrowserRouter>
+                        </Routes>
+                    </BrowserRouter>
+                </CreatePostContextProvider>
             </ThemeProvider>
         </StyledEngineProvider>
     )
