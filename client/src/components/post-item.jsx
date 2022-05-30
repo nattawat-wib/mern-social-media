@@ -25,17 +25,17 @@ const PostItem = () => {
     return (
         <StyledPostItem>
             <header className='flex items-center'>
-                <figure className='relative mr-3' style={{ width: "50px", height: "50px" }}>
+                <Link to="/user/username" className='relative mr-3' style={{ width: "50px", height: "50px" }}>
                     <img
                         className='rounded-full fit-img'
                         src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
                     />
-                </figure>
+                </Link>
                 <div>
                     <Typography
                         variant='inline'
                         component={Link}
-                        to="/"
+                        to="/user/username"
                         color='primary.dark'
                         className='block font-bold'
                     >

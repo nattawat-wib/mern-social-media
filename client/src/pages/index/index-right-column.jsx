@@ -25,12 +25,12 @@ const RightColumn = () => {
                 {/* friends's birthday list */}
                 <Typography color='gray' className='ml-4 mt-1'>
                     <CakeIcon />
-                    <Link to="/" className='font-bold'> nutella </Link>
+                    <Link to="/user/username" className='font-bold'> nutella </Link>
                     have a birthday to day
                 </Typography>
                 <Typography color='gray' className='ml-4 mt-1'>
                     <CakeIcon />
-                    <Link to="/" className='font-bold'> nutella </Link>
+                    <Link to="/user/username" className='font-bold'> nutella </Link>
                     have a birthday to day
                 </Typography>
             </Box>
@@ -39,7 +39,7 @@ const RightColumn = () => {
             {
                 [1, 2, 3, 4].map((member, i) => {
                     return (
-                        <ListItemButton key={i}>
+                        <ListItemButton key={i} component={Link} to="/user/username">
                             <ListItemIcon>
                                 <Avatar src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200' />
                             </ListItemIcon>

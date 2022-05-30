@@ -7,6 +7,7 @@ import Login from './pages/auth/login';
 import ForgetPassword from './pages/auth/forget-password';
 import ResetPassword from './pages/auth/reset-password';
 import Index from './pages/index';
+import Profile from './pages/member/profile';
 
 import PublicLayout from './layout/public';
 import MemberLayout from './layout/member';
@@ -29,6 +30,7 @@ function App() {
 
                             <Route element={<MemberLayout />} >
                                 <Route index element={<Index />} />
+                                <Route path='/user/username' element={<Profile />} />
                             </Route>
 
                         </Routes>

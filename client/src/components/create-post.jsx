@@ -9,15 +9,15 @@ import DialogTitle from '@mui/material/DialogTitle';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Avatar from '@mui/material/Avatar';
+import Typography from '@mui/material/Typography';
 
 import { StyledCreatePostCard, CreatePostModalToggle, StyledTextareaAutosize } from '../style/index.style';
 import AddIcon from '@mui/icons-material/Add';
 import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import CloseIcon from '@mui/icons-material/Close';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 import { CreatePostContext } from '../context/create-post-context';
-import { Typography } from '@mui/material';
 
 export const CreatePostCard = () => {
     const { setIsCreatePostDialogOpen } = useContext(CreatePostContext)
@@ -97,13 +97,18 @@ export const CreatePostDialog = () => {
             <Divider className='mx-4' />
             <DialogContent className='p-4'>
                 <div className='flex items-center'>
-                    <Avatar
-                        sx={{ mr: 1 }}
-                        src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
-                    />
+                    <>
+                        <Avatar
+                            sx={{ mr: 1 }}
+                            src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
+                        />
+                    </>
                     <Typography color='primary.dark' className='font-bold'>
                         nutella tester
                     </Typography>
+                    <IconButton className='ml-auto' sx={{bgcolor: '#f0f2f5'}}>
+                        <AddPhotoAlternateIcon color='primary' />
+                    </IconButton>
                 </div>
                 <StyledTextareaAutosize
                     minRows={5}
