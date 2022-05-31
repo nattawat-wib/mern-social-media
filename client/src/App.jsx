@@ -2,6 +2,8 @@ import './App.scss'
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
 import theme from './style/theme.style';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { CreatePostContextProvider } from './context/create-post-context';
+import CssBaseline from '@mui/material/CssBaseline';
 
 import Login from './pages/auth/login';
 import ForgetPassword from './pages/auth/forget-password';
@@ -12,11 +14,10 @@ import Profile from './pages/member/profile';
 import PublicLayout from './layout/public';
 import MemberLayout from './layout/member';
 
-import { CreatePostContextProvider } from './context/create-post-context';
-
 function App() {
     return (
         <StyledEngineProvider injectFirst>
+            <CssBaseline />
             <ThemeProvider theme={theme}>
                 <CreatePostContextProvider>
                     <BrowserRouter>

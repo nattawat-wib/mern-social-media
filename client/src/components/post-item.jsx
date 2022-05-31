@@ -8,15 +8,14 @@ import IconButton from '@mui/material/IconButton';
 import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField';
 
-import { StyledPostItem } from '../style/index.style';
-import { Link } from 'react-router-dom';
-
-import { CommentInput, CommentItem } from './comment-item';
-
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import ReplyIcon from '@mui/icons-material/Reply';
+
+import { StyledPostItem } from '../style/index.style';
+import { Link } from 'react-router-dom';
+import { CommentInput, CommentItem } from './comment-item';
 
 const PostItem = () => {
     const [isCommentSectionShow, setIsCommentSectionShow] = useState(false);

@@ -43,7 +43,7 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
                         />
                     </Grid>
                     <Grid item xs={8}>
-                        <figure className='relative pt-[40%]'>
+                        <figure className='relative pt-[30%]'>
                             <img className='fit-img rounded-lg' src='http://wallup.net/wp-content/uploads/2017/03/29/486048-photography-animals-dog-landscape.jpg' />
                         </figure>
                     </Grid>

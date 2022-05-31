@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 
 import { PageWrapper, FormWrapper } from '../../style/form.style';
-import { Link } from 'react-router-dom';
 
 const ResetPassword = () => {
     const [form, setForm] = useState({});
@@ -14,12 +15,11 @@ const ResetPassword = () => {
         setForm(prev => ({
             ...prev,
             [e.target.name]: e.target.value
-        }))
+        }));
     }
 
     const handleFormSubmit = e => {
-        e.preventDefault()
-        console.log(form);
+        e.preventDefault();
     }
 
     return (
@@ -51,7 +51,6 @@ const ResetPassword = () => {
                         autoFocus
                         sx={{ mt: 2 }}
                     />
-
                     <Divider className='my-6' />
 
                     <div className='flex justify-end items-center mt-4'>
@@ -79,4 +78,3 @@ const ResetPassword = () => {
 }
 
 export default ResetPassword;
-

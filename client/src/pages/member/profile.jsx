@@ -1,7 +1,11 @@
 import { useState } from 'react';
+import { CreatePostCard, CreatePostDialog } from "../../components/create-post";
+import PostItem from '../../components/post-item';
+import EditProfileDialog from '../../components/edit-profile-dialog';
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import Container from '@mui/material/Container';
-import styled from 'styled-components';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -15,16 +19,12 @@ import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
-import { CreatePostCard, CreatePostDialog } from "../../components/create-post";
-import PostItem from '../../components/post-item';
-import EditProfileDialog from '../../components/edit-profile-dialog';
-import { Link } from 'react-router-dom';
-
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 import CakeIcon from '@mui/icons-material/Cake';
 import BusinessIcon from '@mui/icons-material/Business';
 import EditIcon from '@mui/icons-material/Edit';
+
 
 const Profile = () => {
     const [isEditProfileDialogOpen, setIsEditProfileDialogOpen] = useState(false);
@@ -38,8 +38,8 @@ const Profile = () => {
             />
             <header>
                 <Container>
-                    <figure className='relative pt-[40%]'>
-                        <img className='fit-img rounded-b-lg' src='http://wallup.net/wp-content/uploads/2017/03/29/486048-photography-animals-dog-landscape.jpg' />
+                    <figure className='relative pt-[30%]'>
+                        <img className='fit-img rounded-b-lg' src='https://img5.goodfon.com/wallpaper/nbig/5/62/dog-white-looking-mountains-lake-landscape-sobaka-ozero-gora.jpg' />
                     </figure>
                     <div className='flex items-center'>
                         <Avatar
@@ -59,7 +59,7 @@ const Profile = () => {
                                             <Avatar
                                                 key={i}
                                                 sx={{ width: '30px', height: '30px' }}
-                                                src='http://wallup.net/wp-content/uploads/2017/03/29/486048-photography-animals-dog-landscape.jpg'
+                                                src='https://img5.goodfon.com/wallpaper/nbig/5/62/dog-white-looking-mountains-lake-landscape-sobaka-ozero-gora.jpg'
                                             />
                                         )
                                     })

@@ -5,8 +5,10 @@ import List from '@mui/material/List';
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 
+const isLightMode = theme.palette.mode === 'light';
+
 export const IndexPageWrapper = styled.main`
-    background-color: #f0f2f5;
+    background-color: ${isLightMode ? '#f0f2f5' : '#121212' };
     height: calc(100vh - 59px);
     overflow: auto;
 `
@@ -49,7 +51,8 @@ export const StyledCommentInput = styled(TextField)`
 export const StyledLeftColumnWrapper = styled(List)`
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, .05);
     border-radius: 8px;
-    background-color: #fff;
+    background-color: ${isLightMode ? '#fff' : '#1b1b1b' };
+    color: ${isLightMode ? '#121212' : '#fff' };
     position: sticky;
     width: 100%;
 `
