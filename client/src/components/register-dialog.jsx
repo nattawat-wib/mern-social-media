@@ -66,7 +66,7 @@ const RegisterDialog = ({ isDialogOpen, setIsDialogOpen }) => {
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position='end'>
-                                        <IconButton onClick={() => setIsPasswordShow(prev => prev ? false : true)} color='primary'>
+                                        <IconButton onClick={() => setIsPasswordShow(prev => !prev)} color='primary'>
                                             {isPasswordShow ? <VisibilityIcon /> : <VisibilityOffIcon />}
                                         </IconButton>
                                     </InputAdornment>
@@ -84,7 +84,7 @@ const RegisterDialog = ({ isDialogOpen, setIsDialogOpen }) => {
                             InputProps={{
                                 endAdornment: (
                                     <InputAdornment position='end'>
-                                        <IconButton onClick={() => setIsPasswordConfirmShow(prev => prev ? false : true)} color='primary'>
+                                        <IconButton onClick={() => setIsPasswordConfirmShow(prev => !prev)} color='primary'>
                                             {isPasswordConfirmShow ? <VisibilityIcon /> : <VisibilityOffIcon />}
                                         </IconButton>
                                     </InputAdornment>

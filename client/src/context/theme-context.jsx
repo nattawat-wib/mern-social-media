@@ -1,18 +1,25 @@
-import { useState, createContext, useContext } from 'react';
-import theme from './../style/theme.style';
+import { useState, createContext, useEffect } from 'react';
+import { ThemeProvider } from '@mui/system';
+import { LightTheme, DarkTheme } from './../style/theme.style';
 
 export const ThemeContext = createContext({});
 
 export const ThemeContextProvider = ({ children }) => {
-    const [themeMode, setThemeMode] = useState('light');
+    const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('isDarkMode'));
 
-    theme.palette.mode = themeMode
-
-    // console.log(themeMode);
+    useEffect(() => {
+        if(isDarkMode) {
+            localStorage.setItem('isDarkMode', true);
+        } else {
+            localStorage.removeItem('isDarkMode');
+        }
+    }, [isDarkMode])
 
     return (
-        <ThemeContext.Provider value={{ themeMode, setThemeMode }}>
-            {children}
+        <ThemeContext.Provider value={{ isDarkMode, setIsDarkMode }}>
+            <ThemeProvider theme={isDarkMode ?  DarkTheme : LightTheme}>
+                {children}
+            </ThemeProvider>
         </ThemeContext.Provider >
     )
 }

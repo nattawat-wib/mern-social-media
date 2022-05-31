@@ -76,7 +76,7 @@ const PostItem = () => {
                     </Grid>
                     <Grid item xs={4}>
                         <Button
-                            onClick={() => setIsCommentSectionShow(prev => prev ? false : true)}
+                            onClick={() => setIsCommentSectionShow(prev => !prev)}
                             size='small'
                             className='flex items-center'
                             fullWidth

@@ -18,9 +18,10 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 import { StyledCreatePostCard, CreatePostModalToggle, StyledTextareaAutosize } from '../style/index.style';
 import { ToggleContext } from '../context/toggle-context';
+import { ThemeContext } from '../context/theme-context';
 
 export const CreatePostCard = () => {
-    const { setIsCreatePostDialogOpen } = useContext(ToggleContext)
+    const { setIsCreatePostDialogOpen } = useContext(ToggleContext);
 
     return (
         <StyledCreatePostCard>
@@ -76,6 +77,7 @@ export const CreatePostCard = () => {
 
 export const CreatePostDialog = () => {
     const { isCreatePostDialogOpen, setIsCreatePostDialogOpen } = useContext(ToggleContext)
+    const { isDarkMode } = useContext(ThemeContext)
 
     return (
         <Dialog
@@ -88,7 +90,7 @@ export const CreatePostDialog = () => {
                 <Typography variant='span'> Create Post </Typography>
                 <IconButton
                     size='small'
-                    sx={{ bgcolor: "#f0f2f5", mx: .5 }}
+                    sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5', mx: .5 }}
                     onClick={() => setIsCreatePostDialogOpen(false)}
                 >
                     <CloseIcon />
@@ -106,7 +108,7 @@ export const CreatePostDialog = () => {
                     <Typography color='primary.dark' className='font-bold'>
                         nutella tester
                     </Typography>
-                    <IconButton className='ml-auto' sx={{bgcolor: '#f0f2f5'}}>
+                    <IconButton className='ml-auto' sx={{bgcolor: isDarkMode ? '#121212' : '#f0f2f5'}}>
                         <AddPhotoAlternateIcon color='primary' />
                     </IconButton>
                 </div>

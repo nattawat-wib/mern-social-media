@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import { ThemeContext } from '../context/theme-context';
 
 import Dialog from "@mui/material/Dialog";
 import Typography from '@mui/material/Typography'
@@ -19,6 +20,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 
 const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen }) => {
+    const { isDarkMode } = useContext(ThemeContext)
 
     return (
         <Dialog
@@ -29,7 +31,7 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
         >
             <DialogTitle className="flex items-center justify-between">
                 <Typography> Edit Your Profile</Typography>
-                <IconButton sx={{ bgcolor: '#f0f2f5' }} onClick={() => setIsEditProfileDialogOpen(false)}>
+                <IconButton sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5' }} onClick={() => setIsEditProfileDialogOpen(false)}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>

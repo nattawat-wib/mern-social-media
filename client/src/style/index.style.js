@@ -1,11 +1,11 @@
-import theme from './theme.style';
+import { LightTheme } from './theme.style';
 import styled from 'styled-components';
 import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 
-const isLightMode = theme.palette.mode === 'light';
+const isLightMode = LightTheme.palette.mode === 'light';
 
 export const IndexPageWrapper = styled.main`
     background-color: ${isLightMode ? '#f0f2f5' : '#121212' };
@@ -38,7 +38,7 @@ export const StyledPostItem = styled(Paper)`
 `
 
 export const StyledCommentInput = styled(TextField)`
-    background-color: #f0f2f5;
+    background-color: ${isLightMode ? '#f0f2f5' : '#121212'};
     border-radius: 99px;
     overflow: hidden;
     width: calc(100% - 35px);
@@ -61,7 +61,8 @@ export const StyledTextareaAutosize = styled(TextareaAutosize)`
     width: calc(100% - 1rem);
     border: none;
     resize: none;
-    background-color: #f0f2f5;
+    background-color: ${isLightMode ? '#f0f2f5' : '#121212'};
+    color: ${isLightMode ? '#121212' : '#f0f2f5'};
     padding: .5rem;
     font-family: Roboto, sans-serif;
     font-size: 1rem;

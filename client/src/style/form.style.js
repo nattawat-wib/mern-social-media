@@ -1,10 +1,13 @@
 import styled from 'styled-components';
-import Paper from '@mui/material/Paper'
+import Paper from '@mui/material/Paper';
+import { LightTheme } from './theme.style';
+
+const isLightMode = LightTheme.palette.mode === 'light';
 
 export const PageWrapper = styled.main`
     height: calc(100vh - 3rem);
     padding: 1.5rem;
-    background-color: #f0f2f5;
+    background-color: ${isLightMode ? '#f0f2f5' : '#121212'};
     display: flex;
     align-items: center;
     justify-content: center;

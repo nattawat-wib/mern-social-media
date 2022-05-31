@@ -4,6 +4,9 @@ import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 import { StyledCommentInput } from './../style/index.style';
 
+import { ThemeContext } from '../context/theme-context';
+import { useContext } from 'react';
+
 export const CommentInput = () => {
     return (
         <Box className='pt-4 flex items-center'>
@@ -20,6 +23,8 @@ export const CommentInput = () => {
 }
 
 export const CommentItem = () => {
+    const { isDarkMode } = useContext(ThemeContext);
+
     return (
         <>
             <Box className='pt-2 flex items-start'>
@@ -29,7 +34,7 @@ export const CommentItem = () => {
                         src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
                     />
                 </Link>
-                <Box sx={{ bgcolor: "#f0f2f5", maxWidth: 'calc(100% - 100px)' }} className='rounded-2xl py-1 px-4'>
+                <Box sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5' , maxWidth: 'calc(100% - 100px)' }} className='rounded-2xl py-1 px-4'>
                     <Typography component={Link} to="/user/username" className='font-bold' color='primary.dark'> nutella tester </Typography>
                     <Typography> i like this post. i like this post so much.  </Typography>
                 </Box>

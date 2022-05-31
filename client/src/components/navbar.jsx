@@ -1,6 +1,6 @@
 import { ProfileButton, AppBarAvatar, AppBarContainer, AppBarSearch } from './../style/navbar.style';
 import { Link } from 'react-router-dom';
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { ToggleContext } from '../context/toggle-context';
 import { ThemeContext } from '../context/theme-context';
 import EditProfileDialog from './edit-profile-dialog';
@@ -30,7 +30,7 @@ import HomeIcon from '@mui/icons-material/Home';
 const Navbar = () => {
     const [DropdownAnchor, setDropdownAnchor] = useState(null);
     const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useContext(ToggleContext);
-    const { themeMode, setThemeMode } = useContext(ThemeContext);
+    const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
 
     return (
         <AppBar position="sticky" color='common'>
@@ -71,7 +71,7 @@ const Navbar = () => {
                     </ProfileButton>
                     <IconButton
                         color='primary'
-                        sx={{ bgcolor: "#f0f2f5", mx: .5 }}
+                        sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5', mx: .5 }}
                         onClick={e => setDropdownAnchor(e.target)}
                     >
                         <ExpandCircleDownRoundedIcon />
@@ -131,15 +131,15 @@ const Navbar = () => {
                             </ListItemButton>
                         </List>
                     </Menu>
-                    <IconButton component={Link} to="/" color='primary' sx={{ bgcolor: "#f0f2f5", mx: .5 }}>
+                    <IconButton component={Link} to="/" color='primary' sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5', mx: .5 }}>
                         <HomeIcon />
                     </IconButton>
                     <IconButton
-                        onClick={() => setThemeMode(themeMode === 'light' ? 'dark' : 'light')}
+                        onClick={() => setIsDarkMode(!isDarkMode)}
                         color='primary'
-                        sx={{ bgcolor: "#f0f2f5", mx: .5 }}
+                        sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5', mx: .5 }}
                     >
-                        {themeMode === 'light' ? <LightModeRoundedIcon /> : <DarkModeRoundedIcon />}
+                        {isDarkMode ? <DarkModeRoundedIcon /> : <LightModeRoundedIcon />}
                     </IconButton>
                 </Box>
             </AppBarContainer>

@@ -26,6 +26,7 @@ import BusinessIcon from '@mui/icons-material/Business';
 import EditIcon from '@mui/icons-material/Edit';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+import { ThemeContext } from '../../context/theme-context';
 
 const TabContent = ({ children, content, tabvalue }) => {
     return (
@@ -44,6 +45,8 @@ const Profile = () => {
     
     const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useContext(ToggleContext);
     const [tabValue, setTabValue] = useState('posts');
+
+    const { isDarkMode } = useContext(ThemeContext)
 
     useEffect(() => setTabValue(queryStrTab || 'posts'), [location])
 
@@ -99,7 +102,7 @@ const Profile = () => {
                     </Tabs>
                 </Container>
             </header>
-            <Box sx={{ bgcolor: '#f0f2f5', mt: 4 }}>
+            <Box sx={{ bgcolor: isDarkMode ? '#090909' : '#f0f2f5', mt: 4 }}>
                 <TabContent content='posts' tabvalue={tabValue}>
                     <Grid container spacing={2}>
                         <Grid item xs={5}>

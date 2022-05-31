@@ -65,7 +65,7 @@ const Login = () => {
                                     InputProps={{
                                         endAdornment: (
                                             <InputAdornment position='end'>
-                                                <IconButton onClick={() => setIsPasswordShow(prev => prev ? false : true)}>
+                                                <IconButton onClick={() => setIsPasswordShow(prev => !prev)}>
                                                     {isPasswordShow ?
                                                         <VisibilityIcon color='primary' />
                                                         :
