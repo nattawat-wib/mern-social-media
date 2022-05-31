@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import { LightTheme } from './theme.style';
 
-const isLightMode = LightTheme.palette.mode === 'light';
-
 export const ProfileButton = styled(Link)`
     background-color: ${LightTheme.palette.primary.light};
     text-decoration: none;
@@ -33,7 +31,7 @@ export const AppBarContainer = styled.nav`
 `
 
 export const AppBarSearch = styled(TextField)`
-    background-color: ${isLightMode ? '#f0f2f5' : '#121212'};
+    background-color: ${prop => prop.theme.bg};
     border-radius: 99px;
     overflow: hidden;
 

@@ -28,7 +28,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 
 const Navbar = () => {
-    const [DropdownAnchor, setDropdownAnchor] = useState(null);
+    const [ DropdownAnchor, setDropdownAnchor ] = useState(null);
     const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useContext(ToggleContext);
     const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
 

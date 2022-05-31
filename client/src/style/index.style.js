@@ -1,14 +1,11 @@
-import { LightTheme } from './theme.style';
 import styled from 'styled-components';
 import Paper from '@mui/material/Paper';
 import List from '@mui/material/List';
 import TextField from '@mui/material/TextField';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
 
-const isLightMode = LightTheme.palette.mode === 'light';
-
 export const IndexPageWrapper = styled.main`
-    background-color: ${isLightMode ? '#f0f2f5' : '#121212' };
+    background-color: ${prop => prop.theme.bg};
     height: calc(100vh - 59px);
     overflow: auto;
 `
@@ -21,7 +18,7 @@ export const StyledCreatePostCard = styled(Paper)`
 
 export const CreatePostModalToggle = styled.div`
     width: calc(100% - 90px);
-    background-color: rgba(0, 0, 0, .09);
+    background-color: ${prop => prop.theme.bg};
     padding: .7rem 1rem;
     border-radius: 99px;
 
@@ -38,7 +35,7 @@ export const StyledPostItem = styled(Paper)`
 `
 
 export const StyledCommentInput = styled(TextField)`
-    background-color: ${isLightMode ? '#f0f2f5' : '#121212'};
+    background-color: ${prop => prop.theme.paperBg};
     border-radius: 99px;
     overflow: hidden;
     width: calc(100% - 35px);
@@ -51,8 +48,8 @@ export const StyledCommentInput = styled(TextField)`
 export const StyledLeftColumnWrapper = styled(List)`
     box-shadow: 0 0 12px 0 rgba(0, 0, 0, .05);
     border-radius: 8px;
-    background-color: ${isLightMode ? '#fff' : '#1b1b1b' };
-    color: ${isLightMode ? '#121212' : '#fff' };
+    background-color: ${prop => prop.theme.paperBg};
+    color: ${prop => prop.theme.textColor};
     position: sticky;
     width: 100%;
 `
@@ -61,8 +58,8 @@ export const StyledTextareaAutosize = styled(TextareaAutosize)`
     width: calc(100% - 1rem);
     border: none;
     resize: none;
-    background-color: ${isLightMode ? '#f0f2f5' : '#121212'};
-    color: ${isLightMode ? '#121212' : '#f0f2f5'};
+    background-color: ${prop => prop.theme.bg};
+    color: ${prop => prop.theme.textColor};
     padding: .5rem;
     font-family: Roboto, sans-serif;
     font-size: 1rem;
