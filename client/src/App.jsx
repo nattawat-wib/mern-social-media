@@ -1,8 +1,9 @@
 import './App.scss'
 import { ThemeProvider, StyledEngineProvider } from '@mui/material/styles';
+import { useState } from 'react'
 import theme from './style/theme.style';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { CreatePostContextProvider } from './context/create-post-context';
+import { ToggleContextProvider } from './context/toggle-context';
 import CssBaseline from '@mui/material/CssBaseline';
 
 import Login from './pages/auth/login';
@@ -19,7 +20,7 @@ function App() {
         <StyledEngineProvider injectFirst>
             <CssBaseline />
             <ThemeProvider theme={theme}>
-                <CreatePostContextProvider>
+                <ToggleContextProvider>
                     <BrowserRouter>
                         <Routes>
 
@@ -36,7 +37,7 @@ function App() {
 
                         </Routes>
                     </BrowserRouter>
-                </CreatePostContextProvider>
+                </ToggleContextProvider>
             </ThemeProvider>
         </StyledEngineProvider>
     )

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { CreatePostCard, CreatePostDialog } from "../../components/create-post";
 import PostItem from '../../components/post-item';
 import EditProfileDialog from '../../components/edit-profile-dialog';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { ToggleContext } from '../../context/toggle-context';
 
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
@@ -27,7 +28,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 
 const Profile = () => {
-    const [isEditProfileDialogOpen, setIsEditProfileDialogOpen] = useState(false);
+    const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useContext(ToggleContext);
 
     return (
         <>

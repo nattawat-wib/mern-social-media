@@ -17,10 +17,10 @@ import CloseIcon from '@mui/icons-material/Close';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
 import { StyledCreatePostCard, CreatePostModalToggle, StyledTextareaAutosize } from '../style/index.style';
-import { CreatePostContext } from '../context/create-post-context';
+import { ToggleContext } from '../context/toggle-context';
 
 export const CreatePostCard = () => {
-    const { setIsCreatePostDialogOpen } = useContext(CreatePostContext)
+    const { setIsCreatePostDialogOpen } = useContext(ToggleContext)
 
     return (
         <StyledCreatePostCard>
@@ -75,7 +75,7 @@ export const CreatePostCard = () => {
 }
 
 export const CreatePostDialog = () => {
-    const { isCreatePostDialogOpen, setIsCreatePostDialogOpen } = useContext(CreatePostContext)
+    const { isCreatePostDialogOpen, setIsCreatePostDialogOpen } = useContext(ToggleContext)
 
     return (
         <Dialog
