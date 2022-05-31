@@ -1,5 +1,4 @@
 import { ListItemButton, ListItemText, ListItemIcon, Typography, Divider, Avatar, Box } from '@mui/material';
-import Paper from '@mui/material/Paper';
 import { StyledLeftColumnWrapper } from './../../style/index.style';
 
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
@@ -25,12 +24,12 @@ const RightColumn = () => {
                 {/* friends's birthday list */}
                 <Typography color='gray' className='ml-4 mt-1'>
                     <CakeIcon />
-                    <Link to="/user/username" className='font-bold'> nutella </Link>
+                    <Link style={{color: '#14C38E'}} to="/user/username" className='font-bold'> nutella </Link>
                     have a birthday to day
                 </Typography>
                 <Typography color='gray' className='ml-4 mt-1'>
                     <CakeIcon />
-                    <Link to="/user/username" className='font-bold'> nutella </Link>
+                    <Link style={{color: '#14C38E'}} to="/user/username" className='font-bold'> nutella </Link>
                     have a birthday to day
                 </Typography>
             </Box>
