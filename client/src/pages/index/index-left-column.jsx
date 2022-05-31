@@ -26,13 +26,13 @@ const LeftColumn = () => {
                     nutella tester
                 </Typography>
             </ListItemButton>
-            <ListItemButton>
-                <ListItemIcon> <PeopleAltIcon /> </ListItemIcon>
-                <ListItemText primary='Your Friends' />
-            </ListItemButton>
-            <ListItemButton>
+            <ListItemButton  component={Link} to='/user/username'>
                 <ListItemIcon> <AssignmentIcon /> </ListItemIcon>
                 <ListItemText primary='Your Post' />
+            </ListItemButton>
+            <ListItemButton component={Link} to='/user/username?tab=friends'>
+                <ListItemIcon> <PeopleAltIcon /> </ListItemIcon>
+                <ListItemText primary='Your Friends' />
             </ListItemButton>
             <ListItemButton disabled={true}>
                 <ListItemIcon> <GroupsIcon /> </ListItemIcon>
