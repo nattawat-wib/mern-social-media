@@ -3,19 +3,24 @@ import axios from './../utils/axios';
 
 const AuthContext = createContext({});
 
-const authReducer = async (state, action) => {
+const authReducer = (state, action) => {
     if (action.type === 'login') {
-        console.log('login action');
-        // if (!action.payload?.data?.data?.accessToken) return state
+        if (!action.payload?.data?.data) return state
         return {
             isAuth: true,
-            accessToken: action.payload.data.data.accessToken
+            member: action.payload.data.data.member
         }
     }
     else if (action.type === 'logout') {
         return {
             isAuth: false,
-            accessToken: undefined
+            member: undefined
+        }
+    }
+    else if (action.type === 'update auth') {
+        return {
+            ...state,
+            member: action.payload.data.data.member,
         }
     }
     return state
@@ -23,21 +28,17 @@ const authReducer = async (state, action) => {
 
 const AuthContextProvider = ({ children }) => {
     const [auth, authDispatch] = useReducer(authReducer, { isAuth: false });
-
     useEffect(() => {
         axios.get('/member/verify-token')
-            .then(resp => {
-                console.log(resp);
-                authDispatch({ type: 'login', payload: resp });
-            })
+            .then(resp => authDispatch({ type: 'login', payload: resp }))
     }, [])
-
     return (
-        <AuthContext.Provider value={{ auth, authDispatch }}>
+        <AuthContext.Provider value={{ auth, authDispatch, member: auth.member || {} }}>
             {children}
         </AuthContext.Provider>
     )
 }
 
 export const useAuth = () => { return useContext(AuthContext) }
+export const beforeAuthPage = ['/Login', '/Login/', '/login', '/login/', '/forget-password', '/forget-password/', '/reset-password', '/reset-password/']
 export default AuthContextProvider

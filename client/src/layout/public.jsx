@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/auth-context';
+import { useAuth, beforeAuthPage } from '../context/auth-context';
 
 const PublicLayout = () => {
     const location = useLocation();
@@ -8,15 +8,11 @@ const PublicLayout = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        const restrictAfterLoginPathList = ['/Login', '/Login/', '/login', '/login/', '/forget-password', '/forget-password/', '/reset-password', '/reset-password/']
-
-        if (restrictAfterLoginPathList.includes(location.pathname)) {
-            console.log('in restrict', auth);
-            if (auth.isAuth) {
-                navigate('/');
-            }
+        if (auth?.isAuth && beforeAuthPage.includes(location.pathname)) {
+            console.log('public auth?.isAuth', auth?.isAuth);
+            console.log("public location.pathname", location.pathname);
+            navigate('/');
         }
-
     }, [location, auth])
 
     return <Outlet />

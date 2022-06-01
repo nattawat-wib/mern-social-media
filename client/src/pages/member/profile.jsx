@@ -1,10 +1,3 @@
-import { useState, useContext, useEffect } from 'react';
-import { CreatePostCard, CreatePostDialog } from "../../components/create-post";
-import PostItem from '../../components/post-item';
-import EditProfileDialog from '../../components/edit-profile-dialog';
-import { Link, useSearchParams, useLocation } from 'react-router-dom';
-import { ToggleContext } from '../../context/toggle-context';
-
 import Container from '@mui/material/Container';
 import Avatar from '@mui/material/Avatar';
 import Box from '@mui/material/Box';
@@ -26,7 +19,16 @@ import BusinessIcon from '@mui/icons-material/Business';
 import EditIcon from '@mui/icons-material/Edit';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
+
+import { useState, useContext, useEffect } from 'react';
+import { CreatePostCard, CreatePostDialog } from "../../components/create-post";
+import PostItem from '../../components/post-item';
+import EditProfileDialog from '../../components/edit-profile-dialog';
+import { Link, useSearchParams, useLocation } from 'react-router-dom';
+import { ToggleContext } from '../../context/toggle-context';
 import { ThemeContext } from '../../context/theme-context';
+import { useAuth } from './../../context/auth-context';
+
 
 const TabContent = ({ children, content, tabvalue }) => {
     return (
@@ -42,6 +44,7 @@ const Profile = () => {
     const [searchPrams] = useSearchParams();
     const location = useLocation();
     const queryStrTab = searchPrams.get('tab');
+    const { member } = useAuth();
     
     const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useContext(ToggleContext);
     const [tabValue, setTabValue] = useState('posts');
@@ -68,7 +71,7 @@ const Profile = () => {
                             src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
                         />
                         <div className='mt-2'>
-                            <Typography variant='h5' className='font-bold'> nutella tester </Typography>
+                            <Typography variant='h5' className='font-bold'> {member?.firstName} {member?.lastName} </Typography>
                             <Typography variant='inline' color='gray'> 141 friends </Typography>
                             <AvatarGroup
                                 max={8}
@@ -111,19 +114,19 @@ const Profile = () => {
                                 <List dense={true}>
                                     <ListItem >
                                         <ListItemIcon > <AccountCircleIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary='this is me, work hard play hard eat hardest.' />
+                                        <ListItemText primary={member?.aboutMe} />
                                     </ListItem>
                                     <ListItem>
                                         <ListItemIcon > <TransgenderIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary='Male' />
+                                        <ListItemText primary={member?.gender} />
                                     </ListItem>
                                     <ListItem>
                                         <ListItemIcon > <CakeIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary='11/12/2022' />
+                                        <ListItemText primary={member?.birthDate?.split('-').reverse().join('/')} />
                                     </ListItem>
                                     <ListItem>
                                         <ListItemIcon > <BusinessIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary='Bangkok, Thailand' />
+                                        <ListItemText primary={member?.address} />
                                     </ListItem>
                                 </List>
                             </Paper>

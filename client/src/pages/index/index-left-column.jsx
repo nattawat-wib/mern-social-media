@@ -1,14 +1,17 @@
 import { ListItemButton, ListItemText, ListItemIcon, Typography, Divider, Avatar } from '@mui/material';
 import Paper from '@mui/material/Paper';
-import { StyledLeftColumnWrapper } from './../../style/index.style';
 
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import GroupsIcon from '@mui/icons-material/Groups';
 
 import { Link } from 'react-router-dom';
+import { StyledLeftColumnWrapper } from './../../style/index.style';
+import { useAuth } from '../../context/auth-context';
 
 const LeftColumn = () => {
+    const { member } = useAuth();
+
     return (
         <StyledLeftColumnWrapper dense={true}>
             <ListItemButton
@@ -23,7 +26,7 @@ const LeftColumn = () => {
                     className='font-bold'
                     color='primary.dark'
                 >
-                    nutella tester
+                    {member?.firstName} {member?.lastName}
                 </Typography>
             </ListItemButton>
             <ListItemButton  component={Link} to='/user/username'>

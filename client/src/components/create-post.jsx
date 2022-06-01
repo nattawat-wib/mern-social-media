@@ -1,5 +1,3 @@
-import { useState, useContext } from 'react';
-
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button'
@@ -16,12 +14,15 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
+import { useState, useContext } from 'react';
 import { StyledCreatePostCard, CreatePostModalToggle, StyledTextareaAutosize } from '../style/index.style';
 import { ToggleContext } from '../context/toggle-context';
 import { ThemeContext } from '../context/theme-context';
+import { useAuth } from '../context/auth-context';
 
 export const CreatePostCard = () => {
     const { setIsCreatePostDialogOpen } = useContext(ToggleContext);
+    const { member } = useAuth();
 
     return (
         <StyledCreatePostCard>
@@ -35,7 +36,7 @@ export const CreatePostCard = () => {
                 <CreatePostModalToggle
                     onClick={() => setIsCreatePostDialogOpen(true)}
                 >
-                    What do you thing ? nutella
+                    What do you thing ? {member?.firstName}
                 </CreatePostModalToggle>
             </Box>
             <Divider className='my-4' />
@@ -78,6 +79,7 @@ export const CreatePostCard = () => {
 export const CreatePostDialog = () => {
     const { isCreatePostDialogOpen, setIsCreatePostDialogOpen } = useContext(ToggleContext)
     const { isDarkMode } = useContext(ThemeContext)
+    const { member } = useAuth();
 
     return (
         <Dialog
@@ -106,7 +108,7 @@ export const CreatePostDialog = () => {
                         />
                     </>
                     <Typography color='primary.dark' className='font-bold'>
-                        nutella tester
+                    {member?.firstName} {member?.lastName}
                     </Typography>
                     <IconButton className='ml-auto' sx={{bgcolor: isDarkMode ? '#121212' : '#f0f2f5'}}>
                         <AddPhotoAlternateIcon color='primary' />
@@ -116,7 +118,7 @@ export const CreatePostDialog = () => {
                     minRows={5}
                     maxRows={10}
                     className='mt-4'
-                    placeholder="What's on your mind, nutella ?"
+                    placeholder={`What's on your mind, ${member?.firstName} ?`}
                 />
             </DialogContent>
             <Divider className='mx-4' />

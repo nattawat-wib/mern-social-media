@@ -43,7 +43,8 @@ const Login = () => {
                 toast.loading('redirecting you to news feed');
                 toast.success(resp.data.msg);
                 setTimeout(() => {
-                    authDispatch({ type: 'login', payload: resp })
+                    authDispatch({ type: 'login', payload: resp });
+                    toast.dismiss();
                 }, 2000);
             })
             .catch(err => {

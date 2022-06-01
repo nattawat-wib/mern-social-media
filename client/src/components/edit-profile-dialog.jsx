@@ -1,6 +1,3 @@
-import { useState, useContext } from 'react';
-import { ThemeContext } from '../context/theme-context';
-
 import Dialog from "@mui/material/Dialog";
 import Typography from '@mui/material/Typography'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -19,16 +16,45 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 
+import { useState, useContext } from 'react';
+import { ThemeContext } from '../context/theme-context';
+import { useAuth } from './../context/auth-context';
+import axios from './../utils/axios';
+import toast, { Toaster } from 'react-hot-toast';
+
 const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen }) => {
     const { isDarkMode } = useContext(ThemeContext)
+    const { member, authDispatch } = useAuth();
+    const [form, setForm] = useState(member);
+
+    const handleFormChange = e => {
+        setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+    }
+
+    const handleFormSubmit = e => {
+        e.preventDefault();
+        axios.patch('/member/update-me', form)
+            .then(resp => {
+                setIsEditProfileDialogOpen(false);
+                authDispatch({ type: 'update auth', payload: resp });
+                toast.success(resp.data.msg);
+            })
+            .catch(err => {
+                console.log(err);
+                toast.error(err.response.data.msg);
+            })
+    }
 
     return (
         <Dialog
             open={isEditProfileDialogOpen}
             onClose={() => setIsEditProfileDialogOpen(false)}
+            onSubmit={handleFormSubmit}
+            component='form'
             maxWidth="md"
             sx={{ "& .MuiPaper-root": { width: "100%" } }}
         >
+            <Toaster />
             <DialogTitle className="flex items-center justify-between">
                 <Typography> Edit Your Profile</Typography>
                 <IconButton sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5' }} onClick={() => setIsEditProfileDialogOpen(false)}>
@@ -63,26 +89,76 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
 
                 <Grid container spacing={2} sx={{ mt: 4 }}>
                     <Grid item xs={6}>
-                        <TextField variant='outlined' label='Bio' size='small' fullWidth />
+                        <TextField
+                            value={form.firstName}
+                            onChange={handleFormChange}
+                            name='firstName'
+                            variant='outlined'
+                            label='first name'
+                            size='small'
+                            fullWidth
+                        />
                     </Grid>
                     <Grid item xs={6}>
                         <TextField
+                            value={form.lastName}
+                            onChange={handleFormChange}
+                            name='lastName'
+                            variant='outlined'
+                            label='last name'
+                            size='small'
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            value={form.aboutMe || ''}
+                            onChange={handleFormChange}
+                            name='aboutMe'
+                            variant='outlined'
+                            label='About Me'
+                            size='small'
+                            fullWidth
+                        />
+                    </Grid>
+                    <Grid item xs={6}>
+                        <TextField
+                            value={form.gender}
+                            onChange={handleFormChange}
+                            name='gender'
                             select
                             variant='outlined'
                             label='Gender'
                             size='small'
                             fullWidth
                         >
-                            <MenuItem> Male </MenuItem>
-                            <MenuItem> Female </MenuItem>
-                            <MenuItem> Other </MenuItem>
+                            <MenuItem value='male'> Male </MenuItem>
+                            <MenuItem value='female'> Female </MenuItem>
+                            <MenuItem value='other'> Other </MenuItem>
                         </TextField>
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField variant='outlined' label='Birth Date' size='small' fullWidth />
+                        <TextField
+                            value={form?.birthDate?.split('/').reverse().join('-')}
+                            onChange={handleFormChange}
+                            name='birthDate'
+                            type='date'
+                            variant='outlined'
+                            label='Birth Date'
+                            size='small'
+                            fullWidth
+                        />
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField variant='outlined' label='Address' size='small' fullWidth />
+                        <TextField
+                            value={form.address || ''}
+                            onChange={handleFormChange}
+                            name='address'
+                            variant='outlined'
+                            label='Address'
+                            size='small'
+                            fullWidth
+                        />
                     </Grid>
                 </Grid>
             </DialogContent>
@@ -90,7 +166,7 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
 
             <DialogActions className='p-4'>
                 <Box textAlign='center'>
-                    <Button variant='contained' startIcon={<SaveIcon />}> SAVE </Button>
+                    <Button variant='contained' type="submit" startIcon={<SaveIcon />}> SAVE </Button>
                 </Box>
             </DialogActions>
         </Dialog>

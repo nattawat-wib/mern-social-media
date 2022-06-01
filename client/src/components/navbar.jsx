@@ -34,7 +34,7 @@ const Navbar = () => {
     const [DropdownAnchor, setDropdownAnchor] = useState(null);
     const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useContext(ToggleContext);
     const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
-    const { auth, authDispatch } = useAuth();
+    const { member, authDispatch } = useAuth();
 
     const handleLogout = () => {
         axios.get('/member/logout')
@@ -85,7 +85,7 @@ const Navbar = () => {
                         <figure className='relative mr-2' style={{ height: '33px', width: '33px' }}>
                             <AppBarAvatar src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200' />
                         </figure>
-                        <Typography className='font-bold' color='primary.dark'> nutella </Typography>
+                        <Typography className='font-bold' color='primary.dark'> { member?.firstName } </Typography>
                     </ProfileButton>
                     <IconButton
                         color='primary'
@@ -117,7 +117,7 @@ const Navbar = () => {
                             >
                                 <Chip
                                     avatar={<Avatar src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200' />}
-                                    label='nutella tester'
+                                    label={`${member?.firstName} ${member?.lastName}`}
                                     color='primary'
                                 />
                             </ListItemButton>
