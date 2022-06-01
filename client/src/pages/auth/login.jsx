@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import { Link } from 'react-router-dom';
-
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
@@ -9,17 +6,23 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { useAuth } from '../../context/auth-context';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import RegisterDialog from '../../components/register-dialog';
 
+import { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 import { PageWrapper, LoginFormWrapper } from '../../style/form.style';
+import axios from './../../utils/axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Login = () => {
     const [isPasswordShow, setIsPasswordShow] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
     const [form, setForm] = useState({});
+    const { auth, authDispatch } = useAuth();
 
     const handleFormChange = e => {
         setForm(prev => ({
@@ -29,12 +32,20 @@ const Login = () => {
     }
 
     const handleFormSubmit = e => {
-        e.preventDefault()
-        console.log(form);
+        e.preventDefault();
+        axios.post('/member/login', form)
+            .then(resp => {
+                authDispatch({type: 'login'})
+                toast.success(resp.data.msg);
+            })
+            .catch(err => {
+                toast.error(err.response.data.msg);
+            })
     }
 
     return (
         <PageWrapper>
+            <Toaster />
             <RegisterDialog isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
             <Container>
                 <Grid container spacing={4} alignItems='center' justifyContent='space-between'>
@@ -49,9 +60,9 @@ const Login = () => {
                                     onChange={handleFormChange}
                                     value={form.email || ''}
                                     name='email'
-                                    autoFocus 
-                                    className='mb-4' 
-                                    label="Email" 
+                                    autoFocus
+                                    className='mb-4'
+                                    label="Email"
                                     fullWidth
                                 />
                                 <TextField

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const cookieParse = require('cookie-parser');
+const cookieParser = require('cookie-parser');
 const xss = require('xss-clean');
 const sanitize = require("express-mongo-sanitize");
 
@@ -17,7 +17,7 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(cookieParse());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(xss());

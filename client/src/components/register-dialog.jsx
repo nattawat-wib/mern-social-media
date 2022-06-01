@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import Typography from '@mui/material/Typography';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -19,10 +17,16 @@ import CloseIcon from '@mui/icons-material/Close';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
+import { useState, useRef, useId } from 'react';
+import axios from './../utils/axios';
+import toast, { Toaster } from 'react-hot-toast';
+
 const RegisterDialog = ({ isDialogOpen, setIsDialogOpen }) => {
     const [isPasswordShow, setIsPasswordShow] = useState(false);
     const [isPasswordConfirmShow, setIsPasswordConfirmShow] = useState(false);
     const [form, setForm] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
+    const DatePickerRef = useRef(null);
 
     const handleFormChange = e => {
         setForm(prev => ({
@@ -31,34 +35,61 @@ const RegisterDialog = ({ isDialogOpen, setIsDialogOpen }) => {
         }))
     }
 
-    const handleFormSubmit = e => {
-        console.log('rwar');
-        e.preventDefault()
-        console.log(form);
+    const handleFormSubmit = async e => {
+        e.preventDefault();
+
+        if(Object.keys(form).length < 6) return toast.error('Please Enter All Input')
+        
+        const birthDate = form.birthDate.split('-');
+        const formatDateForm = { 
+            ...form, 
+            birthDate: `${birthDate[2]}/${birthDate[1]}/${birthDate[0]}`
+        }
+        
+        setIsLoading(true);
+        await axios.post('/member/register', formatDateForm)
+            .then(resp => {
+                setIsDialogOpen(false)
+                setForm({})
+                DatePickerRef.current.querySelector('input').type = 'text'
+                toast.success(resp.data.msg)
+            })
+            .catch(err => {
+                toast.error(err.response.data.msg)
+            })
+        setIsLoading(false)
     }
 
     return (
-        <Dialog open={isDialogOpen} onClose={() => setIsDialogOpen(false)} maxWidth='xs'>
+        <Dialog
+            component='form'
+            onSubmit={handleFormSubmit}
+            open={isDialogOpen}
+            onClose={() => setIsDialogOpen(false)}
+            maxWidth='xs'
+        >
+            <Toaster />
             <DialogTitle className='flex items-center justify-between' component='div'>
                 <Typography variant='h5' className='font-bold'> Register </Typography>
                 <IconButton onClick={() => setIsDialogOpen(false)}> <CloseIcon /> </IconButton>
             </DialogTitle>
             <Divider className='mx-4' />
             <DialogContent>
-                <Grid onSubmit={handleFormSubmit} component='form' container spacing={2} className='py-4'>
+                <Grid container spacing={2} className='py-4'>
                     <Grid item xs={12} md={6}>
-                        <TextField onChange={handleFormChange} name='firstName' label='First Name' fullWidth />
+                        <TextField onChange={handleFormChange} value={form.firstName || ''} name='firstName' label='First Name' fullWidth />
                     </Grid>
                     <Grid item xs={12} md={6}>
-                        <TextField onChange={handleFormChange} name='lastName' label='Last Name' fullWidth />
+                        <TextField onChange={handleFormChange} value={form.lastName || ''} name='lastName' label='Last Name' fullWidth />
                     </Grid>
 
                     <Grid item xs={12}>
-                        <TextField onChange={handleFormChange} name='email' label='Email' fullWidth />
+                        <TextField onChange={handleFormChange} value={form.email || ''} name='email' label='Email' fullWidth />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField 
+                        <TextField
                             onChange={handleFormChange}
+                            value={form.password || ''}
                             name='password'
                             label='Password'
                             type={isPasswordShow ? 'text' : 'password'}
@@ -75,8 +106,9 @@ const RegisterDialog = ({ isDialogOpen, setIsDialogOpen }) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField 
+                        <TextField
                             onChange={handleFormChange}
+                            value={form.passwordConfirm || ''}
                             name='passwordConfirm'
                             label='Password Confirm'
                             type={isPasswordConfirmShow ? 'text' : 'password'}
@@ -93,7 +125,17 @@ const RegisterDialog = ({ isDialogOpen, setIsDialogOpen }) => {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <TextField onChange={handleFormChange} name='birthDate' label='Birth Date' fullWidth />
+                        <TextField
+                            onFocus={e => e.target.type = 'date'}
+                            onBlur={e => { if (!e.target.value) e.target.type = 'text' }}
+                            value={form.birthDate || ''}
+                            onChange={handleFormChange}
+                            name='birthDate'
+                            label='Birth Date'
+                            fullWidth
+                            ref={DatePickerRef}
+                        />
+                        {/* <TextField onChange={handleFormChange} name='birthDate' label='Birth Date' fullWidth /> */}
                     </Grid>
                     <Grid item xs={12} className='flex items-center'>
                         <Typography sx={{ mr: 1 }} className='font-bold' > Gender : </Typography>
@@ -112,7 +154,7 @@ const RegisterDialog = ({ isDialogOpen, setIsDialogOpen }) => {
             </DialogContent>
             <Divider className='mx-4' />
             <DialogActions className='py-4 flex justify-center'>
-                <Button type='submit' variant='contained'> SUBMIT </Button>
+                <Button type='submit' variant='contained' disabled={isLoading}> SUBMIT </Button>
             </DialogActions>
         </Dialog>
     )
