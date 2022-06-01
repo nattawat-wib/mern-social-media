@@ -1,4 +1,9 @@
 const Member = require('./../model/member-model');
+const jwt = require('jsonwebtoken');
+
+// const createJwt = username => {
+//     return 
+// }
 
 exports.register = async (req, res) => {
     try {
@@ -10,7 +15,9 @@ exports.register = async (req, res) => {
         res.status(200).json({
             status: 'success',
             msg: 'register successfully',
-            data: member
+            data: {
+                member
+            }
         })
 
     } catch (err) {
@@ -29,17 +36,82 @@ exports.login = async (req, res) => {
         const isPasswordCorrect = await member.isPasswordCorrect(req.body.password, member.password);
         if (!isPasswordCorrect) throw 'password or email is not correct'
 
+        const accessToken = await jwt.sign({ username: member.username }, process.env.JWT_SECRET)
 
+        res.cookie('accessToken', accessToken, {
+            httpOnly: true
+        });
+
+        member.accessToken = accessToken;
+        await member.save({ validateBeforeSave: false });
 
         res.status(200).json({
             status: 'success',
-            msg: 'login success'
+            msg: 'login success',
+            data: {
+                member,
+                accessToken
+            }
         })
 
     } catch (err) {
+        console.log(err);
+
         res.status(401).json({
             status: 'error',
             msg: err
+        })
+    }
+}
+
+exports.verifyToken = async (req, res) => {
+    try {
+
+        const member = await Member.findOne({ accessToken: req.cookies.accessToken });
+        if (!member) throw 'user not login';
+
+        await jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET, err => {
+            if (err) throw 'access token is not valid';
+        });
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'user already login',
+            data: {
+                accessToken: member.accessToken,
+            },
+        });
+
+    } catch (err) {
+        console.log(err);
+
+        res.status(401).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}
+
+exports.logout = async (req, res) => {
+    try {
+        const member = await Member.findOne({ accessToken: req.cookies.accessToken });
+        if(!member) throw 'member not found'
+
+        member.accessToken = undefined;
+        await member.save({ validateBeforeSave: true })
+
+        res.clearCookie('accessToken');
+        res.status(200).json({
+            status: 'success',
+            msg: 'logout successfully'
+        })
+
+    } catch (err) {
+        console.log(err);
+
+        res.json(400).json({
+            status: 'success',
+
         })
     }
 }

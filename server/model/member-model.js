@@ -53,7 +53,7 @@ const memberSchema = new mongoose.Schema({
     changePasswordAt: {
         type: Number,
     },
-    token: {
+    accessToken: {
         type: String,
     },
     resetPasswordToken: {
@@ -62,6 +62,8 @@ const memberSchema = new mongoose.Schema({
 })
 
 memberSchema.pre('save', async function (next) {
+    if (!this.isModified("password")) return next();
+
     this.password = await bcrypt.hash(this.password, 12);
     this.username = Math.random().toString(16).slice(2);
 

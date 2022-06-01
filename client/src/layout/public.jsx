@@ -12,7 +12,7 @@ const PublicLayout = () => {
 
         if (restrictAfterLoginPathList.includes(location.pathname)) {
             console.log('in restrict', auth);
-            if (auth.auth) {
+            if (auth.isAuth) {
                 navigate('/');
             }
         }

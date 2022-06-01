@@ -35,17 +35,19 @@ const Login = () => {
     const handleFormSubmit = async e => {
         e.preventDefault();
         if (Object.keys(form).length < 2) return toast.error('Please enter email and password');
-        setIsLoading(true)
+
+        setIsLoading(true);
 
         await axios.post('/member/login', form)
-            .then(resp => {
+            .then(resp => {                
                 toast.loading('redirecting you to news feed');
                 toast.success(resp.data.msg);
                 setTimeout(() => {
                     authDispatch({ type: 'login', payload: resp })
-                }, 2000)
+                }, 2000);
             })
             .catch(err => {
+                console.log(err);
                 toast.error(err.response.data.msg);
             })
         setIsLoading(false)

@@ -1,10 +1,3 @@
-import { ProfileButton, AppBarAvatar, AppBarContainer, AppBarSearch } from './../style/navbar.style';
-import { Link } from 'react-router-dom';
-import { useState, useContext, useEffect } from 'react';
-import { ToggleContext } from '../context/toggle-context';
-import { ThemeContext } from '../context/theme-context';
-import EditProfileDialog from './edit-profile-dialog';
-
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Chip from '@mui/material/Chip'
@@ -27,13 +20,38 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
 
+import { ProfileButton, AppBarAvatar, AppBarContainer, AppBarSearch } from './../style/navbar.style';
+import { Link } from 'react-router-dom';
+import { useState, useContext, useEffect } from 'react';
+import { ToggleContext } from '../context/toggle-context';
+import { ThemeContext } from '../context/theme-context';
+import EditProfileDialog from './edit-profile-dialog';
+import { useAuth } from '../context/auth-context';
+import axios from './../utils/axios';
+import toast, { Toaster } from 'react-hot-toast';
+
 const Navbar = () => {
-    const [ DropdownAnchor, setDropdownAnchor ] = useState(null);
+    const [DropdownAnchor, setDropdownAnchor] = useState(null);
     const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useContext(ToggleContext);
     const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
+    const { auth, authDispatch } = useAuth();
+
+    const handleLogout = () => {
+        axios.get('/member/logout')
+            .then(resp => {
+                setDropdownAnchor(null);
+                authDispatch({ type: 'logout' });
+                toast.success(resp.data.msg);
+            })
+            .catch(err => {
+                console.err(err);
+                toast.error(err.response.data.msg);
+            })
+    }
 
     return (
         <AppBar position="sticky" color='common'>
+            <Toaster />
             <EditProfileDialog
                 isEditProfileDialogOpen={isEditProfileDialogOpen}
                 setIsEditProfileDialogOpen={setIsEditProfileDialogOpen}
@@ -125,7 +143,7 @@ const Navbar = () => {
                                 <ListItemText primary='Your Friends' />
                             </ListItemButton>
 
-                            <ListItemButton>
+                            <ListItemButton onClick={handleLogout}>
                                 <ListItemIcon> <LogoutIcon /> </ListItemIcon>
                                 <ListItemText primary='Logout' />
                             </ListItemButton>
@@ -143,7 +161,7 @@ const Navbar = () => {
                     </IconButton>
                 </Box>
             </AppBarContainer>
-        </AppBar>
+        </AppBar >
     )
 }
 
