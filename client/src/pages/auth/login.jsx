@@ -21,6 +21,7 @@ import toast, { Toaster } from 'react-hot-toast';
 const Login = () => {
     const [isPasswordShow, setIsPasswordShow] = useState(false);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const [form, setForm] = useState({});
     const { auth, authDispatch } = useAuth();
 
@@ -31,16 +32,23 @@ const Login = () => {
         }))
     }
 
-    const handleFormSubmit = e => {
+    const handleFormSubmit = async e => {
         e.preventDefault();
-        axios.post('/member/login', form)
+        if (Object.keys(form).length < 2) return toast.error('Please enter email and password');
+        setIsLoading(true)
+
+        await axios.post('/member/login', form)
             .then(resp => {
-                authDispatch({type: 'login'})
+                toast.loading('redirecting you to news feed');
                 toast.success(resp.data.msg);
+                setTimeout(() => {
+                    authDispatch({ type: 'login', payload: resp })
+                }, 2000)
             })
             .catch(err => {
                 toast.error(err.response.data.msg);
             })
+        setIsLoading(false)
     }
 
     return (
@@ -87,7 +95,18 @@ const Login = () => {
                                         )
                                     }}
                                 />
-                                <Button type='submit' className='mb-4' variant='contained' color='primary' size='large' fullWidth> LOGIN </Button>
+                                <Button
+                                    disabled={isLoading}
+                                    loading_btn={isLoading ? 'true' : 'false'}
+                                    type='submit'
+                                    className='mb-4'
+                                    variant='contained'
+                                    color='primary'
+                                    size='large'
+                                    fullWidth
+                                >
+                                    LOGIN
+                                </Button>
                             </form>
 
                             <Button variant='text' component={Link} to="/forget-password"> Forget Password ? </Button>

@@ -68,9 +68,7 @@ memberSchema.pre('save', async function (next) {
     next();
 })
 
-memberSchema.methods.isPasswordCorrect = async function (candidatePassword, oldPassword) {
-    console.log(oldPassword, candidatePassword);
-    
+memberSchema.methods.isPasswordCorrect = async function (candidatePassword, oldPassword) {    
     return isPasswordCorrect = await bcrypt.compare(candidatePassword, oldPassword)
 }
 
