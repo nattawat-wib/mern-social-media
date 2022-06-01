@@ -2,11 +2,14 @@ const Member = require('./../model/member-model');
 
 exports.updateMe = async (req, res) => {
     try {
-        // const member = await Member.findOne({  })
+        const updateMember = await Member.findOneAndUpdate({ accessToken: req.member.accessToken }, req.body, { new: true })
 
         res.status(200).json({
             status: 'success',
-            msg: 'update member successfully'
+            msg: 'update member successfully',
+            data: {
+                member: updateMember
+            }
         })
 
     } catch (err) {
