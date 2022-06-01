@@ -1,10 +1,6 @@
 const Member = require('./../model/member-model');
 const jwt = require('jsonwebtoken');
 
-// const createJwt = username => {
-//     return 
-// }
-
 exports.register = async (req, res) => {
     try {
         const existMember = await Member.findOne({ email: req.body.email });
@@ -30,7 +26,7 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const member = await Member.findOne({ email: req.body.email });
+        const member = await Member.findOne({ email: req.body.email }).select("-password, -__v");
         if (!member) throw 'member not found!'
 
         const isPasswordCorrect = await member.isPasswordCorrect(req.body.password, member.password);
@@ -66,8 +62,7 @@ exports.login = async (req, res) => {
 
 exports.verifyToken = async (req, res) => {
     try {
-
-        const member = await Member.findOne({ accessToken: req.cookies.accessToken });
+        const member = await Member.findOne({ accessToken: req.cookies.accessToken }).select('-password, -__v');
         if (!member) throw 'user not login';
 
         await jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET, err => {
@@ -78,7 +73,7 @@ exports.verifyToken = async (req, res) => {
             status: 'success',
             msg: 'user already login',
             data: {
-                accessToken: member.accessToken,
+                member
             },
         });
 
@@ -113,5 +108,13 @@ exports.logout = async (req, res) => {
             status: 'success',
 
         })
+    }
+}
+
+exports.isLogin = async (req, res) => {
+    try {
+
+    } catch (err) {
+        
     }
 }

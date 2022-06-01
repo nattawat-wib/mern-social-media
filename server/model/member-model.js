@@ -65,9 +65,16 @@ memberSchema.pre('save', async function (next) {
     if (!this.isModified("password")) return next();
 
     this.password = await bcrypt.hash(this.password, 12);
-    this.username = Math.random().toString(16).slice(2);
+
+    if(this.isNew) {
+        this.username = Math.random().toString(16).slice(2);
+    }
 
     next();
+})
+
+memberSchema.post('/^find/', async function(next) {
+    this.password
 })
 
 memberSchema.methods.isPasswordCorrect = async function (candidatePassword, oldPassword) {    
