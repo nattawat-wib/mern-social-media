@@ -7,6 +7,10 @@ router.post('/login', authController.login);
 router.get('/logout', authController.logout);
 router.get('/verify-token', authController.verifyToken);
 
+
+router.get('/', memberController.getAllMember)
+router.get('/:username', memberController.getMember)
+
 router.patch('/update-me',
     authController.isLogin,
     memberController.updateMe

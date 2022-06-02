@@ -50,8 +50,8 @@ const Login = () => {
             .catch(err => {
                 console.log(err);
                 toast.error(err.response.data.msg);
+                setIsLoading(false)
             })
-        setIsLoading(false)
     }
 
     return (

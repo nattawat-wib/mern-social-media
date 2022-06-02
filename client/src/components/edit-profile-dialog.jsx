@@ -33,6 +33,9 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
 
     const handleFormSubmit = e => {
         e.preventDefault();
+
+        form.birthDate = form.birthDate.split('-').reverse().join('/')
+
         axios.patch('/member/update-me', form)
             .then(resp => {
                 setIsEditProfileDialogOpen(false);

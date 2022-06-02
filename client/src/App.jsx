@@ -33,7 +33,7 @@ function App() {
 
                                 <Route element={<MemberLayout />} >
                                     <Route index element={<Index />} />
-                                    <Route path='/user/username' element={<Profile />} />
+                                    <Route path='/user/:username' element={<Profile />} />
                                 </Route>
 
                             </Routes>

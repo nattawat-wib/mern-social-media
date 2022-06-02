@@ -38,16 +38,12 @@ const RegisterDialog = ({ isDialogOpen, setIsDialogOpen }) => {
     const handleFormSubmit = async e => {
         e.preventDefault();
 
-        if(Object.keys(form).length < 6) return toast.error('Please Enter All Input')
+        if(Object.keys(form).length < 7) return toast.error('Please Enter All Input')
         
-        const birthDate = form.birthDate.split('-');
-        const formatDateForm = { 
-            ...form, 
-            birthDate: `${birthDate[2]}/${birthDate[1]}/${birthDate[0]}`
-        }
+        form.birthDate = form.birthDate.split('-').reverse().join('/')
         
         setIsLoading(true);
-        await axios.post('/member/register', formatDateForm)
+        await axios.post('/member/register', form)
             .then(resp => {
                 setIsDialogOpen(false)
                 setForm({})
@@ -141,7 +137,7 @@ const RegisterDialog = ({ isDialogOpen, setIsDialogOpen }) => {
                         <Typography sx={{ mr: 1 }} className='font-bold' > Gender : </Typography>
                         <RadioGroup
                             row
-                            value={form.gender || "male"}
+                            value={form.gender || ''}
                             onChange={handleFormChange}
                             name='gender'
                         >

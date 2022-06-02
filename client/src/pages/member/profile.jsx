@@ -24,10 +24,11 @@ import { useState, useContext, useEffect } from 'react';
 import { CreatePostCard, CreatePostDialog } from "../../components/create-post";
 import PostItem from '../../components/post-item';
 import EditProfileDialog from '../../components/edit-profile-dialog';
-import { Link, useSearchParams, useLocation } from 'react-router-dom';
+import { Link, useSearchParams, useLocation, useParams } from 'react-router-dom';
 import { ToggleContext } from '../../context/toggle-context';
 import { ThemeContext } from '../../context/theme-context';
 import { useAuth } from './../../context/auth-context';
+import axios from './../../utils/axios';
 
 
 const TabContent = ({ children, content, tabvalue }) => {
@@ -45,13 +46,21 @@ const Profile = () => {
     const location = useLocation();
     const queryStrTab = searchPrams.get('tab');
     const { member } = useAuth();
-    
+    const { username } = useParams();
+    const [profile, setProfile] = useState();
+
     const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useContext(ToggleContext);
+    const { isDarkMode } = useContext(ThemeContext);
     const [tabValue, setTabValue] = useState('posts');
 
-    const { isDarkMode } = useContext(ThemeContext)
-
-    useEffect(() => setTabValue(queryStrTab || 'posts'), [location])
+    useEffect(() => {
+        setTabValue(queryStrTab || 'posts')
+        axios.get(`/member/${username}`)
+            .then(resp => {
+                setProfile(resp.data.data.member)
+            })
+            .catch(console.error)
+    }, [location])
 
     return (
         <main>
@@ -71,11 +80,12 @@ const Profile = () => {
                             src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
                         />
                         <div className='mt-2'>
-                            <Typography variant='h5' className='font-bold'> {member?.firstName} {member?.lastName} </Typography>
+                            <Typography variant='h5' className='font-bold'> {profile?.firstName} {profile?.lastName} </Typography>
                             <Typography variant='inline' color='gray'> 141 friends </Typography>
                             <AvatarGroup
                                 max={8}
                                 sx={{ mt: 1, '& .MuiAvatar-circular': { width: '30px', height: '30px', fontSize: '12px' } }}
+                                className='justify-end'
                             >
                                 {
                                     Array(10).fill(1).map((friend, i) => {
@@ -114,19 +124,19 @@ const Profile = () => {
                                 <List dense={true}>
                                     <ListItem >
                                         <ListItemIcon > <AccountCircleIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary={member?.aboutMe} />
+                                        <ListItemText primary={profile?.aboutMe || '-'} />
                                     </ListItem>
                                     <ListItem>
                                         <ListItemIcon > <TransgenderIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary={member?.gender} />
+                                        <ListItemText primary={profile?.gender} />
                                     </ListItem>
                                     <ListItem>
                                         <ListItemIcon > <CakeIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary={member?.birthDate?.split('-').reverse().join('/')} />
+                                        <ListItemText primary={profile?.birthDate?.split('-').reverse().join('/')} />
                                     </ListItem>
                                     <ListItem>
                                         <ListItemIcon > <BusinessIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary={member?.address} />
+                                        <ListItemText primary={profile?.address || '-'} />
                                     </ListItem>
                                 </List>
                             </Paper>
@@ -163,7 +173,10 @@ const Profile = () => {
                             </Paper>
                         </Grid>
                         <Grid item xs={7} >
-                            <CreatePostCard />
+                            {
+                                profile?.username === member?.username &&
+                                <CreatePostCard />
+                            }
                             {
                                 Array(5).fill(1).map((item, i) => {
                                     return (<PostItem key={i} />)

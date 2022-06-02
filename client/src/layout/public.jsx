@@ -9,8 +9,8 @@ const PublicLayout = () => {
 
     useEffect(() => {
         if (auth?.isAuth && beforeAuthPage.includes(location.pathname)) {
-            console.log('public auth?.isAuth', auth?.isAuth);
-            console.log("public location.pathname", location.pathname);
+            // console.log('public auth?.isAuth', auth?.isAuth);
+            // console.log("public location.pathname", location.pathname);
             navigate('/');
         }
     }, [location, auth])

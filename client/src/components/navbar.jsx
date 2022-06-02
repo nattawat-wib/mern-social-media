@@ -81,7 +81,7 @@ const Navbar = () => {
                 </Box> */}
 
                 <Box className='flex items-center'>
-                    <ProfileButton to="/user/username">
+                    <ProfileButton to={`/user/${member.username}`}>
                         <figure className='relative mr-2' style={{ height: '33px', width: '33px' }}>
                             <AppBarAvatar src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200' />
                         </figure>
@@ -111,7 +111,7 @@ const Navbar = () => {
 
                             <ListItemButton
                                 component={Link}
-                                to="/user/username"
+                                to={`/user/${member.username}`}
                                 onClick={() => setDropdownAnchor(null)}
                                 sx={{ bgcolor: 'primary.light' }}
                             >
@@ -136,7 +136,7 @@ const Navbar = () => {
 
                             <ListItemButton
                                 component={Link}
-                                to='/user/username?tab=friends'
+                                to={`/user/${member.username}?tab=friends`}
                                 onClick={() => setDropdownAnchor(null)}
                             >
                                 <ListItemIcon> <PeopleAltIcon /> </ListItemIcon>

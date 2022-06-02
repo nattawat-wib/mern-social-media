@@ -12,8 +12,8 @@ const MemberLayout = () => {
 
     useEffect(() => {
         if (!auth?.isAuth && !beforeAuthPage.includes(location.pathname)) {
-            console.log('member auth?.isAuth', auth?.isAuth);
-            console.log("member location.pathname", location.pathname);
+            // console.log('member auth?.isAuth', auth?.isAuth);
+            // console.log("member location.pathname", location.pathname);
             navigate('/login');
         }
     }, [location, auth])
