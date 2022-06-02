@@ -48,9 +48,10 @@ const Profile = () => {
     const queryStrTab = searchPrams.get('tab');
     const { member } = useAuth();
     const { username } = useParams();
-    
+
     const [profile, setProfile] = useState({});
     const [friendList, setFriendList] = useState([]);
+    const [postList, setPostList] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [tabValue, setTabValue] = useState('posts');
 
@@ -70,11 +71,27 @@ const Profile = () => {
         axios.get(`/member/${username}/friend`)
             .then(resp => {
                 setFriendList(resp.data.data.allMember)
+            })
+            .catch(console.error)
+
+        axios.get(`/post/${username}`)
+            .then(resp => {
+                setPostList(resp.data.data.post)
                 setIsLoading(false)
             })
             .catch(console.error)
 
     }, [location])
+
+    useEffect(() => {
+        axios.get(`/post/${username}`)
+            .then(resp => {
+                setPostList(resp.data.data.post)
+                setIsLoading(false)
+            })
+            .catch(console.error)
+
+    }, [postList])
 
     return (
         <main>
@@ -207,8 +224,8 @@ const Profile = () => {
                                 <CreatePostCard />
                             }
                             {
-                                Array(5).fill(1).map((item, i) => {
-                                    return (<PostItem key={i} />)
+                                postList.map(post => {
+                                    return (<PostItem key={post._id} post={post} />)
                                 })
                             }
                         </Grid>

@@ -6,6 +6,7 @@ const xss = require('xss-clean');
 const sanitize = require("express-mongo-sanitize");
 
 const memberRouter = require('./routes/member-route');
+const postRouter = require('./routes/post-route');
 
 const port = process.env.PORT || 8080;
 
@@ -23,7 +24,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(xss());
 app.use(sanitize());
 
-app.use('/member', memberRouter)
+app.use('/member', memberRouter);
+app.use('/post', postRouter);
 
 app.listen(port, () => {
     console.log(`server is starting at port ... ${port}`);

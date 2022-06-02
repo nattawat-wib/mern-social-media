@@ -22,7 +22,7 @@ const RightColumn = () => {
     useEffect(() => {
         axios.get('/member')
             .then(resp => {
-                console.log(resp.data.data.allMember);
+                // console.log(resp.data.data.allMember);
                 setAllMember(resp.data.data.allMember)
             })
             .catch(err => {

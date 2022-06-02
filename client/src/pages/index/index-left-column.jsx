@@ -25,7 +25,7 @@ const LeftColumn = () => {
         setIsLoading(true)
         axios.get('/member')
             .then(resp => {
-                console.log(resp.data.data.allMember);
+                // console.log(resp.data.data.allMember);
                 setAllMember(resp.data.data.allMember);
                 setIsLoading(false)
             })

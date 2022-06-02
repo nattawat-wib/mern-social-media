@@ -19,6 +19,8 @@ import { StyledCreatePostCard, CreatePostModalToggle, StyledTextareaAutosize } f
 import { ToggleContext } from '../context/toggle-context';
 import { ThemeContext } from '../context/theme-context';
 import { useAuth } from '../context/auth-context';
+import axios from './../utils/axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 export const CreatePostCard = () => {
     const { setIsCreatePostDialogOpen } = useContext(ToggleContext);
@@ -80,14 +82,41 @@ export const CreatePostDialog = () => {
     const { isCreatePostDialogOpen, setIsCreatePostDialogOpen } = useContext(ToggleContext)
     const { isDarkMode } = useContext(ThemeContext)
     const { member } = useAuth();
+    const [form, setForm] = useState({});
+
+    const handleFormChange = e => {
+        setForm(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }))
+    }
+
+    const handleFormSubmit = e => {
+        e.preventDefault();
+        console.log("form", form);
+
+        axios.post('/post', form)
+            .then(resp => {
+                console.log(resp);
+                setIsCreatePostDialogOpen(false)
+                toast.success(resp.data.msg)
+            })
+            .catch(err => {
+                console.log(err)
+                toast.err(err.response.data.msg)
+            })
+    }
 
     return (
         <Dialog
+            component='form'
+            onSubmit={handleFormSubmit}
             onClose={() => setIsCreatePostDialogOpen(false)}
             open={isCreatePostDialogOpen}
             maxWidth='sm'
             sx={{ "& .MuiPaper-root": { width: "100%" } }}
         >
+            <Toaster />
             <DialogTitle className='flex justify-between items-center p-4'>
                 <Typography variant='span'> Create Post </Typography>
                 <IconButton
@@ -108,13 +137,15 @@ export const CreatePostDialog = () => {
                         />
                     </>
                     <Typography color='primary.dark' className='font-bold'>
-                    {member?.firstName} {member?.lastName}
+                        {member?.firstName} {member?.lastName}
                     </Typography>
-                    <IconButton className='ml-auto' sx={{bgcolor: isDarkMode ? '#121212' : '#f0f2f5'}}>
+                    <IconButton className='ml-auto' sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5' }}>
                         <AddPhotoAlternateIcon color='primary' />
                     </IconButton>
                 </div>
                 <StyledTextareaAutosize
+                    onChange={handleFormChange}
+                    name='content'
                     minRows={5}
                     maxRows={10}
                     className='mt-4'
@@ -126,6 +157,7 @@ export const CreatePostDialog = () => {
                 <Button
                     fullWidth
                     variant='contained'
+                    type='submit'
                 >
                     Post
                 </Button>

@@ -4,9 +4,7 @@ const mongoose = require('mongoose');
 const memberSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: true,
         unique: true,
-        default: 'username'
     },
     firstName: {
         type: String,
@@ -59,6 +57,10 @@ const memberSchema = new mongoose.Schema({
     resetPasswordToken: {
         type: String
     },
+
+    // timestamps: {
+    //     createdAt, createdAtDateTime
+    // }
 })
 
 memberSchema.pre('save', async function (next) {
