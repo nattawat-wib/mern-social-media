@@ -14,16 +14,20 @@ import { StyledLeftColumnWrapper } from './../../style/index.style';
 import { useAuth } from '../../context/auth-context';
 import { useState, useEffect } from 'react';
 import axios from './../../utils/axios';
+import { PageLoader } from '../../components/loader'
 
 const LeftColumn = () => {
     const { member } = useAuth();
     const [allMember, setAllMember] = useState([]);
+    const [ isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
+        setIsLoading(true)
         axios.get('/member')
             .then(resp => {
                 console.log(resp.data.data.allMember);
-                setAllMember(resp.data.data.allMember)
+                setAllMember(resp.data.data.allMember);
+                setIsLoading(false)
             })
             .catch(err => {
                 console.log(err);
@@ -32,6 +36,7 @@ const LeftColumn = () => {
 
     return (
         <StyledLeftColumnWrapper dense={true}>
+            <PageLoader loading={isLoading.toString()} />
             <ListItemButton
                 component={Link}
                 to={`/user/${member.username}`}

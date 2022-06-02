@@ -11,14 +11,15 @@ import AvatarGroup from '@mui/material/AvatarGroup';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
 
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import TransgenderIcon from '@mui/icons-material/Transgender';
 import CakeIcon from '@mui/icons-material/Cake';
 import BusinessIcon from '@mui/icons-material/Business';
 import EditIcon from '@mui/icons-material/Edit';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import AddIcon from '@mui/icons-material/Add';
 
 import { useState, useContext, useEffect } from 'react';
 import { CreatePostCard, CreatePostDialog } from "../../components/create-post";
@@ -29,7 +30,7 @@ import { ToggleContext } from '../../context/toggle-context';
 import { ThemeContext } from '../../context/theme-context';
 import { useAuth } from './../../context/auth-context';
 import axios from './../../utils/axios';
-
+import { PageLoader } from './../../components/loader';
 
 const TabContent = ({ children, content, tabvalue }) => {
     return (
@@ -47,19 +48,32 @@ const Profile = () => {
     const queryStrTab = searchPrams.get('tab');
     const { member } = useAuth();
     const { username } = useParams();
-    const [profile, setProfile] = useState();
+    
+    const [profile, setProfile] = useState({});
+    const [friendList, setFriendList] = useState([]);
+    const [isLoading, setIsLoading] = useState(false)
+    const [tabValue, setTabValue] = useState('posts');
 
     const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useContext(ToggleContext);
     const { isDarkMode } = useContext(ThemeContext);
-    const [tabValue, setTabValue] = useState('posts');
 
     useEffect(() => {
-        setTabValue(queryStrTab || 'posts')
+        setIsLoading(true);
+        setTabValue(queryStrTab || 'posts');
+
         axios.get(`/member/${username}`)
             .then(resp => {
                 setProfile(resp.data.data.member)
             })
             .catch(console.error)
+
+        axios.get(`/member/${username}/friend`)
+            .then(resp => {
+                setFriendList(resp.data.data.allMember)
+                setIsLoading(false)
+            })
+            .catch(console.error)
+
     }, [location])
 
     return (
@@ -69,6 +83,7 @@ const Profile = () => {
                 isEditProfileDialogOpen={isEditProfileDialogOpen}
                 setIsEditProfileDialogOpen={setIsEditProfileDialogOpen}
             />
+            <PageLoader loading={isLoading.toString()} />
             <header>
                 <Container>
                     <figure className='relative pt-[30%]'>
@@ -88,7 +103,7 @@ const Profile = () => {
                                 className='justify-end'
                             >
                                 {
-                                    Array(10).fill(1).map((friend, i) => {
+                                    friendList.map((friend, i) => {
                                         return (
                                             <Avatar
                                                 key={i}
@@ -101,11 +116,23 @@ const Profile = () => {
                             </AvatarGroup>
                         </div>
                         <div className='ml-auto'>
-                            <Button
-                                onClick={() => setIsEditProfileDialogOpen(true)}
-                                variant='contained'
-                                startIcon={<EditIcon />}
-                            > Edit Profile </Button>
+                            {
+                                profile?.username === member?.username ?
+                                    <Button
+                                        onClick={() => setIsEditProfileDialogOpen(true)}
+                                        variant='contained'
+                                        startIcon={<EditIcon />}
+                                    >
+                                        Edit Profile
+                                    </Button>
+                                    :
+                                    <Button
+                                        variant='contained'
+                                        startIcon={<AddIcon />}
+                                    >
+                                        Add Friend
+                                    </Button>
+                            }
                         </div>
                     </div>
                     <Divider className='my-4' />
@@ -155,16 +182,18 @@ const Profile = () => {
                                 </header>
                                 <Grid container spacing={2}>
                                     {
-                                        Array(9).fill(1).map((friend, i) => {
+                                        friendList.map((friend, i) => {
                                             return (
                                                 <Grid item xs={4} key={i}>
-                                                    <figure className='relative pt-[100%]'>
-                                                        <img
-                                                            className='fit-img rounded-lg'
-                                                            src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
-                                                        />
-                                                    </figure>
-                                                    <Typography align='center'> nutella tester </Typography>
+                                                    <Link to={`/user/${friend.username}`}>
+                                                        <figure className='relative pt-[100%]'>
+                                                            <img
+                                                                className='fit-img rounded-lg'
+                                                                src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
+                                                            />
+                                                        </figure>
+                                                    </Link>
+                                                    <Typography className='truncate' align='center'> {friend.firstName} {friend.lastName} </Typography>
                                                 </Grid>
                                             )
                                         })
