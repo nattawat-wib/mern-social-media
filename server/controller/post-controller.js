@@ -5,6 +5,7 @@ exports.createPost = async (req, res) => {
         const post = await Post.create({
             content: req.body.content,
             author: req.member._id,
+            image: req.file.filename || null
         });
 
         // console.log(post);

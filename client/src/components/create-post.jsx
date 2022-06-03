@@ -79,23 +79,26 @@ export const CreatePostCard = () => {
 }
 
 export const CreatePostDialog = () => {
-    const { isCreatePostDialogOpen, setIsCreatePostDialogOpen } = useContext(ToggleContext)
-    const { isDarkMode } = useContext(ThemeContext)
+    const { isCreatePostDialogOpen, setIsCreatePostDialogOpen } = useContext(ToggleContext);
+    const { isDarkMode } = useContext(ThemeContext);
     const { member } = useAuth();
     const [form, setForm] = useState({});
 
     const handleFormChange = e => {
+        const value = e.target.files ? e.target.files[0] : e.target.value;
+
         setForm(prev => ({
-            ...prev,
-            [e.target.name]: e.target.value
-        }))
+            ...prev, [e.target.name]: value
+        }));
     }
 
     const handleFormSubmit = e => {
         e.preventDefault();
         console.log("form", form);
+        const formData = new FormData();
+        for (const key in form) formData.append(key, form[key]);
 
-        axios.post('/post', form)
+        axios.post('/post', formData)
             .then(resp => {
                 console.log(resp);
                 setIsCreatePostDialogOpen(false);
@@ -104,7 +107,7 @@ export const CreatePostDialog = () => {
             })
             .catch(err => {
                 console.log(err)
-                toast.err(err.response.data.msg)
+                toast.error(err.response.data.msg)
             })
     }
 
@@ -140,18 +143,38 @@ export const CreatePostDialog = () => {
                     <Typography color='primary.dark' className='font-bold'>
                         {member?.firstName} {member?.lastName}
                     </Typography>
-                    <IconButton className='ml-auto' sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5' }}>
+                    <IconButton
+                        component='label'
+                        className='ml-auto'
+                        name='image'
+                        sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5' }}
+                    >
                         <AddPhotoAlternateIcon color='primary' />
+                        <input onChange={handleFormChange} name='image' hidden type='file' accept='image/*' />
                     </IconButton>
                 </div>
                 <StyledTextareaAutosize
                     onChange={handleFormChange}
+                    value={form.content}
                     name='content'
                     minRows={5}
                     maxRows={10}
                     className='mt-4'
                     placeholder={`What's on your mind, ${member?.firstName} ?`}
                 />
+                {
+                    form.image &&
+                    <figure className='relative pt-[50%]'>
+                        <IconButton
+                            onClick={() => setForm(prev => ({...prev, image: null}))}
+                            className='top-1 right-1 absolute z-10'
+                            sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5' }}
+                        >
+                            <CloseIcon color='primary' />
+                        </IconButton>
+                        <img src={URL.createObjectURL(form.image)} className='fit-img rounded-lg' />
+                    </figure>
+                }
             </DialogContent>
             <Divider className='mx-4' />
             <DialogActions className='p-4'>
@@ -163,6 +186,6 @@ export const CreatePostDialog = () => {
                     Post
                 </Button>
             </DialogActions>
-        </Dialog>
+        </Dialog >
     )
 }

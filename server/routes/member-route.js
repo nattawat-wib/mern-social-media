@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const authController = require('./../controller/auth-controller');
 const memberController = require('./../controller/member-controller');
+const middleware = require('./../middleware/multer');
 
 router.post('/register', authController.register);
 router.post('/login', authController.login);
@@ -13,7 +14,7 @@ router.get('/:username/friend', memberController.getAllMember)
 
 router.patch('/update-me',
     authController.isLogin,
-    memberController.multerConfig.fields([{ name: 'avatar' }, { name: 'cover' }]),
+    middleware.multerConfig.fields([{ name: 'avatar' }, { name: 'cover' }]),
     memberController.updateMe
 )
 

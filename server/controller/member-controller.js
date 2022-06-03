@@ -1,10 +1,6 @@
 const Member = require('./../model/member-model');
 const multer = require('multer');
 
-exports.multerConfig = multer({
-    dest: 'uploads'
-})
-
 exports.getAllMember = async (req, res) => {
     try {
         const allMember = await Member.find().select('-password');
@@ -50,7 +46,7 @@ exports.getMember = async (req, res) => {
 
 exports.updateMe = async (req, res) => {
     try {
-        console.log('req.files', req.files);
+        // console.log('req.files', req.files);
         // console.log('req.body', req.body);
         const updateMember = await Member.findOneAndUpdate({ accessToken: req.member.accessToken },
             { 

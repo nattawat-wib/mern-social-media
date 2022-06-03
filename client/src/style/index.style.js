@@ -55,7 +55,8 @@ export const StyledLeftColumnWrapper = styled(List)`
 `
 
 export const StyledTextareaAutosize = styled(TextareaAutosize)`
-    width: calc(100% - 1rem);
+    width: 100%;
+    border-radius: 7px;
     border: none;
     resize: none;
     background-color: ${prop => prop.theme.bg};
