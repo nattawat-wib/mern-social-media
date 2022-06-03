@@ -26,17 +26,32 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
     const { isDarkMode } = useContext(ThemeContext)
     const { member, authDispatch } = useAuth();
     const [form, setForm] = useState(member);
+    const [formImage, setFromImage] = useState({
+        avatar: member.avatar,
+        cover: member.cover
+    });
 
     const handleFormChange = e => {
-        setForm(prev => ({ ...prev, [e.target.name]: e.target.value }))
+        const value = e.target.files ? e.target.files[0] : e.target.value
+        setForm(prev => ({ ...prev, [e.target.name]: value }))
+
+        if (e.target.type === 'file') {
+            delete formImage[e.target.name]
+        }
     }
 
     const handleFormSubmit = e => {
         e.preventDefault();
 
-        form.birthDate = form.birthDate.split('-').reverse().join('/')
+        form.birthDate = form.birthDate.split('-').reverse().join('/');
+        console.log("form", form);
 
-        axios.patch('/member/update-me', form)
+        const fromData = new FormData();
+        for (const key in form) {
+            fromData.append(key, form[key])
+        }
+
+        axios.patch('/member/update-me', fromData)
             .then(resp => {
                 setIsEditProfileDialogOpen(false);
                 authDispatch({ type: 'update auth', payload: resp });
@@ -59,7 +74,7 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
         >
             <Toaster />
             <DialogTitle className="flex items-center justify-between">
-                <Typography> Edit Your Profile</Typography>
+                <Typography> Edit Your Profile </Typography>
                 <IconButton sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5' }} onClick={() => setIsEditProfileDialogOpen(false)}>
                     <CloseIcon />
                 </IconButton>
@@ -70,22 +85,67 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
                     <Grid item xs={4}>
                         <Avatar
                             sx={{ width: '160px', height: '160px', m: 'auto' }}
-                            src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
+                            src={
+                                formImage.avatar ?
+                                    `${import.meta.env.VITE_SERVER_API}/${formImage.avatar}`
+                                    :
+                                    form.avatar ?
+                                        URL.createObjectURL(form.avatar)
+                                        :
+                                        'https://via.placeholder.com/500'
+                            }
                         />
                     </Grid>
                     <Grid item xs={8}>
                         <figure className='relative pt-[30%]'>
-                            <img className='fit-img rounded-lg' src='https://img5.goodfon.com/wallpaper/nbig/5/62/dog-white-looking-mountains-lake-landscape-sobaka-ozero-gora.jpg' />
+                            <img
+                                className='fit-img rounded-lg'
+                                src={
+                                    formImage.cover ?
+                                        `${import.meta.env.VITE_SERVER_API}/${formImage.cover}`
+                                        :
+                                        form.cover ?
+                                            URL.createObjectURL(form.cover)
+                                            :
+                                            'http://via.placeholder.com/500'
+                                }
+                            />
                         </figure>
                     </Grid>
                     <Grid item xs={4}>
                         <Box textAlign='center'>
-                            <Button variant='outlined' startIcon={<FileUploadIcon />}> Profile </Button>
+                            <Button
+                                component='label'
+                                variant='outlined'
+                                startIcon={<FileUploadIcon />}
+                            >
+                                Profile
+                                <input
+                                    onChange={handleFormChange}
+                                    name='avatar'
+                                    hidden
+                                    type='file'
+                                    accept="image/*"
+                                />
+                            </Button>
                         </Box>
                     </Grid>
                     <Grid item xs={8}>
                         <Box textAlign='center'>
-                            <Button variant='outlined' startIcon={<FileUploadIcon />}> Cover </Button>
+                            <Button
+                                component='label'
+                                variant='outlined'
+                                startIcon={<FileUploadIcon />}
+                            >
+                                Cover
+                                <input
+                                    onChange={handleFormChange}
+                                    name='cover'
+                                    hidden
+                                    type='file'
+                                    accept="image/*"
+                                />
+                            </Button>
                         </Box>
                     </Grid>
                 </Grid>

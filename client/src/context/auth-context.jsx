@@ -8,7 +8,8 @@ const authReducer = (state, action) => {
         if (!action.payload?.data?.data) return state
         return {
             isAuth: true,
-            member: action.payload.data.data.member
+            member: action.payload.data.data.member,
+            accessToken: action.payload.data.data.accessToken
         }
     }
     else if (action.type === 'logout') {
@@ -21,6 +22,7 @@ const authReducer = (state, action) => {
         return {
             ...state,
             member: action.payload.data.data.member,
+            accessToken: action.payload.data.data.accessToken
         }
     }
     return state

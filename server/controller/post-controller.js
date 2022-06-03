@@ -7,7 +7,7 @@ exports.createPost = async (req, res) => {
             author: req.member._id,
         });
 
-        console.log(post);
+        // console.log(post);
 
         res.status(200).json({
             status: 'success',
@@ -30,7 +30,7 @@ exports.getPostByUsername = async (req, res) => {
     try {
         const post = await Post.find().populate('author').sort({ created_at: -1 });
 
-        console.log(post);
+        // console.log(post);
 
         res.status(200).json({
             status: 'success',

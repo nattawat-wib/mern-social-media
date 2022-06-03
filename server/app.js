@@ -13,6 +13,8 @@ const port = process.env.PORT || 8080;
 require('dotenv').config();
 require('./db');
 
+app.use(express.static(`${__dirname}/uploads`))
+
 app.use(cors({
     origin: process.env.CLIENT_URL,
     credentials: true

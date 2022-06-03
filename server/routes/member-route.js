@@ -13,6 +13,7 @@ router.get('/:username/friend', memberController.getAllMember)
 
 router.patch('/update-me',
     authController.isLogin,
+    memberController.multerConfig.fields([{ name: 'avatar' }, { name: 'cover' }]),
     memberController.updateMe
 )
 

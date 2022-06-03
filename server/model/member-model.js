@@ -35,11 +35,12 @@ const memberSchema = new mongoose.Schema({
     address: {
         type: String
     },
-    // friendList : {
-    //     type: mongoose.Schema.
-    // },
-    // commentList : {
-    // },
+    avatar: {
+        type: String
+    },
+    cover: {
+        type: String
+    },
     createdAt: {
         type: Number,
         default: Date.now()

@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
 
 exports.verifyToken = async (req, res) => {
     try {
-        const member = await Member.findOne({ accessToken: req.cookies.accessToken }).select('-password, -__v');
+        const member = await Member.findOne({ accessToken: req.cookies.accessToken }).select('-createdAt -createdAtDateTime -_id -password -accessToken -__v');
         if (!member) throw 'user not login';
 
         await jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET, err => {
@@ -73,7 +73,8 @@ exports.verifyToken = async (req, res) => {
             status: 'success',
             msg: 'user already login',
             data: {
-                member
+                member,
+                accessToken: req.cookies.accessToken
             },
         });
 

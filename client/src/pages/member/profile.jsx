@@ -83,16 +83,6 @@ const Profile = () => {
 
     }, [location])
 
-    useEffect(() => {
-        axios.get(`/post/${username}`)
-            .then(resp => {
-                setPostList(resp.data.data.post)
-                setIsLoading(false)
-            })
-            .catch(console.error)
-
-    }, [postList])
-
     return (
         <main>
             <CreatePostDialog />
