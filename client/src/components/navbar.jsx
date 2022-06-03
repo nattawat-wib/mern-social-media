@@ -83,7 +83,7 @@ const Navbar = () => {
                 <Box className='flex items-center'>
                     <ProfileButton to={`/user/${member.username}`}>
                         <figure className='relative mr-2' style={{ height: '33px', width: '33px' }}>
-                            <AppBarAvatar src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200' />
+                            <AppBarAvatar src={member.avatar ? `${import.meta.env.VITE_SERVER_API}/${member.avatar}` : 'https://via.placeholder.com/500'} />
                         </figure>
                         <Typography className='font-bold' color='primary.dark'> { member?.firstName } </Typography>
                     </ProfileButton>
@@ -116,7 +116,7 @@ const Navbar = () => {
                                 sx={{ bgcolor: 'primary.light' }}
                             >
                                 <Chip
-                                    avatar={<Avatar src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200' />}
+                                    avatar={<Avatar src={member.avatar ? `${import.meta.env.VITE_SERVER_API}/${member.avatar}` : 'https://via.placeholder.com/500'} />}
                                     label={`${member?.firstName} ${member?.lastName}`}
                                     color='primary'
                                 />

@@ -27,7 +27,7 @@ const PostItem = ({ post }) => {
                 <Link to={`/user/${post.author.username}`} className='relative mr-3' style={{ width: "50px", height: "50px" }}>
                     <img
                         className='rounded-full fit-img'
-                        src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
+                        src={post.author.avatar ? `${import.meta.env.VITE_SERVER_API}/${post.author.avatar}` : 'https://via.placeholder.com/500'}
                     />
                 </Link>
                 <div>

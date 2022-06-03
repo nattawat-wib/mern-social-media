@@ -94,12 +94,12 @@ const Profile = () => {
             <header>
                 <Container>
                     <figure className='relative pt-[30%]'>
-                        <img className='fit-img rounded-b-lg' src='https://img5.goodfon.com/wallpaper/nbig/5/62/dog-white-looking-mountains-lake-landscape-sobaka-ozero-gora.jpg' />
+                        <img className='fit-img rounded-b-lg' src={profile.cover ? `${import.meta.env.VITE_SERVER_API}/${profile.cover}` : 'https://via.placeholder.com/500'} />
                     </figure>
                     <div className='flex items-center'>
                         <Avatar
                             sx={{ width: '160px', height: '160px', border: '5px white solid', margin: '-60px 30px 0 40px' }}
-                            src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
+                            src={profile.avatar ? `${import.meta.env.VITE_SERVER_API}/${profile.avatar}` : 'https://via.placeholder.com/500'}
                         />
                         <div className='mt-2'>
                             <Typography variant='h5' className='font-bold'> {profile?.firstName} {profile?.lastName} </Typography>
@@ -115,7 +115,7 @@ const Profile = () => {
                                             <Avatar
                                                 key={i}
                                                 sx={{ width: '30px', height: '30px' }}
-                                                src='https://img5.goodfon.com/wallpaper/nbig/5/62/dog-white-looking-mountains-lake-landscape-sobaka-ozero-gora.jpg'
+                                                src={friend.avatar ? `${import.meta.env.VITE_SERVER_API}/${friend.avatar}` : 'https://via.placeholder.com/500'}
                                             />
                                         )
                                     })
@@ -196,7 +196,7 @@ const Profile = () => {
                                                         <figure className='relative pt-[100%]'>
                                                             <img
                                                                 className='fit-img rounded-lg'
-                                                                src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
+                                                                src={friend.avatar ? `${import.meta.env.VITE_SERVER_API}/${friend.avatar}` : 'https://via.placeholder.com/500'}
                                                             />
                                                         </figure>
                                                     </Link>

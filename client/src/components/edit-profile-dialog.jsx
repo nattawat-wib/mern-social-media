@@ -47,9 +47,7 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
         console.log("form", form);
 
         const fromData = new FormData();
-        for (const key in form) {
-            fromData.append(key, form[key])
-        }
+        for (const key in form) fromData.append(key, form[key]);
 
         axios.patch('/member/update-me', fromData)
             .then(resp => {
@@ -116,10 +114,11 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
                         <Box textAlign='center'>
                             <Button
                                 component='label'
+                                size='small'
                                 variant='outlined'
                                 startIcon={<FileUploadIcon />}
                             >
-                                Profile
+                                Upload Avatar
                                 <input
                                     onChange={handleFormChange}
                                     name='avatar'
@@ -134,10 +133,11 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
                         <Box textAlign='center'>
                             <Button
                                 component='label'
+                                size='small'
                                 variant='outlined'
                                 startIcon={<FileUploadIcon />}
                             >
-                                Cover
+                                Upload Cover
                                 <input
                                     onChange={handleFormChange}
                                     name='cover'
