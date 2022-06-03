@@ -9,9 +9,8 @@ const MainColumn = () => {
     const { member } = useAuth();
 
     useEffect(() => {
-        axios.get(`/post/${member.username}`)
+        axios.get(`/post`)
             .then(resp => {
-                // console.log(resp);
                 setPostList(resp.data.data.post)
             })
             .catch(err => {

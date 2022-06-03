@@ -174,7 +174,7 @@ const Profile = () => {
                                     </ListItem>
                                 </List>
                             </Paper>
-                            <Paper className='sticky top-20 h-fit p-4 mt-4'>
+                            <Paper className='sticky top-20 h-fit p-4 my-4'>
                                 <header className='flex justify-between items-start mb-4'>
                                     <div>
                                         <Typography variant='h6' className='font-bold'> Friends </Typography>
@@ -214,9 +214,12 @@ const Profile = () => {
                                 <CreatePostCard />
                             }
                             {
+                                postList.length ?
                                 postList.map(post => {
                                     return (<PostItem key={post._id} post={post} />)
                                 })
+                                :
+                                <Typography align='center'> This member have no post yet !!! </Typography>
                             }
                         </Grid>
                     </Grid>

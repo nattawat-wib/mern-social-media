@@ -41,6 +41,10 @@ const memberSchema = new mongoose.Schema({
     cover: {
         type: String
     },
+    postList: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'post',
+    },
     createdAt: {
         type: Number,
         default: Date.now()
