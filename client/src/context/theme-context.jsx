@@ -7,7 +7,7 @@ const styledComponentsThemeList = {
     light: {
         bg: '#f0f2f5',
         textColor: '#1b1b1b',
-        paperBg: '#f0f2f5',
+        paperBg: '#fff',
     },
     dark: {
         bg: '#121212',

@@ -98,8 +98,9 @@ export const CreatePostDialog = () => {
         axios.post('/post', form)
             .then(resp => {
                 console.log(resp);
-                setIsCreatePostDialogOpen(false)
-                toast.success(resp.data.msg)
+                setIsCreatePostDialogOpen(false);
+                toast.success(resp.data.msg);
+                window.location.reload();
             })
             .catch(err => {
                 console.log(err)
