@@ -25,7 +25,7 @@ export const LightTheme = createTheme({
         MuiBackdrop: {
             styleOverrides: {
                 root: {
-                    backgroundColor: 'rgba(255, 255, 255, .6)',
+                    backgroundColor: 'rgba(255, 255, 255, .2)',
                     backdropFilter: 'blur(2.5px)',
                 },
             },
@@ -58,7 +58,7 @@ export const DarkTheme = createTheme({
         MuiBackdrop: {
             styleOverrides: {
                 root: {
-                    backgroundColor: 'rgba(255, 255, 255, .6)',
+                    backgroundColor: 'rgba(255, 255, 255, .2)',
                     backdropFilter: 'blur(2.5px)',
                 },
             },

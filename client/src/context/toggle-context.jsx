@@ -7,6 +7,7 @@ export const useToggleContext = () => useContext(ToggleContext);
 export const ToggleContextProvider = ({ children }) => {
     const [isCreatePostDialogOpen, setIsCreatePostDialogOpen] = useState(false);
     const [isEditProfileDialogOpen, setIsEditProfileDialogOpen] = useState(false);
+    const [isEditPostDialogOpen, setIsEditPostDialogOpen] = useState(false);
 
     return (
         <ToggleContext.Provider
@@ -14,8 +15,12 @@ export const ToggleContextProvider = ({ children }) => {
                 {
                     isCreatePostDialogOpen,
                     setIsCreatePostDialogOpen,
-                    isEditProfileDialogOpen, 
-                    setIsEditProfileDialogOpen
+
+                    isEditProfileDialogOpen,
+                    setIsEditProfileDialogOpen,
+                    
+                    isEditPostDialogOpen, 
+                    setIsEditPostDialogOpen,
                 }
             }
         >

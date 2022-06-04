@@ -1,25 +1,32 @@
-import { useState } from 'react';
-
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import Grid from '@mui/material/Grid'
-import TextField from '@mui/material/TextField';
+import Grid from '@mui/material/Grid';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
 
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import ReplyIcon from '@mui/icons-material/Reply';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
-import { StyledPostItem } from '../style/index.style';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from './../context/auth-context';
+import { useToggleContext } from '../context/toggle-context';
+import { StyledPostItem } from '../style/index.style';
+import EditPostDialog from './edit-post-dialog';
 import { CommentInput, CommentItem } from './comment-item';
 
 const PostItem = ({ post }) => {
     const [isCommentSectionShow, setIsCommentSectionShow] = useState(false);
-    const [commentList, setCommentList] = useState([])
+    const { isEditPostDialogOpen, setIsEditPostDialogOpen } = useToggleContext();
+    const [commentList, setCommentList] = useState([]);
+    const { member } = useAuth();
+    const [postMenuAnchor, setPostMenuAnchor] = useState(null);
 
     return (
         <StyledPostItem>
@@ -47,6 +54,34 @@ const PostItem = ({ post }) => {
                         </Typography>
                     </Box>
                 </div>
+                {
+                    post.author.username === member.username &&
+                    <>
+                        <IconButton
+                            onClick={e => setPostMenuAnchor(e.target)}
+                            sx={{ ml: 'auto', alignSelf: 'start' }}
+                        >
+                            <MoreHorizIcon />
+                        </IconButton>
+                        <Menu
+                            open={!!postMenuAnchor}
+                            anchorEl={postMenuAnchor}
+                            onClose={() => setPostMenuAnchor(null)}
+                        >
+                            <MenuItem
+                                onClick={() => {
+                                    setPostMenuAnchor(null);
+                                    setIsEditPostDialogOpen(true);
+                                }}
+                                dense={true}
+                            >
+                                Edit
+                            </MenuItem>
+                            <MenuItem dense={true}> Delete </MenuItem>
+                        </Menu>
+                        <EditPostDialog post={post} />
+                    </>
+                }
             </header>
             <section className='my-4'>
                 {post.content}

@@ -71,19 +71,41 @@ exports.getPostByUsername = async (req, res) => {
             }
         });
 
-    res.status(200).json({
-        status: 'success',
-        msg: 'all post with this member is here',
-        data: {
-            post: postList
-        }
-    })
+        res.status(200).json({
+            status: 'success',
+            msg: 'all post with this member is here',
+            data: {
+                post: postList
+            }
+        })
 
-} catch (err) {
-    console.log(err);
-    res.status(400).json({
-        status: 'error',
-        msg: err
-    })
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
 }
+
+exports.editPost = async (req, res) => {
+    try {
+        const post = await Post.findById(req.body._id).populate('author', '_id');
+        if(!post) throw 'post with this id is not exist';
+
+        console.log('post', post);
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'edit post successfully'
+        })
+    } catch (err) {
+        console.log(err);
+
+        res.status(400).json({
+            status: 'error',
+            mag: err
+        })
+    }
 }
+
