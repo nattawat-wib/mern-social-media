@@ -62,7 +62,7 @@ exports.getPostByUsername = async (req, res) => {
 
         const { postList } = await author.populate({
             path: 'postList',
-            select: 'author content image createAtDateTime -_id',
+            select: 'author content image createAtDateTime _id',
             options: { sort: { 'created_at': -1 } },
             populate: {
                 path: 'author',
