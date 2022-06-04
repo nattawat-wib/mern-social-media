@@ -33,9 +33,12 @@ const PostItem = ({ post }) => {
 
     const handleDeletePost = () => {
         axios.delete(`/post/${post._id}`)
-            .then(resp => toast.success(resp.data.msg))
+            .then(resp => {
+                toast.success(resp.data.msg);
+                location.reload()
+            })
             .catch(err => toast.error(err.response.data.msg))
-    };
+        };
 
     return (
         <StyledPostItem>

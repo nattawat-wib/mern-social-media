@@ -79,8 +79,10 @@ exports.editPost = async (req, res) => {
 exports.deletePost = async (req, res) => {
     try {
         const { author } = await Post.findById(req.params._id).populate('author', '_id');
-        if(String(req.member._id) !== String(author._id)) throw 'cannot delete, You are not owner of this post.'
-        // await Post.findByIdAndDelete(req.params._id);
+        if (String(req.member._id) !== String(author._id)) throw 'cannot delete, You are not owner of this post.'
+
+        const deletePost = await Post.findByIdAndDelete(req.params._id);
+        await Member.update({ _id: author._id }, { $pull: { postList: deletePost._id } })
 
         res.status(200).json({
             status: 'success',
