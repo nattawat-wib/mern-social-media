@@ -26,8 +26,8 @@ import { CreatePostCard, CreatePostDialog } from "../../components/create-post";
 import PostItem from '../../components/post-item';
 import EditProfileDialog from '../../components/edit-profile-dialog';
 import { Link, useSearchParams, useLocation, useParams } from 'react-router-dom';
-import { ToggleContext } from '../../context/toggle-context';
-import { ThemeContext } from '../../context/theme-context';
+import { useToggleContext } from '../../context/toggle-context';
+import { useThemeContext } from '../../context/theme-context';
 import { useAuth } from './../../context/auth-context';
 import axios from './../../utils/axios';
 import { PageLoader } from './../../components/loader';
@@ -56,8 +56,8 @@ const Profile = () => {
     const [isLoading, setIsLoading] = useState(false)
     const [tabValue, setTabValue] = useState('posts');
 
-    const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useContext(ToggleContext);
-    const { isDarkMode } = useContext(ThemeContext);
+    const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useToggleContext();
+    const { isDarkMode } = useThemeContext();
 
     useEffect(() => {
         setIsLoading(true);

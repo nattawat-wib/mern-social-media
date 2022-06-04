@@ -1,6 +1,8 @@
-import { createContext, useState } from "react";
+import { createContext, useState, useContext } from "react";
 
-export const ToggleContext = createContext({});
+const ToggleContext = createContext({});
+
+export const useToggleContext = () => useContext(ToggleContext);
 
 export const ToggleContextProvider = ({ children }) => {
     const [isCreatePostDialogOpen, setIsCreatePostDialogOpen] = useState(false);

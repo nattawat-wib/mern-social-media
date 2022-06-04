@@ -23,8 +23,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import { ProfileButton, AppBarAvatar, AppBarContainer, AppBarSearch } from './../style/navbar.style';
 import { Link } from 'react-router-dom';
 import { useState, useContext, useEffect } from 'react';
-import { ToggleContext } from '../context/toggle-context';
-import { ThemeContext } from '../context/theme-context';
+import { useToggleContext } from '../context/toggle-context';
+import { useThemeContext } from '../context/theme-context';
 import EditProfileDialog from './edit-profile-dialog';
 import { useAuth } from '../context/auth-context';
 import axios from './../utils/axios';
@@ -32,8 +32,8 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const Navbar = () => {
     const [DropdownAnchor, setDropdownAnchor] = useState(null);
-    const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useContext(ToggleContext);
-    const { isDarkMode, setIsDarkMode } = useContext(ThemeContext);
+    const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useToggleContext();
+    const { isDarkMode, setIsDarkMode } = useThemeContext();
     const { member, authDispatch } = useAuth();
 
     const handleLogout = () => {

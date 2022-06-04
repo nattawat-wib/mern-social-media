@@ -14,16 +14,16 @@ import EmojiEmotionsIcon from '@mui/icons-material/EmojiEmotions';
 import CloseIcon from '@mui/icons-material/Close';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { StyledCreatePostCard, CreatePostModalToggle, StyledTextareaAutosize } from '../style/index.style';
-import { ToggleContext } from '../context/toggle-context';
-import { ThemeContext } from '../context/theme-context';
+import { useToggleContext } from '../context/toggle-context';
+import { useThemeContext } from '../context/theme-context';
 import { useAuth } from '../context/auth-context';
 import axios from './../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
 
 export const CreatePostCard = () => {
-    const { setIsCreatePostDialogOpen } = useContext(ToggleContext);
+    const { setIsCreatePostDialogOpen } = useToggleContext();
     const { member } = useAuth();
 
     return (
@@ -79,8 +79,8 @@ export const CreatePostCard = () => {
 }
 
 export const CreatePostDialog = () => {
-    const { isCreatePostDialogOpen, setIsCreatePostDialogOpen } = useContext(ToggleContext);
-    const { isDarkMode } = useContext(ThemeContext);
+    const { isCreatePostDialogOpen, setIsCreatePostDialogOpen } = useToggleContext();
+    const { isDarkMode } = useThemeContext();
     const { member } = useAuth();
     const [form, setForm] = useState({});
 

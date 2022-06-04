@@ -16,14 +16,14 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import SaveIcon from '@mui/icons-material/Save';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { useState, useContext } from 'react';
-import { ThemeContext } from '../context/theme-context';
+import { useState } from 'react';
+import { useThemeContext } from '../context/theme-context';
 import { useAuth } from './../context/auth-context';
 import axios from './../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
 
 const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen }) => {
-    const { isDarkMode } = useContext(ThemeContext)
+    const { isDarkMode } = useThemeContext()
     const { member, authDispatch } = useAuth();
     const [form, setForm] = useState(member);
     const [formImage, setFromImage] = useState({

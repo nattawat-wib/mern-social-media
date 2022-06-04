@@ -4,8 +4,7 @@ import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 import { StyledCommentInput } from './../style/index.style';
 
-import { ThemeContext } from '../context/theme-context';
-import { useContext } from 'react';
+import { useThemeContext } from '../context/theme-context';
 
 export const CommentInput = () => {
     return (
@@ -23,7 +22,7 @@ export const CommentInput = () => {
 }
 
 export const CommentItem = () => {
-    const { isDarkMode } = useContext(ThemeContext);
+    const { isDarkMode } = useThemeContext();
 
     return (
         <>

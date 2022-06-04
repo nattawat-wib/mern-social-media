@@ -1,4 +1,4 @@
-import { useState, createContext, useEffect } from 'react';
+import { useState, createContext, useEffect, useContext } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/system';
 import { LightTheme, DarkTheme } from './../style/theme.style';
 import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-components';
@@ -16,7 +16,9 @@ const styledComponentsThemeList = {
     }
 };
 
-export const ThemeContext = createContext({});
+const ThemeContext = createContext({});
+
+export const useThemeContext = () => useContext(ThemeContext);
 
 export const ThemeContextProvider = ({ children }) => {
     const [isDarkMode, setIsDarkMode] = useState(localStorage.getItem('isDarkMode'));
