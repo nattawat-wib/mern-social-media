@@ -38,7 +38,7 @@ const Login = () => {
 
         setIsLoading(true);
 
-        await axios.post('/member/login', form)
+        await axios.post('/auth/login', form)
             .then(resp => {                
                 toast.loading('redirecting you to news feed');
                 toast.success(resp.data.msg);

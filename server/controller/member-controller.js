@@ -23,15 +23,26 @@ exports.getAllMember = async (req, res) => {
     }
 }
 
+// get only profile and friend status
 exports.getMember = async (req, res) => {
     try {
-        const member = await Member.findOne({ username: req.params.username }).select('-password');
+        const member = await Member
+            .findOne({ username: req.params.username })
+            .select('-password -accessToken -__v -_id')
+            // .populate('postList')
+            .populate('requestList')
+
         if (!member) throw 'no member with this username'
+
+        let friendStatus = 'unfriend'
 
         res.status(200).json({
             status: 'success',
             msg: 'all member here',
-            data: { member }
+            data: {
+                member,
+                friendStatus
+            }
         })
 
     } catch (err) {
@@ -49,7 +60,7 @@ exports.updateMe = async (req, res) => {
         // console.log('req.files', req.files);
         // console.log('req.body', req.body);
         const updateMember = await Member.findOneAndUpdate({ accessToken: req.member.accessToken },
-            { 
+            {
                 ...req.body,
                 avatar: req.files.avatar ? req.files.avatar[0].filename : req.body.avatar,
                 cover: req.files.cover ? req.files.cover[0].filename : req.body.cover
@@ -67,6 +78,36 @@ exports.updateMe = async (req, res) => {
     } catch (err) {
         console.log(err);
 
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}
+
+exports.requestFriend = async (req, res) => {
+    try {
+        // check member that request to is exist
+        const requestToMember = await Member.findOne({ username: req.params.username });
+        if (!requestToMember) throw 'request to member not found';
+
+        // add request member to requestList of member that request to
+        const member = await Member.findByIdAndUpdate(requestToMember._id, {
+            $push: {
+                requestList: req.member._id
+            }
+        });
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'friend send is successfully',
+            data: {
+                member,
+                friendStatus: 'requested'
+            }
+        })
+    } catch (err) {
+        console.log(err);
         res.status(400).json({
             status: 'error',
             msg: err

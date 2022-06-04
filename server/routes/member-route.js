@@ -3,14 +3,18 @@ const authController = require('./../controller/auth-controller');
 const memberController = require('./../controller/member-controller');
 const middleware = require('./../middleware/multer');
 
-router.post('/register', authController.register);
-router.post('/login', authController.login);
-router.get('/logout', authController.logout);
-router.get('/verify-token', authController.verifyToken);
-
 router.get('/', memberController.getAllMember)
 router.get('/:username', memberController.getMember)
 router.get('/:username/friend', memberController.getAllMember)
+
+router.patch('/request-friend/:username',
+    authController.isLogin,
+    memberController.requestFriend
+)
+// router.patch('/accept-friend/:username',
+//     authController.isLogin,
+//     memberController.acceptFriend
+// )
 
 router.patch('/update-me',
     authController.isLogin,

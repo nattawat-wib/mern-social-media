@@ -31,7 +31,7 @@ const authReducer = (state, action) => {
 const AuthContextProvider = ({ children }) => {
     const [auth, authDispatch] = useReducer(authReducer, { isAuth: false });
     useEffect(() => {
-        axios.get('/member/verify-token')
+        axios.get('/auth/verify-token')
             .then(resp => authDispatch({ type: 'login', payload: resp }))
     }, [])
     return (

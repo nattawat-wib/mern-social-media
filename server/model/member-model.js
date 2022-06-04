@@ -45,6 +45,14 @@ const memberSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'post',
     },
+    friendList: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'member'
+    },
+    requestList: {
+        type: [mongoose.Schema.Types.ObjectId],
+        red: 'member'
+    },
     createdAt: {
         type: Number,
         default: Date.now()
@@ -80,9 +88,9 @@ memberSchema.pre('save', async function (next) {
     next();
 })
 
-memberSchema.post('/^find/', async function(next) {
-    this.password
-})
+// memberSchema.post('/^find/', async function(next) {
+//     this.password
+// })
 
 memberSchema.methods.isPasswordCorrect = async function (candidatePassword, oldPassword) {    
     return isPasswordCorrect = await bcrypt.compare(candidatePassword, oldPassword)

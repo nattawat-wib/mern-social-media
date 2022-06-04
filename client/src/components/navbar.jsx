@@ -37,7 +37,7 @@ const Navbar = () => {
     const { member, authDispatch } = useAuth();
 
     const handleLogout = () => {
-        axios.get('/member/logout')
+        axios.get('/auth/logout')
             .then(resp => {
                 setDropdownAnchor(null);
                 authDispatch({ type: 'logout' });

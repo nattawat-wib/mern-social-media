@@ -43,7 +43,7 @@ const RegisterDialog = ({ isDialogOpen, setIsDialogOpen }) => {
         form.birthDate = form.birthDate.split('-').reverse().join('/')
         
         setIsLoading(true);
-        await axios.post('/member/register', form)
+        await axios.post('/auth/register', form)
             .then(resp => {
                 setIsDialogOpen(false)
                 setForm({})

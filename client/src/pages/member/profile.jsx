@@ -31,6 +31,7 @@ import { ThemeContext } from '../../context/theme-context';
 import { useAuth } from './../../context/auth-context';
 import axios from './../../utils/axios';
 import { PageLoader } from './../../components/loader';
+import toast, { Toaster } from 'react-hot-toast';
 
 const TabContent = ({ children, content, tabvalue }) => {
     return (
@@ -81,7 +82,17 @@ const Profile = () => {
             })
             .catch(console.error)
 
-    }, [location])
+    }, [location]);
+
+    const handleAddFriend = () => {
+        console.log('add friend');
+        axios.patch(`/member/request-friend/${profile.username}`)
+            .then(resp => {
+                toast.success(resp.data.msg);
+                setProfile(resp.data.data.friendStatus);
+            })
+            .catch(err => toast.error(err.response.data.msg))
+    }
 
     return (
         <main>
@@ -90,6 +101,7 @@ const Profile = () => {
                 isEditProfileDialogOpen={isEditProfileDialogOpen}
                 setIsEditProfileDialogOpen={setIsEditProfileDialogOpen}
             />
+            <Toaster />
             <PageLoader loading={isLoading.toString()} />
             <header>
                 <Container>
@@ -134,6 +146,7 @@ const Profile = () => {
                                     </Button>
                                     :
                                     <Button
+                                        onClick={handleAddFriend}
                                         variant='contained'
                                         startIcon={<AddIcon />}
                                     >
@@ -215,11 +228,11 @@ const Profile = () => {
                             }
                             {
                                 postList.length ?
-                                postList.map(post => {
-                                    return (<PostItem key={post._id} post={post} />)
-                                })
-                                :
-                                <Typography align='center'> This member have no post yet !!! </Typography>
+                                    postList.map(post => {
+                                        return (<PostItem key={post._id} post={post} />)
+                                    })
+                                    :
+                                    <Typography align='center'> This member have no post yet !!! </Typography>
                             }
                         </Grid>
                     </Grid>
