@@ -7,6 +7,8 @@ router.get('/', memberController.getAllMember)
 router.get('/:username', memberController.getMember)
 router.get('/:username/friend', memberController.getAllMember)
 
+router.get('/:username/post', memberController.getPostByUsername)
+
 router.patch('/request-friend/:username',
     authController.isLogin,
     memberController.requestFriend

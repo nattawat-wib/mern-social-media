@@ -75,7 +75,7 @@ const Profile = () => {
             })
             .catch(console.error)
 
-        axios.get(`/post/${username}`)
+        axios.get(`member/${username}/post`)
             .then(resp => {
                 setPostList(resp.data.data.post)
                 setIsLoading(false)

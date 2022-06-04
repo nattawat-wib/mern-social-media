@@ -28,11 +28,6 @@ const EditPostDialog = ({ post }) => {
     const { member } = useAuth();
     const [form, setForm] = useState(post);
 
-    useEffect(() => {
-        console.log('post', post);
-        setForm(post)
-    }, [isEditPostDialogOpen])
-
     const handleFormChange = e => {
         const value = e.target.files ? e.target.files[0] : e.target.value;
 

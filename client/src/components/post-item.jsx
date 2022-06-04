@@ -20,13 +20,22 @@ import { useToggleContext } from '../context/toggle-context';
 import { StyledPostItem } from '../style/index.style';
 import EditPostDialog from './edit-post-dialog';
 import { CommentInput, CommentItem } from './comment-item';
+import axios from './../utils/axios';
+import toast, { Toaster } from 'react-hot-toast';
 
 const PostItem = ({ post }) => {
+    console.log('2222', post);
     const [isCommentSectionShow, setIsCommentSectionShow] = useState(false);
     const { isEditPostDialogOpen, setIsEditPostDialogOpen } = useToggleContext();
     const [commentList, setCommentList] = useState([]);
     const { member } = useAuth();
     const [postMenuAnchor, setPostMenuAnchor] = useState(null);
+
+    const handleDeletePost = () => {
+        axios.delete(`/post/${post._id}`)
+            .then(resp => toast.success(resp.data.msg))
+            .catch(err => toast.error(err.response.data.msg))
+    };
 
     return (
         <StyledPostItem>
@@ -77,7 +86,15 @@ const PostItem = ({ post }) => {
                             >
                                 Edit
                             </MenuItem>
-                            <MenuItem dense={true}> Delete </MenuItem>
+                            <MenuItem
+                                onClick={() => {
+                                    setPostMenuAnchor(null);
+                                    handleDeletePost();
+                                }}
+                                dense={true}
+                            >
+                                Delete
+                            </MenuItem>
                         </Menu>
                         <EditPostDialog post={post} />
                     </>

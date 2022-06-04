@@ -150,7 +150,13 @@ export const CreatePostDialog = () => {
                         sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5' }}
                     >
                         <AddPhotoAlternateIcon color='primary' />
-                        <input onChange={handleFormChange} name='image' hidden type='file' accept='image/*' />
+                        <input
+                            onChange={handleFormChange}
+                            name='image'
+                            hidden
+                            type='file'
+                            accept='image/*'
+                        />
                     </IconButton>
                 </div>
                 <StyledTextareaAutosize
@@ -166,7 +172,7 @@ export const CreatePostDialog = () => {
                     form.image &&
                     <figure className='relative pt-[50%]'>
                         <IconButton
-                            onClick={() => setForm(prev => ({...prev, image: null}))}
+                            onClick={() => setForm(prev => ({ ...prev, image: null }))}
                             className='top-1 right-1 absolute z-10'
                             sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5' }}
                         >

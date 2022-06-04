@@ -1,6 +1,27 @@
 const Post = require('./../model/post-model');
 const Member = require('./../model/member-model');
 
+exports.getAllPost = async (req, res) => {
+    try {
+        const post = await Post.find().populate('author', 'firstName lastName avatar username -_id').sort({ created_at: -1 });
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'all post',
+            data: {
+                post
+            }
+        })
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}
+
 exports.createPost = async (req, res) => {
     try {
         const post = await Post.create({
@@ -34,64 +55,10 @@ exports.createPost = async (req, res) => {
     }
 }
 
-exports.getAllPost = async (req, res) => {
-    try {
-        const post = await Post.find().populate('author', 'firstName lastName avatar username -_id').sort({ created_at: -1 });
-
-        res.status(200).json({
-            status: 'success',
-            msg: 'all post',
-            data: {
-                post
-            }
-        })
-
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            status: 'error',
-            msg: err
-        })
-    }
-}
-
-exports.getPostByUsername = async (req, res) => {
-    try {
-        const author = await Member.findOne({ username: req.params.username });
-        if (!author) throw 'member not found with this username';
-
-        const { postList } = await author.populate({
-            path: 'postList',
-            select: 'author content image createAtDateTime _id',
-            options: { sort: { 'created_at': -1 } },
-            populate: {
-                path: 'author',
-                select: 'username firstName lastName avatar -_id',
-                options: { sort: { 'created_at': -1 } },
-            }
-        });
-
-        res.status(200).json({
-            status: 'success',
-            msg: 'all post with this member is here',
-            data: {
-                post: postList
-            }
-        })
-
-    } catch (err) {
-        console.log(err);
-        res.status(400).json({
-            status: 'error',
-            msg: err
-        })
-    }
-}
-
 exports.editPost = async (req, res) => {
     try {
         const post = await Post.findById(req.body._id).populate('author', '_id');
-        if(!post) throw 'post with this id is not exist';
+        if (!post) throw 'post with this id is not exist';
 
         console.log('post', post);
 
@@ -109,3 +76,22 @@ exports.editPost = async (req, res) => {
     }
 }
 
+exports.deletePost = async (req, res) => {
+    try {
+        const { author } = await Post.findById(req.params._id).populate('author', '_id');
+        if(String(req.member._id) !== String(author._id)) throw 'cannot delete, You are not owner of this post.'
+        // await Post.findByIdAndDelete(req.params._id);
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'delete post successfully',
+        })
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}

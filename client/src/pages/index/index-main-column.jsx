@@ -23,8 +23,8 @@ const MainColumn = () => {
             <CreatePostDialog />
             <CreatePostCard />
             {
-                postList.map((post, i) => {
-                    return (<PostItem key={i} post={post} />)
+                postList.map(post => {
+                    return (<PostItem key={post._id} post={post} />)
                 })
             }
         </>

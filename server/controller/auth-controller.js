@@ -94,7 +94,7 @@ exports.logout = async (req, res) => {
         if (!member) throw 'member not found'
 
         member.accessToken = undefined;
-        await member.save({ validateBeforeSave: true })
+        await member.save({ validateBeforeSave: false })
 
         res
             .clearCookie('accessToken')
@@ -108,8 +108,8 @@ exports.logout = async (req, res) => {
         console.log(err);
 
         res.json(400).json({
-            status: 'success',
-
+            status: 'error',
+            msg: err
         })
     }
 }
@@ -120,7 +120,7 @@ exports.isLogin = async (req, res, next) => {
         if (!member) throw 'no user found with this token';
 
         await jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET, err => {
-            if (err) throw 'this token it invalid';
+            if (err) throw 'this token is invalid';
         })
 
         req.member = member
@@ -128,5 +128,9 @@ exports.isLogin = async (req, res, next) => {
 
     } catch (err) {
         console.log(err);
+        res.status(401).json({
+            status: 'error',
+            msg: err
+        })
     }
 }

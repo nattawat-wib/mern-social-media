@@ -55,6 +55,39 @@ exports.getMember = async (req, res) => {
     }
 }
 
+exports.getPostByUsername = async (req, res) => {
+    try {
+        const author = await Member.findOne({ username: req.params.username });
+        if (!author) throw 'member not found with this username';
+
+        const { postList } = await author.populate({
+            path: 'postList',
+            select: 'author content image createAtDateTime _id',
+            options: { sort: { 'created_at': -1 } },
+            populate: {
+                path: 'author',
+                select: 'username firstName lastName avatar -_id',
+                options: { sort: { 'created_at': -1 } },
+            }
+        });
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'all post with this member is here',
+            data: {
+                post: postList
+            }
+        })
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}
+
 exports.updateMe = async (req, res) => {
     try {
         // console.log('req.files', req.files);
