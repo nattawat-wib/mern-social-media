@@ -57,21 +57,34 @@ exports.createPost = async (req, res) => {
 
 exports.editPost = async (req, res) => {
     try {
-        const post = await Post.findById(req.body._id).populate('author', '_id');
-        if (!post) throw 'post with this id is not exist';
+        if(!req.body.content) throw 'please enter content';
+        if(req.body.image === 'null') req.body.image = null;
+        
+        const post = await Post.findById(req.params._id).populate('author', '_id');
+        if (!post) throw 'no post found with this _id';
 
-        console.log('post', post);
+        if(String(post.author._id) !== String(req.member._id)) throw 'cannot edit, you are not owner of this post'
+
+        const editedPost = await Post.findByIdAndUpdate(req.params._id, {
+            content: req.body.content,
+            image: req.file ? req.file.filename : req.body.image
+        }, { new: true });
+
+        console.log(editedPost);
 
         res.status(200).json({
             status: 'success',
-            msg: 'edit post successfully'
+            msg: 'edit post successfully',
+            data: {
+                post: editedPost
+            }
         })
-    } catch (err) {
-        console.log(err);
 
+    } catch (err) {
+        console.log(err)
         res.status(400).json({
             status: 'error',
-            mag: err
+            msg: err
         })
     }
 }

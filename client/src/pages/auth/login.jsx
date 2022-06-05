@@ -40,7 +40,7 @@ const Login = () => {
 
         await axios.post('/auth/login', form)
             .then(resp => {                
-                toast.loading('redirecting you to news feed');
+                toast.loading('routing you to news feed');
                 toast.success(resp.data.msg);
                 setTimeout(() => {
                     authDispatch({ type: 'login', payload: resp });

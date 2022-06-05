@@ -5,13 +5,18 @@ const middleware = require('./../middleware/multer');
 
 router.use(authController.isLogin)
 
-router
-    .get('/', postController.getAllPost)
-    .post('/',
+router.route('/')
+    .get(postController.getAllPost)
+    .post(
         middleware.multerConfig.single('image'),
         postController.createPost
     )
 
-router.delete('/:_id', postController.deletePost)
+router.route('/:_id')
+    .delete(postController.deletePost)
+    .patch(
+        middleware.multerConfig.single('image'),
+        postController.editPost
+    )
 
 module.exports = router

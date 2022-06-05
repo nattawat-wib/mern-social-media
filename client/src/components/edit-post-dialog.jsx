@@ -23,10 +23,10 @@ import axios from './../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
 
 const EditPostDialog = ({ post, open, setOpen }) => {
-    const { isEditPostDialogOpen, setIsEditPostDialogOpen } = useToggleContext();
     const { isDarkMode } = useThemeContext();
     const { member } = useAuth();
     const [form, setForm] = useState(post);
+    const [tempImage, setTempImage] = useState(form.image);
 
     useEffect(() => setForm(post), [open])
 
@@ -36,6 +36,8 @@ const EditPostDialog = ({ post, open, setOpen }) => {
         setForm(prev => ({
             ...prev, [e.target.name]: value
         }));
+
+        if(e.target.type === 'file') setTempImage(null)
     }
 
     const handleFormSubmit = e => {
@@ -44,12 +46,14 @@ const EditPostDialog = ({ post, open, setOpen }) => {
         const formData = new FormData();
         for (const key in form) formData.append(key, form[key]);
 
-        axios.post('/post', formData)
+        console.log(form);
+
+        axios.patch(`/post/${post._id}`, formData)
             .then(resp => {
                 console.log(resp);
-                setIsEditPostDialogOpen(false);
+                setOpen(false);
                 toast.success(resp.data.msg);
-                window.location.reload();
+                // window.location.reload();
             })
             .catch(err => {
                 console.log(err)
@@ -62,8 +66,6 @@ const EditPostDialog = ({ post, open, setOpen }) => {
         <Dialog
             component='form'
             onSubmit={handleFormSubmit}
-            // onClose={() => setIsEditPostDialogOpen(false)}
-            // open={isEditPostDialogOpen}
             open={open}
             onClose={() => setOpen(false)}
             maxWidth='sm'
@@ -116,14 +118,25 @@ const EditPostDialog = ({ post, open, setOpen }) => {
                     form.image &&
                     <figure className='relative pt-[50%]'>
                         <IconButton
-                            onClick={() => setForm(prev => ({...prev, image: null}))}
+                            onClick={() => setForm(prev => ({ ...prev, image: null }))}
                             className='top-1 right-1 absolute z-10'
                             sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5' }}
                         >
                             <CloseIcon color='primary' />
                         </IconButton>
                         {/* <img src={URL.createObjectURL(form.image)} className='fit-img rounded-lg' /> */}
-                        <img src={`${import.meta.env.VITE_SERVER_API}/${form.image}`} className='fit-img rounded-lg' />
+                        <img
+                            src={
+                                tempImage ?
+                                `${import.meta.env.VITE_SERVER_API}/${form.image}`
+                                :
+                                form.image ?
+                                    URL.createObjectURL(form.image)
+                                    :
+                                    'https://via.pladceholder.com/500'
+                            }
+                            className='fit-img rounded-lg'
+                        />
                     </figure>
                 }
             </DialogContent>
