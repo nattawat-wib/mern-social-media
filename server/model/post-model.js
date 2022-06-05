@@ -21,7 +21,7 @@ const postSchema = new mongoose.Schema({
         default: Date.now()
     },
     memberWhoLike: {
-        type: mongoose.Schema.Types.ObjectId,
+        type: [mongoose.Schema.Types.ObjectId],
         ref: 'member'
     },
 },

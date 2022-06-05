@@ -19,4 +19,6 @@ router.route('/:_id')
         postController.editPost
     )
 
+router.patch('/:_id/like/:username', postController.likePost)
+
 module.exports = router

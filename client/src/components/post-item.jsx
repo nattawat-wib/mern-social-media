@@ -9,7 +9,8 @@ import MenuItem from '@mui/material/MenuItem';
 
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ModeCommentIcon from '@mui/icons-material/ModeComment';
+import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
+import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import ReplyIcon from '@mui/icons-material/Reply';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 
@@ -30,6 +31,8 @@ const PostItem = ({ post }) => {
     const [postMenuAnchor, setPostMenuAnchor] = useState(null);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
+    console.log(post);
+
     const handleDeletePost = () => {
         axios.delete(`/post/${post._id}`)
             .then(resp => {
@@ -38,6 +41,15 @@ const PostItem = ({ post }) => {
             })
             .catch(err => toast.error(err.response.data.msg))
     };
+
+    const handleLikePost = () => {
+        axios.patch(`/post/${post._id}/like/${member.username}`)
+            .then(resp => {
+                toast.success(resp.data.msg);
+                location.reload()
+            })
+            .catch(err => toast.error(err.response.data.msg))
+    }
 
     return (
         <StyledPostItem>
@@ -121,10 +133,28 @@ const PostItem = ({ post }) => {
             <footer>
                 <Grid container className='my-2'>
                     <Grid item xs={4}>
-                        <Button size='small' className='flex items-center' fullWidth >
-                            <ThumbUpIcon />
-                            <Typography className='font-bold ml-2' > Like </Typography>
-                        </Button>
+                        {
+                            post.memberWhoLike.find(({ username }) => username === member.username) ?
+                                <Button
+                                    size='small'
+                                    className='flex items-center'
+                                    fullWidth
+                                >
+                                    <ThumbUpIcon />
+                                    <Typography className='font-bold ml-2' > liked </Typography>
+                                </Button>
+                                :
+                                <Button
+                                    onClick={handleLikePost}
+                                    size='small'
+                                    className='flex items-center'
+                                    fullWidth
+                                >
+                                    <ThumbUpAltOutlinedIcon />
+                                    <Typography className='font-bold ml-2' > like </Typography>
+                                </Button>
+                        }
+
                     </Grid>
                     <Grid item xs={4}>
                         <Button
@@ -133,7 +163,7 @@ const PostItem = ({ post }) => {
                             className='flex items-center'
                             fullWidth
                         >
-                            <ModeCommentIcon />
+                            <ModeCommentOutlinedIcon />
                             <Typography className='font-bold ml-2' > Comment </Typography>
                         </Button>
                     </Grid>

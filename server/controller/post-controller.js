@@ -3,7 +3,11 @@ const Member = require('./../model/member-model');
 
 exports.getAllPost = async (req, res) => {
     try {
-        const post = await Post.find().populate('author', 'firstName lastName avatar username -_id').sort({ created_at: -1 });
+        const post = await Post
+            .find()
+            .populate('author', 'firstName lastName avatar username -_id')
+            .sort({ created_at: -1 })
+            .populate('memberWhoLike', 'username -_id')
 
         res.status(200).json({
             status: 'success',
@@ -57,13 +61,13 @@ exports.createPost = async (req, res) => {
 
 exports.editPost = async (req, res) => {
     try {
-        if(!req.body.content) throw 'please enter content';
-        if(req.body.image === 'null') req.body.image = null;
-        
+        if (!req.body.content) throw 'please enter content';
+        if (req.body.image === 'null') req.body.image = null;
+
         const post = await Post.findById(req.params._id).populate('author', '_id');
         if (!post) throw 'no post found with this _id';
 
-        if(String(post.author._id) !== String(req.member._id)) throw 'cannot edit, you are not owner of this post'
+        if (String(post.author._id) !== String(req.member._id)) throw 'cannot edit, you are not owner of this post'
 
         const editedPost = await Post.findByIdAndUpdate(req.params._id, {
             content: req.body.content,
@@ -103,6 +107,36 @@ exports.deletePost = async (req, res) => {
         res.status(200).json({
             status: 'success',
             msg: 'delete post successfully',
+        })
+
+    } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}
+
+exports.likePost = async (req, res) => {
+    try {
+        const post = await Post.findById(req.params._id);
+        if (!post) throw 'no post found with this _id';
+
+        const likedPost = await Post.findByIdAndUpdate(
+            req.params._id,
+            {
+                $push: {
+                    memberWhoLike: req.member._id
+                }
+            },
+            { new: true }
+        )
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'liked post',
+            data: likedPost
         })
 
     } catch (err) {

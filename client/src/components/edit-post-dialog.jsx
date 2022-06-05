@@ -50,10 +50,9 @@ const EditPostDialog = ({ post, open, setOpen }) => {
 
         axios.patch(`/post/${post._id}`, formData)
             .then(resp => {
-                console.log(resp);
                 setOpen(false);
                 toast.success(resp.data.msg);
-                // window.location.reload();
+                window.location.reload();
             })
             .catch(err => {
                 console.log(err)
