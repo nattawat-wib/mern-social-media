@@ -134,29 +134,17 @@ const PostItem = ({ post }) => {
             <footer>
                 <Grid container className='my-2'>
                     <Grid item xs={4}>
-                        {
-                            isLike ?
-                                <Button
-                                    onClick={handleLikePost}
-                                    size='small'
-                                    className='flex items-center'
-                                    fullWidth
-                                >
-                                    <ThumbUpIcon />
-                                    <Typography className='font-bold ml-2' > liked </Typography>
-                                </Button>
-                                :
-                                <Button
-                                    onClick={handleLikePost}
-                                    size='small'
-                                    className='flex items-center'
-                                    fullWidth
-                                >
-                                    <ThumbUpAltOutlinedIcon />
-                                    <Typography className='font-bold ml-2' > like </Typography>
-                                </Button>
-                        }
-
+                        <Button
+                            onClick={handleLikePost}
+                            size='small'
+                            className='flex items-center'
+                            fullWidth
+                        >
+                            {isLike ? <ThumbUpIcon /> : <ThumbUpAltOutlinedIcon />}
+                            <Typography className='font-bold ml-2' >
+                                {isLike ? 'liked' : 'like'}
+                            </Typography>
+                        </Button>
                     </Grid>
                     <Grid item xs={4}>
                         <Button
