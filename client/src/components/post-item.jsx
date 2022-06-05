@@ -24,12 +24,11 @@ import axios from './../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
 
 const PostItem = ({ post }) => {
-    console.log('2222', post);
     const [isCommentSectionShow, setIsCommentSectionShow] = useState(false);
-    const { isEditPostDialogOpen, setIsEditPostDialogOpen } = useToggleContext();
     const [commentList, setCommentList] = useState([]);
     const { member } = useAuth();
     const [postMenuAnchor, setPostMenuAnchor] = useState(null);
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
     const handleDeletePost = () => {
         axios.delete(`/post/${post._id}`)
@@ -38,7 +37,7 @@ const PostItem = ({ post }) => {
                 location.reload()
             })
             .catch(err => toast.error(err.response.data.msg))
-        };
+    };
 
     return (
         <StyledPostItem>
@@ -83,7 +82,7 @@ const PostItem = ({ post }) => {
                             <MenuItem
                                 onClick={() => {
                                     setPostMenuAnchor(null);
-                                    setIsEditPostDialogOpen(true);
+                                    setIsEditDialogOpen(true);
                                 }}
                                 dense={true}
                             >
@@ -99,7 +98,11 @@ const PostItem = ({ post }) => {
                                 Delete
                             </MenuItem>
                         </Menu>
-                        <EditPostDialog post={post} />
+                        <EditPostDialog
+                            post={post}
+                            open={isEditDialogOpen}
+                            setOpen={setIsEditDialogOpen}
+                        />
                     </>
                 }
             </header>

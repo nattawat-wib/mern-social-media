@@ -35,7 +35,8 @@ exports.login = async (req, res) => {
         const accessToken = await jwt.sign({ username: member.username }, process.env.JWT_SECRET)
 
         res.cookie('accessToken', accessToken, {
-            httpOnly: true
+            httpOnly: true,
+            // maxAge: 9999
         });
 
         member.accessToken = accessToken;

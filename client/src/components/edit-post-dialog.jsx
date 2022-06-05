@@ -22,11 +22,13 @@ import { useAuth } from '../context/auth-context';
 import axios from './../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
 
-const EditPostDialog = ({ post }) => {
+const EditPostDialog = ({ post, open, setOpen }) => {
     const { isEditPostDialogOpen, setIsEditPostDialogOpen } = useToggleContext();
     const { isDarkMode } = useThemeContext();
     const { member } = useAuth();
     const [form, setForm] = useState(post);
+
+    useEffect(() => setForm(post), [open])
 
     const handleFormChange = e => {
         const value = e.target.files ? e.target.files[0] : e.target.value;
@@ -60,8 +62,10 @@ const EditPostDialog = ({ post }) => {
         <Dialog
             component='form'
             onSubmit={handleFormSubmit}
-            onClose={() => setIsEditPostDialogOpen(false)}
-            open={isEditPostDialogOpen}
+            // onClose={() => setIsEditPostDialogOpen(false)}
+            // open={isEditPostDialogOpen}
+            open={open}
+            onClose={() => setOpen(false)}
             maxWidth='sm'
             sx={{ "& .MuiPaper-root": { width: "100%" } }}
         >
@@ -71,7 +75,8 @@ const EditPostDialog = ({ post }) => {
                 <IconButton
                     size='small'
                     sx={{ bgcolor: isDarkMode ? '#121212' : '#f0f2f5', mx: .5 }}
-                    onClick={() => setIsEditPostDialogOpen(false)}
+                    // onClick={() => setIsEditPostDialogOpen(false)}
+                    onClick={() => setOpen(false)}
                 >
                     <CloseIcon />
                 </IconButton>
@@ -107,7 +112,7 @@ const EditPostDialog = ({ post }) => {
                     className='mt-4'
                     placeholder={`What's on your mind, ${member?.firstName} ?`}
                 />
-                {/* {
+                {
                     form.image &&
                     <figure className='relative pt-[50%]'>
                         <IconButton
@@ -117,9 +122,10 @@ const EditPostDialog = ({ post }) => {
                         >
                             <CloseIcon color='primary' />
                         </IconButton>
-                        <img src={URL.createObjectURL(form.image)} className='fit-img rounded-lg' />
+                        {/* <img src={URL.createObjectURL(form.image)} className='fit-img rounded-lg' /> */}
+                        <img src={`${import.meta.env.VITE_SERVER_API}/${form.image}`} className='fit-img rounded-lg' />
                     </figure>
-                } */}
+                }
             </DialogContent>
             <Divider className='mx-4' />
             <DialogActions className='p-4'>
