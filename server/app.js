@@ -8,6 +8,7 @@ const sanitize = require("express-mongo-sanitize");
 const memberRouter = require('./routes/member-route');
 const postRouter = require('./routes/post-route');
 const authRouter = require('./routes/auth-route');
+const commentRouter = require('./routes/comment-route');
 
 const port = process.env.PORT || 8080;
 
@@ -30,6 +31,7 @@ app.use(sanitize());
 app.use('/auth', authRouter);
 app.use('/member', memberRouter);
 app.use('/post', postRouter);
+app.use('/comment', commentRouter);
 
 app.listen(port, () => {
     console.log(`server is starting at port ... ${port}`);
