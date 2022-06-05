@@ -31,6 +31,7 @@ const PostItem = ({ post }) => {
     const [postMenuAnchor, setPostMenuAnchor] = useState(null);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
+    const isLike = post.memberWhoLike.find(({ username }) => username === member.username);
     console.log(post);
 
     const handleDeletePost = () => {
@@ -134,8 +135,9 @@ const PostItem = ({ post }) => {
                 <Grid container className='my-2'>
                     <Grid item xs={4}>
                         {
-                            post.memberWhoLike.find(({ username }) => username === member.username) ?
+                            isLike ?
                                 <Button
+                                    onClick={handleLikePost}
                                     size='small'
                                     className='flex items-center'
                                     fullWidth

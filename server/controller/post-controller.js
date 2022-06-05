@@ -120,23 +120,34 @@ exports.deletePost = async (req, res) => {
 
 exports.likePost = async (req, res) => {
     try {
-        const post = await Post.findById(req.params._id);
-        if (!post) throw 'no post found with this _id';
+        const isPostExist = await Post.findById(req.params._id);
+        if (!isPostExist) throw 'no post found with this _id';
 
-        const likedPost = await Post.findByIdAndUpdate(
-            req.params._id,
+        const isThisPostLike = await Post.findOne(
             {
-                $push: {
-                    memberWhoLike: req.member._id
-                }
-            },
+                _id: req.params._id,
+                memberWhoLike: req.member._id
+            }
+        );
+
+        let action = '$push';
+        let msg = 'like'
+
+        if (isThisPostLike) {
+            action = '$pull';
+            msg = 'unlike'
+        }
+
+        const post = await Post.findByIdAndUpdate(
+            req.params._id,
+            { [action]: { memberWhoLike: req.member._id } },
             { new: true }
         )
 
         res.status(200).json({
             status: 'success',
-            msg: 'liked post',
-            data: likedPost
+            msg,
+            data: { post },
         })
 
     } catch (err) {
