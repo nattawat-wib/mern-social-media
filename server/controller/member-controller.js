@@ -64,11 +64,17 @@ exports.getPostByUsername = async (req, res) => {
             path: 'postList',
             select: 'author content image createAtDateTime _id',
             options: { sort: { 'created_at': -1 } },
-            populate: {
-                path: 'author',
-                select: 'username firstName lastName avatar -_id',
-                options: { sort: { 'created_at': -1 } },
-            }
+            populate: [
+                {
+                    path: 'author',
+                    select: 'username firstName lastName avatar -_id',
+                    options: { sort: { 'created_at': -1 } },
+                },
+                {
+                    path: 'memberWhoLike',
+                    select: 'username -_id',
+                }
+            ]
         });
 
         res.status(200).json({

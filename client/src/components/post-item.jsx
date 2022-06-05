@@ -32,7 +32,6 @@ const PostItem = ({ post }) => {
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
     const isLike = post.memberWhoLike.find(({ username }) => username === member.username);
-    console.log(post);
 
     const handleDeletePost = () => {
         axios.delete(`/post/${post._id}`)
@@ -158,7 +157,7 @@ const PostItem = ({ post }) => {
                         </Button>
                     </Grid>
                     <Grid item xs={4}>
-                        <Button size='small' className='flex items-center' fullWidth >
+                        <Button disabled={true} size='small' className='flex items-center' fullWidth >
                             <ReplyIcon />
                             <Typography className='font-bold ml-2' > Share </Typography>
                         </Button>
