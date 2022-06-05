@@ -73,6 +73,15 @@ exports.getPostByUsername = async (req, res) => {
                 {
                     path: 'memberWhoLike',
                     select: 'username -_id',
+                },
+                {
+                    path: 'commentList',
+                    // select: 'username -_id',
+                    populate: {
+                        path: 'author',
+                        select: 'username firstName lastName avatar -_id',
+                        options: { sort: { 'created_at': -1 } },
+                    }
                 }
             ]
         });

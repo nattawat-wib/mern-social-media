@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 
 const commentSchema = new mongoose.Schema({
     post: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'post'
     },
     author: {
-        type: [mongoose.Schema.Types.ObjectId],
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'member'
     },
     content: {
@@ -19,7 +19,7 @@ const commentSchema = new mongoose.Schema({
     },
     createAtDateTime: {
         type: Number,
-        default: Date.now().toLocaleString()
+        default: Date.now()
     }
 }, {
     timestamps: {

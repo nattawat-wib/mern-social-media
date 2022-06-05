@@ -38,7 +38,7 @@ export const StyledCommentInput = styled(TextField)`
     background-color: ${prop => prop.theme.bg};
     border-radius: 99px;
     overflow: hidden;
-    width: calc(100% - 35px);
+    width: 100%;
 
     & fieldset {
         border: none;

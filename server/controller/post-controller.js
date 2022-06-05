@@ -6,8 +6,13 @@ exports.getAllPost = async (req, res) => {
         const post = await Post
             .find()
             .populate('author', 'firstName lastName avatar username -_id')
-            .sort({ created_at: -1 })
             .populate('memberWhoLike', 'username -_id')
+            .populate({
+                path: 'commentList',
+                populate: 'author',
+                // options: { sort: { 'created_at': -1 } },
+            })
+            .sort({ created_at: -1 })
 
         res.status(200).json({
             status: 'success',

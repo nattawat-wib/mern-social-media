@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import ReplyIcon from '@mui/icons-material/Reply';
@@ -118,7 +119,7 @@ const PostItem = ({ post }) => {
                     </>
                 }
             </header>
-            <section className='my-4'>
+            <section className='mt-4'>
                 {post.content}
                 {
                     post.image &&
@@ -129,6 +130,18 @@ const PostItem = ({ post }) => {
                 }
 
             </section>
+
+            <div className='flex justify-between items-center'>
+                <div className='flex items-center'>
+                    <ThumbUpIcon color='primary' sx={{ fontSize: '16px', mr: 1 }} />
+                    <small> {post.memberWhoLike.length} </small>
+                </div>
+                <div className='flex items-center'>
+                    <ModeCommentIcon color='primary' sx={{ fontSize: '16px', mr: 1 }} />
+                    <small> {post.commentList.length} </small>
+                </div>
+            </div>
+
             <Divider />
             <footer>
                 <Grid container className='my-2'>
@@ -165,16 +178,14 @@ const PostItem = ({ post }) => {
                 </Grid>
             </footer>
             <Divider />
-
             {/* //* comment  */}
             {
                 isCommentSectionShow &&
                 <Box>
-                    <CommentInput />
+                    <CommentInput postId={post._id} />
                     {
-                        // commentList &&
-                        [1, 2, 3].map((comment, i) => <CommentItem key={i} />)
-
+                        !!post.commentList.length &&
+                        post.commentList.map(comment => <CommentItem key={comment._id} comment={comment} />)
                     }
 
                 </Box>

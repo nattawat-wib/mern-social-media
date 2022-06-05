@@ -24,6 +24,10 @@ const postSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'member'
     },
+    commentList: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: 'comment'
+    }
 },
 {
     timestamps: {

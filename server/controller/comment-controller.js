@@ -1,14 +1,19 @@
 const Comment = require('./../model/comment-model');
+const Post = require('./../model/post-model');
 
 exports.createComment = async (req,res) => {
+    console.log(req.body);
+
     try {
         const comment = await Comment.create({
-            post: req.params.postId,
-            author: req.params.username,
+            post: req.body.postId,
+            author: req.member._id,
             content: req.body.content
         })
 
-        console.log(comment);
+        await Post.findByIdAndUpdate(req.body.postId, {
+            $push: { commentList: comment._id }
+        })
 
         res.status(200).json({
             status: 'success',
