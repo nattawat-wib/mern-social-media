@@ -105,8 +105,8 @@ exports.getPostByUsername = async (req, res) => {
 
 exports.updateMe = async (req, res) => {
     try {
-        // console.log('req.files', req.files);
-        // console.log('req.body', req.body);
+        console.log('req.files', req.files);
+        console.log('req.body', req.body);
         const updateMember = await Member.findOneAndUpdate({ accessToken: req.member.accessToken },
             {
                 ...req.body,

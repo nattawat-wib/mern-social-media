@@ -63,7 +63,9 @@ exports.login = async (req, res) => {
 
 exports.verifyToken = async (req, res) => {
     try {
-        const member = await Member.findOne({ accessToken: req.cookies.accessToken }).select('-createdAt -createdAtDateTime -_id -password -accessToken -__v');
+        const member = await Member.findOne({ accessToken: req.cookies.accessToken }).select(`
+            username firstName lastName email birthDate gender aboutMe address avatar cover  
+        `);
         if (!member) throw 'user not login';
 
         await jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET, err => {

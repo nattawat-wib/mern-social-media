@@ -64,7 +64,7 @@ export const CommentItem = ({ comment }) => {
                         className='font-bold'
                         color='primary.dark'
                     >
-                        nutella tester
+                        {comment.author.firstName} {comment.author.lastName}
                     </Typography>
                     <Typography> {comment.content} </Typography>
                 </Box>
