@@ -51,7 +51,7 @@ const memberSchema = new mongoose.Schema({
     },
     requestList: {
         type: [mongoose.Schema.Types.ObjectId],
-        red: 'member'
+        ref: 'member'
     },
     createdAt: {
         type: Number,
