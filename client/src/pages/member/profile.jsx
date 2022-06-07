@@ -52,7 +52,8 @@ const Profile = () => {
     const { username } = useParams();
 
     const [profile, setProfile] = useState({});
-    const [friendList, setFriendList] = useState([]);
+    const [followerList, setFollowerList] = useState([]);
+    const [followingList, setFollowingList] = useState([]);
     const [postList, setPostList] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [tabValue, setTabValue] = useState('posts');
@@ -70,12 +71,8 @@ const Profile = () => {
                 console.log(resp);
                 setProfile(resp.data.data.member)
                 setIsFollowing(resp.data.data.isFollowing);
-            })
-            .catch(console.error)
-
-        axios.get(`/member/${username}/friend`)
-            .then(resp => {
-                setFriendList(resp.data.data.allMember)
+                setFollowerList(resp.data.data.member.followerList);
+                setFollowingList(resp.data.data.member.followingList);
             })
             .catch(console.error)
 
@@ -118,14 +115,14 @@ const Profile = () => {
                         />
                         <div className='mt-2'>
                             <Typography variant='h5' className='font-bold'> {profile?.firstName} {profile?.lastName} </Typography>
-                            <Typography variant='inline' color='gray'> 141 friends </Typography>
+                            <Typography variant='inline' color='gray'> 141 follower </Typography>
                             <AvatarGroup
                                 max={8}
                                 sx={{ mt: 1, '& .MuiAvatar-circular': { width: '30px', height: '30px', fontSize: '12px' } }}
                                 className='justify-end'
                             >
                                 {
-                                    friendList.map((friend, i) => {
+                                    followerList?.map((friend, i) => {
                                         return (
                                             <Avatar
                                                 key={i}
@@ -139,7 +136,7 @@ const Profile = () => {
                         </div>
                         <div className='ml-auto'>
                             {
-                                profile?.username === member?.username ?
+                                profile.username === member?.username ?
                                     <Button
                                         onClick={() => setIsEditProfileDialogOpen(true)}
                                         variant='contained'
@@ -202,7 +199,7 @@ const Profile = () => {
                                 </header>
                                 <Grid container spacing={2}>
                                     {
-                                        friendList.map((friend, i) => {
+                                        followerList.map((friend, i) => {
                                             return (
                                                 <Grid item xs={4} key={i}>
                                                     <Link to={`/user/${friend.username}`}>

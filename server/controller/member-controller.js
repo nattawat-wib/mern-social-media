@@ -30,8 +30,8 @@ exports.getMember = async (req, res) => {
             .findOne({ username: req.params.username })
             .select('-password -accessToken -__v -_id')
             .populate('postList')
-            .populate('followingList', 'username -_id')
-            .populate('followerList', 'username -_id')
+            .populate('followingList', 'username firstName lastName avatar -_id')
+            .populate('followerList', 'username firstName lastName avatar -_id')
 
         if (!member) throw 'no member with this username'
 
