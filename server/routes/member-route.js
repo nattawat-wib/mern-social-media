@@ -12,9 +12,9 @@ router.get('/:username/friend', memberController.getAllMember)
 
 router.get('/:username/post', memberController.getPostByUsername)
 
-router.patch('/request-friend/:username',
+router.patch('/toggle-follow/:username',
     authController.isLogin,
-    memberController.requestFriend
+    memberController.toggleFollowMember
 )
 // router.patch('/accept-friend/:username',
 //     authController.isLogin,

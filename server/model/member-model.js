@@ -45,11 +45,11 @@ const memberSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'post',
     },
-    friendList: {
+    followingList: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'member'
     },
-    requestList: {
+    followerList: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'member'
     },

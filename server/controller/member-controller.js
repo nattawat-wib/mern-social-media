@@ -30,18 +30,13 @@ exports.getMember = async (req, res) => {
             .findOne({ username: req.params.username })
             .select('-password -accessToken -__v -_id')
             .populate('postList')
-            .populate('requestList', 'username -_id')
-            .populate('friendList', 'username -_id')
+            .populate('followingList', 'username -_id')
+            .populate('followerList', 'username -_id')
+
         if (!member) throw 'no member with this username'
 
-        let friendStatus = 'unfriend'
-
-        member.requestList.forEach(member => {
-            if(member.username === req.member.username) friendStatus = 'requested'
-        })
-
-        member.friendList.forEach(member => {
-            if(member.username === req.member.username) friendStatus = 'friend'
+        const isAlreadyFollow = !!member.followerList.find(member => {
+            return member.username === req.member.username;
         })
 
         res.status(200).json({
@@ -49,7 +44,7 @@ exports.getMember = async (req, res) => {
             msg: 'all member here',
             data: {
                 member,
-                friendStatus
+                isFollowing: isAlreadyFollow
             }
         })
 
@@ -141,29 +136,46 @@ exports.updateMe = async (req, res) => {
     }
 }
 
-exports.requestFriend = async (req, res) => {
+exports.toggleFollowMember = async (req, res) => {
     try {
-        // check member that request to is exist
-        const requestToMember = await Member.findOne({ username: req.params.username });
-        if (!requestToMember) throw 'request to member not found';
+        // check member that following is exist 
+        const member = await Member
+            .findOne({ username: req.params.username })
+            .populate('followerList', '_id');
 
-        // add request member to requestList of member that request to
-        const member = await Member.findByIdAndUpdate(requestToMember._id, {
-            $push: {
-                requestList: req.member._id,
-            }
-        }, { new: true });
+            console.log(req.params.username);
+        if (!member) throw 'member that you want to follow is not found';
 
-        console.log(member);
+        // check is already follow
+        const isAlreadyFollow = !!member.followerList.find(follower => {
+            return String(follower._id) === String(req.member._id)
+        })
+
+        // if already follow action pull || if not follow yet action push to followList
+        const action = isAlreadyFollow ? '$pull' : '$push';
+
+        const updatedMember = await Member.findByIdAndUpdate(
+            member._id,
+            { [action]: { followerList: req.member._id, } },
+            { new: true }
+        );
+
+        // update follower
+        await Member.findByIdAndUpdate(
+            req.member._id,
+            { [action]: { followingList: updatedMember._id } },
+            { new: true }
+        );
 
         res.status(200).json({
             status: 'success',
-            msg: 'friend send is successfully',
+            msg: !isAlreadyFollow ? 'following' : 'unfollow' + ' successfully',
             data: {
                 member,
-                friendStatus: 'requested'
+                isFollowing: !isAlreadyFollow
             }
         })
+
     } catch (err) {
         console.log(err);
         res.status(400).json({

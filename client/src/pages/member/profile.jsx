@@ -20,6 +20,7 @@ import CakeIcon from '@mui/icons-material/Cake';
 import BusinessIcon from '@mui/icons-material/Business';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import DoDisturbIcon from '@mui/icons-material/DoDisturb';
 
 import { useState, useContext, useEffect } from 'react';
 import { CreatePostCard, CreatePostDialog } from "../../components/create-post";
@@ -55,7 +56,7 @@ const Profile = () => {
     const [postList, setPostList] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [tabValue, setTabValue] = useState('posts');
-    const [friendStatus, setFriendStatus] = useState('unfriend');
+    const [isFollowing, setIsFollowing] = useState(false);
 
     const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useToggleContext();
     const { isDarkMode } = useThemeContext();
@@ -66,8 +67,9 @@ const Profile = () => {
 
         axios.get(`/member/${username}`)
             .then(resp => {
+                console.log(resp);
                 setProfile(resp.data.data.member)
-                setFriendStatus(resp.data.data.friendStatus);
+                setIsFollowing(resp.data.data.isFollowing);
             })
             .catch(console.error)
 
@@ -86,13 +88,11 @@ const Profile = () => {
 
     }, [location]);
 
-    const handleAddFriend = () => {
-        console.log('add friend');
-        axios.patch(`/member/request-friend/${profile.username}`)
+    const handleFollow = () => {
+        axios.patch(`/member/toggle-follow/${profile.username}`)
             .then(resp => {
                 toast.success(resp.data.msg);
-                // setProfile(resp.data.data.member);
-                setFriendStatus(resp.data.data.friendStatus);
+                setIsFollowing(resp.data.data.isFollowing);
             })
             .catch(err => toast.error(err.response.data.msg))
     }
@@ -148,21 +148,10 @@ const Profile = () => {
                                         Edit Profile
                                     </Button>
                                     :
-                                    friendStatus === 'unfriend' ?
-                                        <Button onClick={handleAddFriend} variant='contained' startIcon={<AddIcon />} >
-                                            Add Friend
-                                        </Button>
-                                        :
-                                        friendStatus === 'requested' ?
-                                            <Button variant='outlined' >
-                                                Request sent
-                                            </Button>
-                                            :
-                                            friendStatus === 'friend' ?
-                                                <Button onClick={handleAddFriend} variant='contained' startIcon={<AddIcon />} >
-                                                    Unfriend
-                                                </Button>
-                                                : ''
+                                    <Button onClick={handleFollow} variant={isFollowing ? 'outlined' : 'contained'} >
+                                        {isFollowing ? 'Unfollow' : 'Follow'}
+                                    </Button>
+
                             }
                         </div>
                     </div>
