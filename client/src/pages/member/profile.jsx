@@ -55,6 +55,7 @@ const Profile = () => {
     const [postList, setPostList] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [tabValue, setTabValue] = useState('posts');
+    const [friendStatus, setFriendStatus] = useState('unfriend');
 
     const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useToggleContext();
     const { isDarkMode } = useThemeContext();
@@ -66,6 +67,7 @@ const Profile = () => {
         axios.get(`/member/${username}`)
             .then(resp => {
                 setProfile(resp.data.data.member)
+                setFriendStatus(resp.data.data.friendStatus);
             })
             .catch(console.error)
 
@@ -89,7 +91,8 @@ const Profile = () => {
         axios.patch(`/member/request-friend/${profile.username}`)
             .then(resp => {
                 toast.success(resp.data.msg);
-                setProfile(resp.data.data.friendStatus);
+                // setProfile(resp.data.data.member);
+                setFriendStatus(resp.data.data.friendStatus);
             })
             .catch(err => toast.error(err.response.data.msg))
     }
@@ -145,13 +148,21 @@ const Profile = () => {
                                         Edit Profile
                                     </Button>
                                     :
-                                    <Button
-                                        onClick={handleAddFriend}
-                                        variant='contained'
-                                        startIcon={<AddIcon />}
-                                    >
-                                        Add Friend
-                                    </Button>
+                                    friendStatus === 'unfriend' ?
+                                        <Button onClick={handleAddFriend} variant='contained' startIcon={<AddIcon />} >
+                                            Add Friend
+                                        </Button>
+                                        :
+                                        friendStatus === 'requested' ?
+                                            <Button variant='outlined' >
+                                                Request sent
+                                            </Button>
+                                            :
+                                            friendStatus === 'friend' ?
+                                                <Button onClick={handleAddFriend} variant='contained' startIcon={<AddIcon />} >
+                                                    Unfriend
+                                                </Button>
+                                                : ''
                             }
                         </div>
                     </div>

@@ -41,7 +41,7 @@ exports.login = async (req, res) => {
 
         member.accessToken = accessToken;
         await member.save({ validateBeforeSave: false });
-
+        
         res.status(200).json({
             status: 'success',
             msg: 'login success',

@@ -4,7 +4,10 @@ const memberController = require('./../controller/member-controller');
 const middleware = require('./../middleware/multer');
 
 router.get('/', memberController.getAllMember)
-router.get('/:username', memberController.getMember)
+router.get('/:username',
+    authController.isLogin,
+    memberController.getMember
+)
 router.get('/:username/friend', memberController.getAllMember)
 
 router.get('/:username/post', memberController.getPostByUsername)

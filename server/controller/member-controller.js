@@ -29,12 +29,20 @@ exports.getMember = async (req, res) => {
         const member = await Member
             .findOne({ username: req.params.username })
             .select('-password -accessToken -__v -_id')
-            // .populate('postList')
-            .populate('requestList')
-
+            .populate('postList')
+            .populate('requestList', 'username -_id')
+            .populate('friendList', 'username -_id')
         if (!member) throw 'no member with this username'
 
         let friendStatus = 'unfriend'
+
+        member.requestList.forEach(member => {
+            if(member.username === req.member.username) friendStatus = 'requested'
+        })
+
+        member.friendList.forEach(member => {
+            if(member.username === req.member.username) friendStatus = 'friend'
+        })
 
         res.status(200).json({
             status: 'success',
@@ -142,9 +150,11 @@ exports.requestFriend = async (req, res) => {
         // add request member to requestList of member that request to
         const member = await Member.findByIdAndUpdate(requestToMember._id, {
             $push: {
-                requestList: req.member._id
+                requestList: req.member._id,
             }
-        });
+        }, { new: true });
+
+        console.log(member);
 
         res.status(200).json({
             status: 'success',
