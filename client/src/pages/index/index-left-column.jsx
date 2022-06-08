@@ -18,20 +18,17 @@ import { PageLoader } from '../../components/loader'
 
 const LeftColumn = () => {
     const { member } = useAuth();
-    const [allMember, setAllMember] = useState([]);
+    const [unfollowMember, setUnfollowMember] = useState([]);
     const [ isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         setIsLoading(true)
-        axios.get('/member')
+        axios.get('/member/unfollow')
             .then(resp => {
-                // console.log(resp.data.data.allMember);
-                setAllMember(resp.data.data.allMember);
+                setUnfollowMember(resp.data.data.unfollowMember);
                 setIsLoading(false)
             })
-            .catch(err => {
-                console.log(err);
-            })
+            .catch(err => console.log)
     }, [])
 
     return (
@@ -49,7 +46,7 @@ const LeftColumn = () => {
                     className='font-bold'
                     color='primary.dark'
                 >
-                    {member?.firstName} {member?.lastName}
+                    {member.firstName} {member.lastName}
                 </Typography>
             </ListItemButton>
             <ListItemButton component={Link} to={`/user/${member.username}`}>
@@ -67,9 +64,9 @@ const LeftColumn = () => {
             <Divider className='m-4' />
             <Typography align='center' variant='h6' color='primary' className='font-bold mb-2'> People You May Know </Typography>
             {
-                allMember.map((member, i) => {
+                unfollowMember.map(member => {
                     return (
-                        <ListItemButton key={i} component={Link} to={`/user/${member.username}`}>
+                        <ListItemButton key={member._id} component={Link} to={`/user/${member.username}`}>
                             <ListItemIcon>
                                 <Avatar src={member.avatar ? `${import.meta.env.VITE_SERVER_API}/${member.avatar}` : 'https://via.placeholder.com/500'} />
                             </ListItemIcon>

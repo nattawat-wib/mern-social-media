@@ -29,7 +29,6 @@ exports.getMember = async (req, res) => {
         const member = await Member
             .findOne({ username: req.params.username })
             .select('-password -accessToken -__v -_id')
-            .populate('postList')
             .populate('followingList', 'username firstName lastName avatar -_id')
             .populate('followerList', 'username firstName lastName avatar -_id')
 
@@ -136,14 +135,14 @@ exports.updateMe = async (req, res) => {
     }
 }
 
-exports.toggleFollowMember = async (req, res) => {
+exports.followMember = async (req, res) => {
     try {
         // check member that following is exist 
         const member = await Member
             .findOne({ username: req.params.username })
             .populate('followerList', '_id');
 
-            console.log(req.params.username);
+        console.log(req.params.username);
         if (!member) throw 'member that you want to follow is not found';
 
         // check is already follow
@@ -183,4 +182,58 @@ exports.toggleFollowMember = async (req, res) => {
             msg: err
         })
     }
+}
+
+exports.getFollow = async (req, res) => {
+    try {
+        const me = await Member.findById(req.member._id)
+            .populate('followerList followingList', 'username firstName lastName avatar -_id')
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'all follower and following here',
+            data: {
+                member: me
+            }
+        })
+    } catch (err) {
+
+        console.log(err);
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}
+
+exports.getUnfollow = async (req, res) => {
+    try {
+        const { followingList } = await Member.findById(req.member._id).populate('followingList', '_id');
+        const allMember = await Member.find().select('username firstName lastName avatar _id');
+
+        // convert _id to string for compare
+        const followingListString = followingList.map(following => String(following._id));
+
+        const unfollowMember = allMember.filter(member => {
+            if (followingListString.includes(String(member._id))) return
+            if (String(member._id) === String(req.member._id)) return
+            return member
+        })
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'all follower and following here',
+            data: {
+                unfollowMember
+            }
+        })
+    } catch (err) {
+
+        console.log(err);
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+
 }

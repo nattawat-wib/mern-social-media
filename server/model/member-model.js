@@ -21,7 +21,8 @@ const memberSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        select: false
     },
     birthDate: {
         type: String
@@ -55,20 +56,25 @@ const memberSchema = new mongoose.Schema({
     },
     createdAt: {
         type: Number,
-        default: Date.now()
+        default: Date.now(),
+        select: false
     },
     createdAtDateTime: {
         type: String,
-        default: new Date().toLocaleString().slice(0, -3)
+        default: new Date().toLocaleString().slice(0, -3),
+        select: false
     },
     changePasswordAt: {
         type: Number,
+        select: false
     },
     accessToken: {
         type: String,
+        select: false
     },
     resetPasswordToken: {
-        type: String
+        type: String,
+        select: false
     },
 
     // timestamps: {
@@ -81,7 +87,7 @@ memberSchema.pre('save', async function (next) {
 
     this.password = await bcrypt.hash(this.password, 12);
 
-    if(this.isNew) {
+    if (this.isNew) {
         this.username = Math.random().toString(16).slice(2);
     }
 
@@ -92,7 +98,7 @@ memberSchema.pre('save', async function (next) {
 //     this.password
 // })
 
-memberSchema.methods.isPasswordCorrect = async function (candidatePassword, oldPassword) {    
+memberSchema.methods.isPasswordCorrect = async function (candidatePassword, oldPassword) {
     return isPasswordCorrect = await bcrypt.compare(candidatePassword, oldPassword)
 }
 

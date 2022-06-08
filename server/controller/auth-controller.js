@@ -26,7 +26,7 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     try {
-        const member = await Member.findOne({ email: req.body.email }).select("-password, -__v");
+        const member = await Member.findOne({ email: req.body.email }).select("+password");
         if (!member) throw 'member not found!'
 
         const isPasswordCorrect = await member.isPasswordCorrect(req.body.password, member.password);
@@ -120,10 +120,10 @@ exports.logout = async (req, res) => {
 exports.isLogin = async (req, res, next) => {
     try {
         const member = await Member.findOne({ accessToken: req.cookies.accessToken });
-        if (!member) throw 'no user found with this token';
+        if (!member) throw 'Unauthorized : no user found with this token';
 
         await jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET, err => {
-            if (err) throw 'this token is invalid';
+            if (err) throw 'Unauthorized : this token is invalid';
         })
 
         req.member = member

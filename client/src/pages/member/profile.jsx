@@ -52,8 +52,6 @@ const Profile = () => {
     const { username } = useParams();
 
     const [profile, setProfile] = useState({});
-    const [followerList, setFollowerList] = useState([]);
-    const [followingList, setFollowingList] = useState([]);
     const [postList, setPostList] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
     const [tabValue, setTabValue] = useState('posts');
@@ -68,11 +66,8 @@ const Profile = () => {
 
         axios.get(`/member/${username}`)
             .then(resp => {
-                console.log(resp);
                 setProfile(resp.data.data.member)
                 setIsFollowing(resp.data.data.isFollowing);
-                setFollowerList(resp.data.data.member.followerList);
-                setFollowingList(resp.data.data.member.followingList);
             })
             .catch(console.error)
 
@@ -86,7 +81,7 @@ const Profile = () => {
     }, [location]);
 
     const handleFollow = () => {
-        axios.patch(`/member/toggle-follow/${profile.username}`)
+        axios.patch(`/member/follow/${profile.username}`)
             .then(resp => {
                 toast.success(resp.data.msg);
                 setIsFollowing(resp.data.data.isFollowing);
@@ -114,15 +109,15 @@ const Profile = () => {
                             src={profile.avatar ? `${import.meta.env.VITE_SERVER_API}/${profile.avatar}` : 'https://via.placeholder.com/500'}
                         />
                         <div className='mt-2'>
-                            <Typography variant='h5' className='font-bold'> {profile?.firstName} {profile?.lastName} </Typography>
-                            <Typography variant='inline' color='gray'> 141 follower </Typography>
+                            <Typography variant='h5' className='font-bold'> {profile.firstName} {profile.lastName} </Typography>
+                            <Typography variant='inline' color='gray'> {profile.followerList?.length} follower </Typography>
                             <AvatarGroup
                                 max={8}
                                 sx={{ mt: 1, '& .MuiAvatar-circular': { width: '30px', height: '30px', fontSize: '12px' } }}
                                 className='justify-end'
                             >
                                 {
-                                    followerList?.map((friend, i) => {
+                                    profile.followerList?.map((friend, i) => {
                                         return (
                                             <Avatar
                                                 key={i}
@@ -155,7 +150,8 @@ const Profile = () => {
                     <Divider className='my-4' />
                     <Tabs value={tabValue} onChange={(e, newVal) => setTabValue(newVal)}>
                         <Tab label='Posts' value='posts' />
-                        <Tab label='Friends' value='friends' />
+                        <Tab label='Follower' value='follower' />
+                        <Tab label='Following' value='following' />
                     </Tabs>
                 </Container>
             </header>
@@ -168,38 +164,39 @@ const Profile = () => {
                                 <List dense={true}>
                                     <ListItem >
                                         <ListItemIcon > <AccountCircleIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary={profile?.aboutMe || '-'} />
+                                        <ListItemText primary={profile.aboutMe || '-'} />
                                     </ListItem>
                                     <ListItem>
                                         <ListItemIcon > <TransgenderIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary={profile?.gender} />
+                                        <ListItemText primary={profile.gender} />
                                     </ListItem>
                                     <ListItem>
                                         <ListItemIcon > <CakeIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary={profile?.birthDate?.split('-').reverse().join('/')} />
+                                        <ListItemText primary={profile.birthDate?.split('-').reverse().join('/')} />
                                     </ListItem>
                                     <ListItem>
                                         <ListItemIcon > <BusinessIcon color='primary' /> </ListItemIcon>
-                                        <ListItemText primary={profile?.address || '-'} />
+                                        <ListItemText primary={profile.address || '-'} />
                                     </ListItem>
                                 </List>
                             </Paper>
+
                             <Paper className='sticky top-20 h-fit p-4 my-4'>
                                 <header className='flex justify-between items-start mb-4'>
                                     <div>
-                                        <Typography variant='h6' className='font-bold'> Friends </Typography>
-                                        <Typography variant='inline' color='gray'> 141 friends </Typography>
+                                        <Typography variant='h6' className='font-bold'> Follower </Typography>
+                                        <Typography variant='inline' color='gray'> {profile.followerList?.length} member </Typography>
                                     </div>
                                     <Button
-                                        onClick={() => setTabValue('friends')}
+                                        onClick={() => setTabValue('follower')}
                                         size='small'
                                     >
-                                        See All Friends
+                                        See All Follower
                                     </Button>
                                 </header>
                                 <Grid container spacing={2}>
                                     {
-                                        followerList.map((friend, i) => {
+                                        profile.followerList?.map((friend, i) => {
                                             return (
                                                 <Grid item xs={4} key={i}>
                                                     <Link to={`/user/${friend.username}`}>
@@ -217,10 +214,45 @@ const Profile = () => {
                                     }
                                 </Grid>
                             </Paper>
+
+                            <Paper className='sticky top-20 h-fit p-4 my-4'>
+                                <header className='flex justify-between items-start mb-4'>
+                                    <div>
+                                        <Typography variant='h6' className='font-bold'> Following </Typography>
+                                        <Typography variant='inline' color='gray'> {profile.followingList?.length} member </Typography>
+                                    </div>
+                                    <Button
+                                        onClick={() => setTabValue('following')}
+                                        size='small'
+                                    >
+                                        See All Following
+                                    </Button>
+                                </header>
+                                <Grid container spacing={2}>
+                                    {
+                                        profile.followingList?.map((friend, i) => {
+                                            return (
+                                                <Grid item xs={4} key={i}>
+                                                    <Link to={`/user/${friend.username}`}>
+                                                        <figure className='relative pt-[100%]'>
+                                                            <img
+                                                                className='fit-img rounded-lg'
+                                                                src={friend.avatar ? `${import.meta.env.VITE_SERVER_API}/${friend.avatar}` : 'https://via.placeholder.com/500'}
+                                                            />
+                                                        </figure>
+                                                    </Link>
+                                                    <Typography className='truncate' align='center'> {friend.firstName} {friend.lastName} </Typography>
+                                                </Grid>
+                                            )
+                                        })
+                                    }
+                                </Grid>
+                            </Paper>
+                            
                         </Grid>
                         <Grid item xs={7} >
                             {
-                                profile?.username === member?.username &&
+                                profile.username === member.username &&
                                 <CreatePostCard />
                             }
                             {
@@ -235,28 +267,28 @@ const Profile = () => {
                     </Grid>
                 </TabContent>
 
-                <TabContent content='friends' tabvalue={tabValue}>
+                <TabContent content='follower' tabvalue={tabValue}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Paper className='sticky top-20 h-fit p-4 my-4'>
                                 <header className='flex justify-between items-start mb-4'>
                                     <div>
-                                        <Typography variant='h6' className='font-bold'> Friends </Typography>
-                                        <Typography variant='inline' color='gray'> 141 friends </Typography>
+                                        <Typography variant='h6' className='font-bold'> Follower </Typography>
+                                        <Typography variant='inline' color='gray'> {profile.followerList?.length} member </Typography>
                                     </div>
                                 </header>
                                 <Grid container spacing={2}>
                                     {
-                                        Array(9).fill(1).map((friend, i) => {
+                                        profile.followerList?.map((follower, i) => {
                                             return (
                                                 <Grid item xs={2} key={i}>
                                                     <figure className='relative pt-[100%]'>
                                                         <img
                                                             className='fit-img rounded-lg'
-                                                            src='https://www.gannett-cdn.com/presto/2020/03/17/USAT/c0eff9ec-e0e4-42db-b308-f748933229ee-XXX_ThinkstockPhotos-200460053-001.jpg?crop=1170%2C658%2Cx292%2Cy120&width=1200'
+                                                            src={`${import.meta.env.VITE_SERVER_API}/${follower.avatar}`}
                                                         />
                                                     </figure>
-                                                    <Typography align='center'> nutella tester </Typography>
+                                                    <Typography align='center'> {follower.firstName} {follower.lastName} </Typography>
                                                 </Grid>
                                             )
                                         })
@@ -266,6 +298,39 @@ const Profile = () => {
                         </Grid>
                     </Grid>
                 </TabContent>
+
+                <TabContent content='following' tabvalue={tabValue}>
+                    <Grid container spacing={2}>
+                        <Grid item xs={12}>
+                            <Paper className='sticky top-20 h-fit p-4 my-4'>
+                                <header className='flex justify-between items-start mb-4'>
+                                    <div>
+                                        <Typography variant='h6' className='font-bold'> Following </Typography>
+                                        <Typography variant='inline' color='gray'> {profile.followingList?.length} member </Typography>
+                                    </div>
+                                </header>
+                                <Grid container spacing={2}>
+                                    {
+                                        profile.followingList?.map((following, i) => {
+                                            return (
+                                                <Grid item xs={2} key={i}>
+                                                    <figure className='relative pt-[100%]'>
+                                                        <img
+                                                            className='fit-img rounded-lg'
+                                                            src={`${import.meta.env.VITE_SERVER_API}/${following.avatar}`}
+                                                        />
+                                                    </figure>
+                                                    <Typography align='center'> {following.firstName} {following.lastName} </Typography>
+                                                </Grid>
+                                            )
+                                        })
+                                    }
+                                </Grid>
+                            </Paper>
+                        </Grid>
+                    </Grid>
+                </TabContent>
+
             </Box>
         </main>
     )

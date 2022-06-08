@@ -17,17 +17,16 @@ import { useState, useEffect } from 'react';
 import axios from './../../utils/axios';
 
 const RightColumn = () => {
-    const [allMember, setAllMember] = useState([]);
+    const [followingList, setFollowingList] = useState([]);
 
     useEffect(() => {
-        axios.get('/member')
+
+        axios.get('/member/follow')
             .then(resp => {
-                // console.log(resp.data.data.allMember);
-                setAllMember(resp.data.data.allMember)
+                setFollowingList(resp.data.data.member.followingList)
             })
-            .catch(err => {
-                console.log(err);
-            })
+            .catch(err => console.log)
+
     }, [])
 
     return (
@@ -56,11 +55,11 @@ const RightColumn = () => {
                 </Typography>
             </Box>
             <Divider className='m-4' />
-            <Typography align='center' variant='h6' color='primary' className='font-bold mb-2'> Contacts </Typography>
+            <Typography align='center' variant='h6' color='primary' className='font-bold mb-2'> Following </Typography>
             {
-                allMember.map((member, i) => {
+                followingList.map(member => {
                     return (
-                        <ListItemButton key={i} component={Link} to={`/user/${member.username}`}>
+                        <ListItemButton key={member.username} component={Link} to={`/user/${member.username}`}>
                             <ListItemIcon>
                                 <Avatar src={member.avatar ? `${import.meta.env.VITE_SERVER_API}/${member.avatar}` : 'https://via.placeholder.com/500'} />
                             </ListItemIcon>
