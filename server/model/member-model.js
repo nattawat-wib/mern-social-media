@@ -82,11 +82,11 @@ const memberSchema = new mongoose.Schema({
     // }
 })
 
-memberSchema.pre('save', async function (next) {
+memberSchema.pre('save', async function (next) {    
     if (!this.isModified("password")) return next();
-
+    
     this.password = await bcrypt.hash(this.password, 12);
-
+    
     if (this.isNew) {
         this.username = Math.random().toString(16).slice(2);
     }
@@ -99,7 +99,7 @@ memberSchema.pre('save', async function (next) {
 // })
 
 memberSchema.methods.isPasswordCorrect = async function (candidatePassword, oldPassword) {
-    return isPasswordCorrect = await bcrypt.compare(candidatePassword, oldPassword)
+    return await bcrypt.compare(candidatePassword, oldPassword)
 }
 
 module.exports = mongoose.model('member', memberSchema)

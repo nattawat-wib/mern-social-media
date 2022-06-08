@@ -19,6 +19,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import LogoutIcon from '@mui/icons-material/Logout';
 import HomeIcon from '@mui/icons-material/Home';
+import LockIcon from '@mui/icons-material/Lock';
 
 import { ProfileButton, AppBarAvatar, AppBarContainer, AppBarSearch } from './../style/navbar.style';
 import { Link } from 'react-router-dom';
@@ -29,12 +30,14 @@ import EditProfileDialog from './edit-profile-dialog';
 import { useAuth } from '../context/auth-context';
 import axios from './../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
+import EditPasswordDialog from './edit-password-dialog';
 
 const Navbar = () => {
     const [DropdownAnchor, setDropdownAnchor] = useState(null);
     const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useToggleContext();
     const { isDarkMode, setIsDarkMode } = useThemeContext();
     const { member, authDispatch } = useAuth();
+    const [isEditPasswordDialogOpen, setIsEditPasswordDialogOpen] = useState(false);
 
     const handleLogout = () => {
         axios.get('/auth/logout')
@@ -56,6 +59,10 @@ const Navbar = () => {
                 isEditProfileDialogOpen={isEditProfileDialogOpen}
                 setIsEditProfileDialogOpen={setIsEditProfileDialogOpen}
             />
+            <EditPasswordDialog
+                isEditPasswordDialogOpen={isEditPasswordDialogOpen}
+                setIsEditPasswordDialogOpen={setIsEditPasswordDialogOpen}
+            />
             <AppBarContainer>
                 <Box className='flex items-center'>
                     <Link to='/'>
@@ -75,17 +82,12 @@ const Navbar = () => {
                     />
                 </Box>
 
-                {/* <Box className='flex items-center'>
-                    <IconButton sx={{mx: 1}}> <HomeIcon /> </IconButton>
-                    <IconButton sx={{mx: 1}}> <PeopleAltIcon /> </IconButton>
-                </Box> */}
-
                 <Box className='flex items-center'>
                     <ProfileButton to={`/user/${member.username}`}>
                         <figure className='relative mr-2' style={{ height: '33px', width: '33px' }}>
                             <AppBarAvatar src={member.avatar ? `${import.meta.env.VITE_SERVER_API}/${member.avatar}` : 'https://via.placeholder.com/500'} />
                         </figure>
-                        <Typography className='font-bold' color='primary.dark'> { member?.firstName } </Typography>
+                        <Typography className='font-bold' color='primary.dark'> {member?.firstName} </Typography>
                     </ProfileButton>
                     <IconButton
                         color='primary'
@@ -136,11 +138,21 @@ const Navbar = () => {
 
                             <ListItemButton
                                 component={Link}
-                                to={`/user/${member.username}?tab=friends`}
+                                to={`/user/${member.username}?tab=follower`}
                                 onClick={() => setDropdownAnchor(null)}
                             >
                                 <ListItemIcon> <PeopleAltIcon /> </ListItemIcon>
-                                <ListItemText primary='Your Friends' />
+                                <ListItemText primary='Your Follower' />
+                            </ListItemButton>
+
+                            <ListItemButton onClick={
+                                () => {
+                                    setIsEditPasswordDialogOpen(prev => !prev)
+                                    setDropdownAnchor(null)
+                                }
+                            }>
+                                <ListItemIcon> <LockIcon /> </ListItemIcon>
+                                <ListItemText primary='Edit Password' />
                             </ListItemButton>
 
                             <ListItemButton onClick={handleLogout}>

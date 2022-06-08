@@ -235,5 +235,40 @@ exports.getUnfollow = async (req, res) => {
             msg: err
         })
     }
+}
 
+exports.editPassword = async (req, res) => {
+    try {
+        // check all input is entered
+        if (!req.body.oldPassword || !req.body.newPassword || !req.body.newPasswordConfirm) throw 'please enter all input';
+
+        // check is old password correct
+        const member = await Member.findById(req.member._id).select('+password');
+        if (!await member.isPasswordCorrect(req.body.oldPassword, member.password)) throw 'old password is not correct'
+        
+        if(req.body.oldPassword === req.body.newPassword) throw "new password can't be the same as old password";
+
+        // check new password and new password confirm is match
+        if (req.body.newPassword !== req.body.newPasswordConfirm) throw 'new password and new password confirm should be match';
+
+        // save new password
+        member.password = req.body.newPassword;
+        await member.save();
+
+        // send response and clear old cookie (force logout) 
+        res
+            .clearCookie('accessToken')
+            .status(200)
+            .json({
+                status: 'success',
+                msg: 'edit password successfully',
+            })
+    } catch (err) {
+
+        console.log(err);
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
 }

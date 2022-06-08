@@ -119,7 +119,7 @@ exports.logout = async (req, res) => {
 
 exports.isLogin = async (req, res, next) => {
     try {
-        const member = await Member.findOne({ accessToken: req.cookies.accessToken });
+        const member = await Member.findOne({ accessToken: req.cookies.accessToken }).select('+password');
         if (!member) throw 'Unauthorized : no user found with this token';
 
         await jwt.verify(req.cookies.accessToken, process.env.JWT_SECRET, err => {
