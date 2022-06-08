@@ -9,9 +9,9 @@ const MainColumn = () => {
     const { member } = useAuth();
 
     useEffect(() => {
-        axios.get(`/post`)
+        axios.get(`/post/follow`)
             .then(resp => {
-                setPostList(resp.data.data.post)
+                setPostList(resp.data.data.allPost)
             })
             .catch(err => {
                 console.log(err);

@@ -136,11 +136,11 @@ exports.likePost = async (req, res) => {
         );
 
         let action = '$push';
-        let msg = 'like'
+        let msg = 'like';
 
         if (isThisPostLike) {
             action = '$pull';
-            msg = 'unlike'
+            msg = 'unlike';
         }
 
         const post = await Post.findByIdAndUpdate(
@@ -156,6 +156,57 @@ exports.likePost = async (req, res) => {
         })
 
     } catch (err) {
+        console.log(err);
+        res.status(400).json({
+            status: 'error',
+            msg: err
+        })
+    }
+}
+
+exports.getPostByFollowing = async (req, res) => {
+    try {
+        const { followingList } = await Member.findById(req.member._id).select('-_id followingList').populate({
+            path: 'followingList',
+            select: 'postList firstName -_id',
+            populate: {
+                path: 'postList',
+                populate: {
+                    path: 'author',
+                    select: 'firstName lastName avatar username'
+                }
+            }
+        });
+
+        const followingPostList = [];
+        followingList.forEach(following => {
+            following.postList.forEach(post => {
+                followingPostList.push(post);
+            })
+        });
+
+        const { postList } = await Member.findById(req.member._id).populate({
+            path: 'postList',
+            populate: {
+                path: 'author',
+                select: 'firstName lastName username avatar -_id'
+            }
+        });
+
+        const allPost = [...postList, ...followingPostList].sort((a, b) => {
+            return +a.content.slice(0, 1) - +b.content.slice(0, 1)
+        });
+
+        res.status(200).json({
+            status: 'success',
+            msg: 'all post from your following',
+            data: {
+                allPost
+            }
+        })
+
+    } catch (err) {
+
         console.log(err);
         res.status(400).json({
             status: 'error',

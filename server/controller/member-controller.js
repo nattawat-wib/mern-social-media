@@ -142,7 +142,6 @@ exports.followMember = async (req, res) => {
             .findOne({ username: req.params.username })
             .populate('followerList', '_id');
 
-        console.log(req.params.username);
         if (!member) throw 'member that you want to follow is not found';
 
         // check is already follow
@@ -168,7 +167,7 @@ exports.followMember = async (req, res) => {
 
         res.status(200).json({
             status: 'success',
-            msg: !isAlreadyFollow ? 'following' : 'unfollow' + ' successfully',
+            msg: `${!isAlreadyFollow ? 'follow' : 'unfollow'} successfully`,
             data: {
                 member,
                 isFollowing: !isAlreadyFollow
@@ -245,8 +244,8 @@ exports.editPassword = async (req, res) => {
         // check is old password correct
         const member = await Member.findById(req.member._id).select('+password');
         if (!await member.isPasswordCorrect(req.body.oldPassword, member.password)) throw 'old password is not correct'
-        
-        if(req.body.oldPassword === req.body.newPassword) throw "new password can't be the same as old password";
+
+        if (req.body.oldPassword === req.body.newPassword) throw "new password can't be the same as old password";
 
         // check new password and new password confirm is match
         if (req.body.newPassword !== req.body.newPasswordConfirm) throw 'new password and new password confirm should be match';

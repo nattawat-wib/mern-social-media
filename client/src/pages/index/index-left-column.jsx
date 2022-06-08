@@ -53,9 +53,9 @@ const LeftColumn = () => {
                 <ListItemIcon> <AssignmentIcon /> </ListItemIcon>
                 <ListItemText primary='Your Post' />
             </ListItemButton>
-            <ListItemButton component={Link} to={`/user/${member.username}?tab=friends`}>
+            <ListItemButton component={Link} to={`/user/${member.username}?tab=follower`}>
                 <ListItemIcon> <PeopleAltIcon /> </ListItemIcon>
-                <ListItemText primary='Your Friends' />
+                <ListItemText primary='Your Follower' />
             </ListItemButton>
             <ListItemButton disabled={true}>
                 <ListItemIcon> <GroupsIcon /> </ListItemIcon>
@@ -66,7 +66,7 @@ const LeftColumn = () => {
             {
                 unfollowMember.map(member => {
                     return (
-                        <ListItemButton key={member._id} component={Link} to={`/user/${member.username}`}>
+                        <ListItemButton key={member._id} component={Link} to={`/user/${member.username}`} className='flex justify-between items-center'>
                             <ListItemIcon>
                                 <Avatar src={member.avatar ? `${import.meta.env.VITE_SERVER_API}/${member.avatar}` : 'https://via.placeholder.com/500'} />
                             </ListItemIcon>

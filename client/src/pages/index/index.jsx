@@ -1,4 +1,6 @@
 import Grid from '@mui/material/Grid';
+import Container from '@mui/material/Container';
+
 import { IndexPageWrapper } from '../../style/index.style';
 import MainColumn from './index-main-column';
 import LeftColumn from './index-left-column';
@@ -6,7 +8,8 @@ import RightColumn from './index-right-column';
 
 const Index = () => {
     return (
-            <IndexPageWrapper>
+        <IndexPageWrapper>
+            <Container>
                 <Grid container spacing={2} className='p-4'>
                     <Grid item xs={3} className='sticky top-0 h-fit'>
                         <LeftColumn />
@@ -18,7 +21,8 @@ const Index = () => {
                         <RightColumn />
                     </Grid>
                 </Grid>
-            </IndexPageWrapper>
+            </Container>
+        </IndexPageWrapper>
     )
 }
 
