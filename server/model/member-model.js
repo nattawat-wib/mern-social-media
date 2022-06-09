@@ -54,16 +54,6 @@ const memberSchema = new mongoose.Schema({
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'member'
     },
-    createdAt: {
-        type: Number,
-        default: Date.now(),
-        select: false
-    },
-    createdAtDateTime: {
-        type: String,
-        default: new Date().toLocaleString().slice(0, -3),
-        select: false
-    },
     changePasswordAt: {
         type: Number,
         select: false
@@ -80,19 +70,34 @@ const memberSchema = new mongoose.Schema({
         type: Number,
         select: false
     },
-
-    // timestamps: {
-    //     createdAt, createdAtDateTime
-    // }
+    createdAt: {
+        type: Date
+    },
+    createdAtDateTime: {
+        type: String
+    },
+    createdAtTimestamp: {
+        type: Number
+    },
+    updatedAt: {
+        type: Date
+    },
+}, {
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
+    },
 })
 
-memberSchema.pre('save', async function (next) {    
+memberSchema.pre('save', async function (next) {
     if (!this.isModified("password")) return next();
-    
+
     this.password = await bcrypt.hash(this.password, 12);
-    
+
     if (this.isNew) {
         this.username = Math.random().toString(16).slice(2);
+        this.createdAtTimestamp = new Date(this.createdAt).getTime();
+        this.createdAtDateTime = new Date(this.createdAt).toLocaleString('en-GB').split(',').join('');
     }
 
     next();

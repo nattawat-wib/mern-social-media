@@ -24,6 +24,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const EditPostDialog = ({ post, open, setOpen }) => {
     const { isDarkMode } = useThemeContext();
+    const { setRerender } = useToggleContext();
     const { member } = useAuth();
     const [form, setForm] = useState(post);
     const [tempImage, setTempImage] = useState(form.image);
@@ -52,7 +53,7 @@ const EditPostDialog = ({ post, open, setOpen }) => {
             .then(resp => {
                 setOpen(false);
                 toast.success(resp.data.msg);
-                window.location.reload();
+                setRerender(Date.now());
             })
             .catch(err => {
                 console.log(err)

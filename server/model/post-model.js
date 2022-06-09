@@ -12,14 +12,6 @@ const postSchema = new mongoose.Schema({
     image: {
         type: String,
     },
-    createAt: {
-        type: Number,
-        default: Date.now()
-    },
-    createAtDateTime: {
-        type: String,
-        default: Date.now()
-    },
     memberWhoLike: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'member'
@@ -27,14 +19,32 @@ const postSchema = new mongoose.Schema({
     commentList: {
         type: [mongoose.Schema.Types.ObjectId],
         ref: 'comment'
-    }
-},
-{
-    timestamps: {
-        createdAt: 'created_at',
     },
-
+    createdAt: {
+        type: Date
+    },
+    createdAtDateTime: {
+        type: String
+    },
+    createdAtTimestamp: {
+        type: Number
+    },
+    updatedAt: {
+        type: Date
+    },
+}, {
+    timestamps: {
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
+    },
 }
 )
+
+postSchema.pre('save', function () {
+    if (this.isNew) {
+        this.createdAtTimestamp = new Date(this.createdAt).getTime();
+        this.createdAtDateTime = new Date(this.createdAt).toLocaleString('en-GB').split(',').join('');
+    }
+})
 
 module.exports = mongoose.model('post', postSchema)

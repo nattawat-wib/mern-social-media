@@ -156,7 +156,7 @@ const Profile = () => {
                     </Tabs>
                 </Container>
             </header>
-            <Box sx={{ bgcolor: isDarkMode ? '#090909' : '#f0f2f5', mt: 4 }}>
+            <Box sx={{ bgcolor: isDarkMode ? '#090909' : '#f0f2f5', mt: 4, minHeight: 'calc(100vh - 607.61px)' }}>
                 <TabContent content='posts' tabvalue={tabValue}>
                     <Grid container spacing={2}>
                         <Grid item xs={5}>
@@ -249,7 +249,7 @@ const Profile = () => {
                                     }
                                 </Grid>
                             </Paper>
-                            
+
                         </Grid>
                         <Grid item xs={7} >
                             {
@@ -283,12 +283,14 @@ const Profile = () => {
                                         profile.followerList?.map((follower, i) => {
                                             return (
                                                 <Grid item xs={2} key={i}>
-                                                    <figure className='relative pt-[100%]'>
-                                                        <img
-                                                            className='fit-img rounded-lg'
-                                                            src={`${import.meta.env.VITE_SERVER_API}/${follower.avatar}`}
-                                                        />
-                                                    </figure>
+                                                    <Link to={`/user/${follower.username}`} >
+                                                        <figure className='relative pt-[100%]'>
+                                                            <img
+                                                                className='fit-img rounded-lg'
+                                                                src={`${import.meta.env.VITE_SERVER_API}/${follower.avatar}`}
+                                                            />
+                                                        </figure>
+                                                    </Link>
                                                     <Typography align='center'> {follower.firstName} {follower.lastName} </Typography>
                                                 </Grid>
                                             )
@@ -315,12 +317,14 @@ const Profile = () => {
                                         profile.followingList?.map((following, i) => {
                                             return (
                                                 <Grid item xs={2} key={i}>
-                                                    <figure className='relative pt-[100%]'>
-                                                        <img
-                                                            className='fit-img rounded-lg'
-                                                            src={`${import.meta.env.VITE_SERVER_API}/${following.avatar}`}
-                                                        />
-                                                    </figure>
+                                                    <Link to={`/user/${following.username}`} >
+                                                        <figure className='relative pt-[100%]'>
+                                                            <img
+                                                                className='fit-img rounded-lg'
+                                                                src={`${import.meta.env.VITE_SERVER_API}/${following.avatar}`}
+                                                            />
+                                                        </figure>
+                                                    </Link>
                                                     <Typography align='center'> {following.firstName} {following.lastName} </Typography>
                                                 </Grid>
                                             )

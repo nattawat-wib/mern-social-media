@@ -176,7 +176,7 @@ exports.getPostByFollowing = async (req, res) => {
                         path: 'commentList',
                         select: 'author',
                         populate: {
-                            path: 'author content createAtDateTime',
+                            path: 'author content createdAtDateTime',
                             select: 'firstName lastName avatar username'
                         }
                     },
@@ -202,7 +202,7 @@ exports.getPostByFollowing = async (req, res) => {
                     path: 'commentList',
                     select: 'author',
                     populate: {
-                        path: 'author content createAtDateTime',
+                        path: 'author content createdAtDateTime',
                         select: 'firstName lastName avatar username'
                     }
                 },

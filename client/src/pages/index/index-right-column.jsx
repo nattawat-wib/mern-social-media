@@ -40,9 +40,7 @@ const RightColumn = () => {
                     />
                 </figure>
                 <br />
-                <Typography color='gray'> Birthdays </Typography>
-
-                {/* friends's birthday list */}
+                {/* <Typography color='gray'> Birthdays </Typography>
                 <Typography color='gray' className='ml-4 mt-1'>
                     <CakeIcon />
                     <Link style={{ color: '#14C38E' }} to="/user/username" className='font-bold'> nutella </Link>
@@ -52,7 +50,7 @@ const RightColumn = () => {
                     <CakeIcon />
                     <Link style={{ color: '#14C38E' }} to="/user/username" className='font-bold'> nutella </Link>
                     have a birthday to day
-                </Typography>
+                </Typography> */}
             </Box>
             <Divider className='m-4' />
             <Typography align='center' variant='h6' color='primary' className='font-bold mb-2'> Following </Typography>

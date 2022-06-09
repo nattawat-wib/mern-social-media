@@ -13,17 +13,29 @@ const commentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    createAt: {
-        type: Number,
-        default: Date.now()
+    createdAt: {
+        type: Date
     },
-    createAtDateTime: {
-        type: Number,
-        default: Date.now()
-    }
+    createdAtDateTime: {
+        type: String
+    },
+    createdAtTimestamp: {
+        type: Number
+    },
+    updatedAt: {
+        type: Date
+    },
 }, {
     timestamps: {
-        createdAt: 'create_at'
+        createdAt: 'createdAt',
+        updatedAt: 'updatedAt',
+    },
+});
+
+commentSchema.pre('save', function () {
+    if (this.isNew) {
+        this.createdAtTimestamp = new Date(this.createdAt).getTime();
+        this.createdAtDateTime = new Date(this.createdAt).toLocaleString('en-GB').split(',').join('');
     }
 })
 
