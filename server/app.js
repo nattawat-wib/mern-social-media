@@ -41,6 +41,8 @@ if (process.env.NODE_ENV === "production") {
     app.use("/", (req, res) => {
         res.sendFile(path.join(__dirname, "../client/dist/index.html"));
     });
+
+    console.log(2);
 }
 
 app.listen(port, () => {

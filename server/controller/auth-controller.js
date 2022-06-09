@@ -27,6 +27,7 @@ exports.register = async (req, res) => {
 }
 
 exports.login = async (req, res) => {
+    console.log(1);
     try {
         const member = await Member.findOne({ email: req.body.email }).select("+password");
         if (!member) throw 'member not found!'
