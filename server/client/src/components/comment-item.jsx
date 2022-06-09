@@ -4,11 +4,11 @@ import Typography from '@mui/material/Typography';
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { StyledCommentInput } from './../style/index.style';
+import { StyledCommentInput } from '../style/index.style';
 import { useThemeContext } from '../context/theme-context';
-import axios from './../utils/axios';
+import axios from '../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
-import { useAuth } from './../context/auth-context';
+import { useAuth } from '../context/auth-context';
 import { useToggleContext } from '../context/toggle-context';
 
 export const CommentInput = ({ postId }) => {

@@ -19,7 +19,7 @@ import { StyledCreatePostCard, CreatePostModalToggle, StyledTextareaAutosize } f
 import { useToggleContext } from '../context/toggle-context';
 import { useThemeContext } from '../context/theme-context';
 import { useAuth } from '../context/auth-context';
-import axios from './../utils/axios';
+import axios from '../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
 
 export const CreatePostCard = () => {

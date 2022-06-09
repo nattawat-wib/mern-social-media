@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { CreatePostCard, CreatePostDialog } from "../../components/create-post"
 import PostItem from '../../components/post-item';
-import axios from './../../utils/axios';
+import axios from '../../utils/axios';
 import { useAuth } from "../../context/auth-context";
 import { useToggleContext } from "../../context/toggle-context";
 

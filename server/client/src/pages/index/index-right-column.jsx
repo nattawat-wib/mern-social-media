@@ -10,11 +10,11 @@ import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import CakeIcon from '@mui/icons-material/Cake';
 
-import { StyledLeftColumnWrapper } from './../../style/index.style';
+import { StyledLeftColumnWrapper } from '../../style/index.style';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/auth-context';
 import { useState, useEffect } from 'react';
-import axios from './../../utils/axios';
+import axios from '../../utils/axios';
 
 const RightColumn = () => {
     const [followingList, setFollowingList] = useState([]);

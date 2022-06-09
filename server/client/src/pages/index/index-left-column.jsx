@@ -10,10 +10,10 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import GroupsIcon from '@mui/icons-material/Groups';
 
 import { Link } from 'react-router-dom';
-import { StyledLeftColumnWrapper } from './../../style/index.style';
+import { StyledLeftColumnWrapper } from '../../style/index.style';
 import { useAuth } from '../../context/auth-context';
 import { useState, useEffect } from 'react';
-import axios from './../../utils/axios';
+import axios from '../../utils/axios';
 import { PageLoader } from '../../components/loader'
 
 const LeftColumn = () => {

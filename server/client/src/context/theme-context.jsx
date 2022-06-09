@@ -1,6 +1,6 @@
 import { useState, createContext, useEffect, useContext } from 'react';
 import { ThemeProvider as MuiThemeProvider } from '@mui/system';
-import { LightTheme, DarkTheme } from './../style/theme.style';
+import { LightTheme, DarkTheme } from '../style/theme.style';
 import { ThemeProvider as StyledComponentsThemeProvider } from 'styled-components';
 
 const styledComponentsThemeList = {

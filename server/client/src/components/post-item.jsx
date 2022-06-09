@@ -17,11 +17,11 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useAuth } from './../context/auth-context';
+import { useAuth } from '../context/auth-context';
 import { StyledPostItem } from '../style/index.style';
 import EditPostDialog from './edit-post-dialog';
 import { CommentInput, CommentItem } from './comment-item';
-import axios from './../utils/axios';
+import axios from '../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useToggleContext } from '../context/toggle-context';
 
