@@ -10,10 +10,14 @@ const postRouter = require('./routes/post-route');
 const authRouter = require('./routes/auth-route');
 const commentRouter = require('./routes/comment-route');
 
+const path = require('path');
+
 const port = process.env.PORT || 8080;
 
 require('dotenv').config();
 require('./db');
+
+console.log('process.env.NODE_ENV ===========', process.env.NODE_ENV);
 
 app.use(express.static(`${__dirname}/uploads`))
 
@@ -32,8 +36,6 @@ app.use('/auth', authRouter);
 app.use('/member', memberRouter);
 app.use('/post', postRouter);
 app.use('/comment', commentRouter);
-
-console.log('process.env.NODE_ENV ===========', process.env.NODE_ENV);
 
 if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
