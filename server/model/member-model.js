@@ -76,6 +76,10 @@ const memberSchema = new mongoose.Schema({
         type: String,
         select: false
     },
+    resetPasswordExpire: {
+        type: Number,
+        select: false
+    },
 
     // timestamps: {
     //     createdAt, createdAtDateTime

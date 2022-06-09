@@ -18,6 +18,5 @@ router.patch('/update-me',
     middleware.multerConfig.fields([{ name: 'avatar' }, { name: 'cover' }]),
     memberController.updateMe
 )
-router.patch('/edit-password', memberController.editPassword)
 
 module.exports = router;

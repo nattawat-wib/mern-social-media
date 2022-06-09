@@ -49,7 +49,7 @@ const EditPasswordDialog = ({ isEditPasswordDialogOpen, setIsEditPasswordDialogO
     const handleFormSubmit = async e => {
         e.preventDefault()
 
-        await axios.patch('/member/edit-password', form)
+        await axios.patch('/auth/edit-password', form)
             .then(resp => {
                 setForm({});
                 setIsEditPasswordDialogOpen(false)
