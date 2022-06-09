@@ -110,13 +110,15 @@ exports.updateMe = async (req, res) => {
         console.log('req.files', req.files);
         console.log('req.body', req.body);
         
-        const updateMember = await Member.findOneAndUpdate({ accessToken: req.member.accessToken },
+        const updateMember = await Member.findByIdAndUpdate( req.member._id ,
             {
                 ...req.body,
                 avatar: req.files.avatar ? req.files.avatar[0].filename : req.body.avatar,
                 cover: req.files.cover ? req.files.cover[0].filename : req.body.cover
             },
             { new: true })
+        
+        if(!updateMember) throw 'no member found';
 
         res.status(200).json({
             status: 'success',
