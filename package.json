@@ -2,8 +2,10 @@
     "name": "mern-social-media",
     "description": "a really cool app",
     "scripts": {
-        "start": "cd server && npm i && node app.js"
+        "start": "cd server && npm i && node app.js",
+        "postinstall": "ng build --aot --prod"
     },
+    "postinstall": "ng build --aot --prod",
     "version": "1.0.0",
     "engines": {
       "node": "16"
