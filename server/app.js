@@ -33,13 +33,15 @@ app.use('/member', memberRouter);
 app.use('/post', postRouter);
 app.use('/comment', commentRouter);
 
-// if (process.env.NODE_ENV === "production") {
-//     app.use(express.static(path.join(__dirname, "../client/dist")));
+console.log('process.env.NODE_ENV ===========', process.env.NODE_ENV);
 
-//     app.use("/", (req, res) => {
-//         res.sendFile(path.join(__dirname, "../client/dist/index.html"));
-//     });
-// }
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, "../client/dist")));
+
+    app.use("/", (req, res) => {
+        res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+    });
+}
 
 app.listen(port, () => {
     console.log(`server is starting at port ... ${port}`);
