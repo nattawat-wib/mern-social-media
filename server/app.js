@@ -17,8 +17,6 @@ const port = process.env.PORT || 8080;
 require('dotenv').config();
 require('./db');
 
-console.log('process.env.NODE_ENV ===========', process.env.NODE_ENV);
-
 app.use(express.static(`${__dirname}/uploads`))
 
 app.use(cors({
@@ -41,7 +39,7 @@ if (process.env.NODE_ENV === "production") {
     app.use(express.static(path.join(__dirname, "../client/dist")));
 
     app.use("/", (req, res) => {
-        res.sendFile(path.join(__dirname, "../client/dist/index.html"));
+        res.sendFile(path.join(__dirname, "client/dist/index.html"));
     });
 }
 
