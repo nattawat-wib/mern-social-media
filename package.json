@@ -2,7 +2,8 @@
     "name": "mern-social-media",
     "description": "a really cool app",
     "scripts": {
-        "start": "cd server && npm i && node app.js"
+        "start": "cd server && npm i && node app.js",
+        "heroku-postbuild": "cd client && npm i && npm run build"
     },
     "version": "1.0.0",
     "engines": {
