@@ -15,6 +15,8 @@ import Profile from './pages/member/profile';
 import PublicLayout from './layout/public';
 import MemberLayout from './layout/member';
 
+console.log('VITE_SERVER_API', import.meta.env.VITE_SERVER_API);
+
 function App() {
     return (
         <StyledEngineProvider injectFirst>
