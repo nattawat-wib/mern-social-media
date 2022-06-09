@@ -57,7 +57,7 @@ const Profile = () => {
     const [tabValue, setTabValue] = useState('posts');
     const [isFollowing, setIsFollowing] = useState(false);
 
-    const { isEditProfileDialogOpen, setIsEditProfileDialogOpen } = useToggleContext();
+    const { isEditProfileDialogOpen, setIsEditProfileDialogOpen, rerender, setRerender } = useToggleContext();
     const { isDarkMode } = useThemeContext();
 
     useEffect(() => {
@@ -71,20 +71,21 @@ const Profile = () => {
             })
             .catch(console.error)
 
-        axios.get(`member/${username}/post`)
+        axios.get(`/member/${username}/post`)
             .then(resp => {
                 setPostList(resp.data.data.post)
                 setIsLoading(false)
             })
             .catch(console.error)
 
-    }, [location]);
+    }, [location, rerender]);
 
     const handleFollow = () => {
         axios.patch(`/member/follow/${profile.username}`)
             .then(resp => {
                 toast.success(resp.data.msg);
                 setIsFollowing(resp.data.data.isFollowing);
+                setRerender(Date.now())
             })
             .catch(err => toast.error(err.response.data.msg))
     }

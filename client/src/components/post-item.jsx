@@ -18,12 +18,12 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from './../context/auth-context';
-import { useToggleContext } from '../context/toggle-context';
 import { StyledPostItem } from '../style/index.style';
 import EditPostDialog from './edit-post-dialog';
 import { CommentInput, CommentItem } from './comment-item';
 import axios from './../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
+import { useToggleContext } from '../context/toggle-context';
 
 const PostItem = ({ post }) => {
     const [isCommentSectionShow, setIsCommentSectionShow] = useState(false);
@@ -31,14 +31,20 @@ const PostItem = ({ post }) => {
     const { member } = useAuth();
     const [postMenuAnchor, setPostMenuAnchor] = useState(null);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+    const { setRerender } = useToggleContext();
 
     const isLike = post.memberWhoLike.find(({ username }) => username === member.username);
+    // const isLike = post.memberWhoLike.find(({ username }) => {
+    //     console.log('username', username);
+    //     console.log('member.username', member.username);
+    //     return (username === member.username);
+    // });
 
     const handleDeletePost = () => {
         axios.delete(`/post/${post._id}`)
             .then(resp => {
                 toast.success(resp.data.msg);
-                location.reload()
+                setRerender(Date.now())
             })
             .catch(err => toast.error(err.response.data.msg))
     };
@@ -47,13 +53,14 @@ const PostItem = ({ post }) => {
         axios.patch(`/post/${post._id}/like/${member.username}`)
             .then(resp => {
                 toast.success(resp.data.msg);
-                location.reload()
+                setRerender(Date.now())
             })
             .catch(err => toast.error(err.response.data.msg))
     }
 
     return (
         <StyledPostItem>
+            <Toaster />
             <header className='flex items-center'>
                 <Link to={`/user/${post.author.username}`} className='relative mr-3' style={{ width: "50px", height: "50px" }}>
                     <img

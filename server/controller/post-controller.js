@@ -38,13 +38,11 @@ exports.createPost = async (req, res) => {
             author: req.member._id,
             image: req.file?.filename || null
         });
-        // console.log(post);
 
         const author = await Member.findByIdAndUpdate(req.member._id, {
             $push: { postList: post._id }
         }, { new: true })
 
-        console.log(author);
 
         res.status(200).json({
             status: 'success',
@@ -78,8 +76,6 @@ exports.editPost = async (req, res) => {
             content: req.body.content,
             image: req.file ? req.file.filename : req.body.image
         }, { new: true });
-
-        console.log(editedPost);
 
         res.status(200).json({
             status: 'success',
@@ -128,7 +124,7 @@ exports.likePost = async (req, res) => {
         const isPostExist = await Post.findById(req.params._id);
         if (!isPostExist) throw 'no post found with this _id';
 
-        const isThisPostLike = await Post.findOne(
+        const isAlreadyLike = await Post.findOne(
             {
                 _id: req.params._id,
                 memberWhoLike: req.member._id
@@ -138,7 +134,7 @@ exports.likePost = async (req, res) => {
         let action = '$push';
         let msg = 'like';
 
-        if (isThisPostLike) {
+        if (isAlreadyLike) {
             action = '$pull';
             msg = 'unlike';
         }
@@ -171,10 +167,20 @@ exports.getPostByFollowing = async (req, res) => {
             select: 'postList firstName -_id',
             populate: {
                 path: 'postList',
-                populate: {
-                    path: 'author',
-                    select: 'firstName lastName avatar username'
-                }
+                populate: [
+                    {
+                        path: 'author memberWhoLike',
+                        select: 'firstName lastName avatar username'
+                    },
+                    {
+                        path: 'commentList',
+                        select: 'author',
+                        populate: {
+                            path: 'author content createAtDateTime',
+                            select: 'firstName lastName avatar username'
+                        }
+                    },
+                ]
             }
         });
 
@@ -187,10 +193,20 @@ exports.getPostByFollowing = async (req, res) => {
 
         const { postList } = await Member.findById(req.member._id).populate({
             path: 'postList',
-            populate: {
-                path: 'author',
-                select: 'firstName lastName username avatar -_id'
-            }
+            populate: [
+                {
+                    path: 'author memberWhoLike',
+                    select: 'firstName lastName avatar username'
+                },
+                {
+                    path: 'commentList',
+                    select: 'author',
+                    populate: {
+                        path: 'author content createAtDateTime',
+                        select: 'firstName lastName avatar username'
+                    }
+                },
+            ]
         });
 
         const allPost = [...postList, ...followingPostList].sort((a, b) => {

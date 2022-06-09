@@ -9,9 +9,11 @@ import { useThemeContext } from '../context/theme-context';
 import axios from './../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { useAuth } from './../context/auth-context';
+import { useToggleContext } from '../context/toggle-context';
 
 export const CommentInput = ({ postId }) => {
     const { member } = useAuth();
+    const { setRerender } = useToggleContext();
     const [form, setContent] = useState({
         content: '',
         postId,
@@ -23,7 +25,7 @@ export const CommentInput = ({ postId }) => {
             .then(resp => {
                 setContent(prev => ({ ...prev, content: '' }));
                 toast.success(resp.data.msg);
-                location.reload();
+                setRerender(Date.now())
             })
             .catch(err => toast.error(err.response.data.msg))
     }

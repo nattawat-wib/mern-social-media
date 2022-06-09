@@ -79,7 +79,7 @@ export const CreatePostCard = () => {
 }
 
 export const CreatePostDialog = () => {
-    const { isCreatePostDialogOpen, setIsCreatePostDialogOpen } = useToggleContext();
+    const { isCreatePostDialogOpen, setIsCreatePostDialogOpen, setRerender } = useToggleContext();
     const { isDarkMode } = useThemeContext();
     const { member } = useAuth();
     const [form, setForm] = useState({});
@@ -94,7 +94,6 @@ export const CreatePostDialog = () => {
 
     const handleFormSubmit = e => {
         e.preventDefault();
-        console.log("form", form);
         const formData = new FormData();
         for (const key in form) formData.append(key, form[key]);
 
@@ -103,7 +102,7 @@ export const CreatePostDialog = () => {
                 console.log(resp);
                 setIsCreatePostDialogOpen(false);
                 toast.success(resp.data.msg);
-                window.location.reload();
+                setRerender(Date.now())
             })
             .catch(err => {
                 console.log(err)
