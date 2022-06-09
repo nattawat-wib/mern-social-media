@@ -102,7 +102,7 @@ export const CreatePostDialog = () => {
                 console.log(resp);
                 setIsCreatePostDialogOpen(false);
                 toast.success(resp.data.msg);
-                setRerender(Date.now())
+                setRerender(Date.now());
             })
             .catch(err => {
                 console.log(err)

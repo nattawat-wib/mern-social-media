@@ -21,11 +21,22 @@ import { useThemeContext } from '../context/theme-context';
 import { useAuth } from './../context/auth-context';
 import axios from './../utils/axios';
 import toast, { Toaster } from 'react-hot-toast';
+import { useToggleContext } from './../context/toggle-context';
 
 const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen }) => {
     const { isDarkMode } = useThemeContext()
     const { member, authDispatch } = useAuth();
-    const [form, setForm] = useState(member);
+    const { setRerender } = useToggleContext();
+    const [form, setForm] = useState({
+        avatar: member.avatar,
+        cover: member.cover,
+        firstName: member.firstName,
+        lastName: member.lastName,
+        aboutMe: member.aboutMe,
+        gender: member.gender,
+        birthDate: member.birthDate,
+        address: member.address,
+    });
     const [formImage, setFromImage] = useState({
         avatar: member.avatar,
         cover: member.cover
@@ -44,7 +55,6 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
         e.preventDefault();
 
         form.birthDate = form.birthDate.split('-').reverse().join('/');
-        console.log("form", form);
 
         const fromData = new FormData();
         for (const key in form) fromData.append(key, form[key]);
@@ -53,6 +63,7 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
             .then(resp => {
                 setIsEditProfileDialogOpen(false);
                 authDispatch({ type: 'update auth', payload: resp });
+                setRerender(Date.now())
                 toast.success(resp.data.msg);
             })
             .catch(err => {
