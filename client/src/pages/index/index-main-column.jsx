@@ -13,7 +13,6 @@ const MainColumn = () => {
     useEffect(() => {
         axios.get(`/post/follow`)
             .then(resp => {
-                console.log(resp);
                 setPostList(resp.data.data.allPost);
             })
             .catch(err => {

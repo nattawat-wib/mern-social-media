@@ -174,9 +174,10 @@ exports.getPostByFollowing = async (req, res) => {
                     },
                     {
                         path: 'commentList',
-                        select: 'author',
+                        select: 'author content createdAtDateTime createdAtTimestamp',
+                        options: { sort: { createdAtTimestamp: -1 } },
                         populate: {
-                            path: 'author content createdAtDateTime',
+                            path: 'author',
                             select: 'firstName lastName avatar username'
                         }
                     },
@@ -200,9 +201,10 @@ exports.getPostByFollowing = async (req, res) => {
                 },
                 {
                     path: 'commentList',
-                    select: 'author',
+                    select: 'author content createdAtDateTime createdAtTimestamp',
+                    options: { sort: { createdAtTimestamp: -1 } },
                     populate: {
-                        path: 'author content createdAtDateTime',
+                        path: 'author',
                         select: 'firstName lastName avatar username'
                     }
                 },
@@ -210,7 +212,7 @@ exports.getPostByFollowing = async (req, res) => {
         });
 
         const allPost = [...postList, ...followingPostList].sort((a, b) => {
-            return +a.content.slice(0, 1) - +b.content.slice(0, 1)
+            return b.createdAtTimestamp - a.createdAtTimestamp
         });
 
         res.status(200).json({

@@ -7,13 +7,13 @@ import Grid from '@mui/material/Grid';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 
-import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ModeCommentIcon from '@mui/icons-material/ModeComment';
 import ThumbUpAltOutlinedIcon from '@mui/icons-material/ThumbUpAltOutlined';
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined';
 import ReplyIcon from '@mui/icons-material/Reply';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -27,18 +27,12 @@ import { useToggleContext } from '../context/toggle-context';
 
 const PostItem = ({ post }) => {
     const [isCommentSectionShow, setIsCommentSectionShow] = useState(false);
-    const [commentList, setCommentList] = useState([]);
     const { member } = useAuth();
     const [postMenuAnchor, setPostMenuAnchor] = useState(null);
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
     const { setRerender } = useToggleContext();
 
     const isLike = post.memberWhoLike.find(({ username }) => username === member.username);
-    // const isLike = post.memberWhoLike.find(({ username }) => {
-    //     console.log('username', username);
-    //     console.log('member.username', member.username);
-    //     return (username === member.username);
-    // });
 
     const handleDeletePost = () => {
         axios.delete(`/post/${post._id}`)
@@ -79,9 +73,9 @@ const PostItem = ({ post }) => {
                         {post.author.firstName} {post.author.lastName}
                     </Typography>
                     <Box className='flex items-center'>
-                        <AccessTimeFilledIcon color='primary' className='text-sm' />
+                        <AccessTimeIcon color='primary' className='text-sm mr-1' />
                         <Typography variant='inline' className=' text-xs'>
-                            11/12/2022 13:12
+                            { post.createdAtDateTime }
                         </Typography>
                     </Box>
                 </div>

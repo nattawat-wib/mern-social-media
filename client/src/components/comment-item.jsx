@@ -71,7 +71,7 @@ export const CommentItem = ({ comment }) => {
                     <Typography> {comment.content} </Typography>
                 </Box>
             </Box>
-            <Typography components='body2' className='mt-1 ml-12 text-xs' color='gray'> 10/12/2022 </Typography>
+            <Typography components='body2' className='mt-1 ml-12 text-xs' color='gray'> { comment.createdAtDateTime } </Typography>
         </>
 
     )

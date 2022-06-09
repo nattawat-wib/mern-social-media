@@ -65,12 +65,12 @@ exports.getPostByUsername = async (req, res) => {
         const { postList } = await author.populate({
             path: 'postList',
             select: 'author content image createdAtDateTime _id',
-            options: { sort: { 'created_at': -1 } },
+            options: { sort: { 'createdAtTimestamp': -1 } },
             populate: [
                 {
                     path: 'author',
                     select: 'username firstName lastName avatar -_id',
-                    options: { sort: { 'created_at': -1 } },
+                    options: { sort: { 'createdAtTimestamp': -1 } },
                 },
                 {
                     path: 'memberWhoLike',
@@ -78,13 +78,13 @@ exports.getPostByUsername = async (req, res) => {
                 },
                 {
                     path: 'commentList',
-                    // select: 'username -_id',
+                    select: 'author content createdAtDateTime createdAtTimestamp',
+                    options: { sort: { createdAtTimestamp: -1 } },
                     populate: {
                         path: 'author',
-                        select: 'username firstName lastName avatar -_id',
-                        options: { sort: { 'created_at': -1 } },
+                        select: 'firstName lastName avatar username'
                     }
-                }
+                },
             ]
         });
 
