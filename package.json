@@ -3,7 +3,7 @@
     "description": "a really cool app",
     "scripts": {
         "start": "cd server && npm i && node app.js",
-        "heroku-postbuild": "cd client && npm i"
+        "heroku-postbuild": "cd client && npm i --force && npm run build"
     },
     "version": "1.0.0",
     "engines": {
