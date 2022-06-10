@@ -406,7 +406,7 @@ to {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0,0,0,.8);
+    background-color: rgba(0,0,0,.2);
     z-index: 9999;
 `;var zl=function(){return zl=Object.assign||function(t){for(var n,r=1,o=arguments.length;r<o;r++){n=arguments[r];for(var i in n)Object.prototype.hasOwnProperty.call(n,i)&&(t[i]=n[i])}return t},zl.apply(this,arguments)};function wn(e,t){return Object.defineProperty?Object.defineProperty(e,"raw",{value:t}):e.raw=t,e}var fA=function(t,n){return function(){var r=arguments.length>0&&arguments[0]!==void 0?arguments[0]:{};if(typeof r[t]!="undefined")return r[t];if(t&&t.indexOf(".")>0){for(var o=t.split("."),i=o.length,a=r[o[0]],s=1;a!=null&&s<i;)a=a[o[s]],s+=1;if(typeof a!="undefined")return a}return n}},kn=242.776657104492,pA=1.6,mA=Ja(Jv||(Jv=wn([`
   12.5% {
