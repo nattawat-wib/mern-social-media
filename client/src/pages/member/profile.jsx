@@ -190,7 +190,7 @@ const Profile = () => {
                                         </div>
                                         <Button
                                             onClick={() => setTabValue('follower')}
-                                            size='small'
+                                            size='small' 
                                         >
                                             See All Follower
                                         </Button>
