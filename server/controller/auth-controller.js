@@ -29,7 +29,10 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
     console.log(1);
     try {
-        const member = await Member.findOne({ email: req.body.email }).select("+password");
+        const member = await Member.findOne({ email: req.body.email }).select("+password").select(`
+            username firstName lastName email birthDate gender aboutMe address avatar cover  
+        `);
+
         if (!member) throw 'member not found!'
 
         const isPasswordCorrect = await member.isPasswordCorrect(req.body.password, member.password);
@@ -236,7 +239,7 @@ exports.resetPassword = async (req, res) => {
         const member = await Member.findOne({ resetPasswordToken: req.body.token }).select('+resetPasswordExpire');
 
         if (Date.now() > member.resetPasswordExpire) throw 'this token is timeout, please request new reset password link';
-        
+
         const accessToken = await jwt.sign({ username: member.username }, process.env.JWT_SECRET)
 
         member.password = req.body.password;
@@ -251,9 +254,9 @@ exports.resetPassword = async (req, res) => {
         });
 
         res.status(200).json({
-                status: 'success',
-                msg: 'reset password successfully'
-            })
+            status: 'success',
+            msg: 'reset password successfully'
+        })
 
     } catch (err) {
         console.log(err);
