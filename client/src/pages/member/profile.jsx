@@ -182,7 +182,6 @@ const Profile = () => {
                                 </List>
                             </Paper>
                             <div className='sticky top-20'>
-
                                 <Paper className=' h-fit p-4 my-4'>
                                     <header className='flex justify-between items-start mb-4'>
                                         <div>
