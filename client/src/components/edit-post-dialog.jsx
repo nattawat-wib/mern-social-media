@@ -130,7 +130,7 @@ const EditPostDialog = ({ post, open, setOpen }) => {
                                 tempImage ?
                                     `${import.meta.env.VITE_SERVER_API}/${form.image}`
                                     :
-                                    form?.image ?
+                                    form.image && typeof form.image !== 'string' ?
                                         URL.createObjectURL(form.image)
                                         :
                                         'https://via.pladceholder.com/500'
