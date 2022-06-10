@@ -30,7 +30,7 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
     const [form, setForm] = useState(member);
     const [formImage, setFromImage] = useState({
         avatar: member.avatar,
-        cover: member.cover
+        cover: member.cover 
     });
 
     const handleFormChange = e => {

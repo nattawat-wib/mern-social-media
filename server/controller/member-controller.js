@@ -117,7 +117,7 @@ exports.updateMe = async (req, res) => {
                 cover: req.files.cover ? req.files.cover[0].filename : req.body.cover
             },
             { new: true }
-        ).select('avatar cover firstName lastName aboutMe gender birthDate address')
+        ).select('username avatar cover firstName lastName aboutMe gender birthDate address')
 
         if (!updateMember) throw 'no member found';
 
