@@ -135,7 +135,7 @@ const EditPostDialog = ({ post, open, setOpen }) => {
                                         :
                                         'https://via.pladceholder.com/500'
                             }
-                            className='fit-img rounded-lg'
+                            className='fit-img rounded-lg bug'
                         />
                     </figure>
                 }
