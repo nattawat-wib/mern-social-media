@@ -38,7 +38,7 @@ const EditPostDialog = ({ post, open, setOpen }) => {
             ...prev, [e.target.name]: value
         }));
 
-        if(e.target.type === 'file') setTempImage(null)
+        if (e.target.type === 'file') setTempImage(null)
     }
 
     const handleFormSubmit = e => {
@@ -128,12 +128,12 @@ const EditPostDialog = ({ post, open, setOpen }) => {
                         <img
                             src={
                                 tempImage ?
-                                `${import.meta.env.VITE_SERVER_API}/${form.image}`
-                                :
-                                form.image ?
-                                    URL.createObjectURL(form.image)
+                                    `${import.meta.env.VITE_SERVER_API}/${form.image}`
                                     :
-                                    'https://via.pladceholder.com/500'
+                                    form?.image ?
+                                        URL.createObjectURL(form.image)
+                                        :
+                                        'https://via.pladceholder.com/500'
                             }
                             className='fit-img rounded-lg'
                         />
