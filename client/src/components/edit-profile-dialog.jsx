@@ -27,16 +27,7 @@ const EditProfileDialog = ({ isEditProfileDialogOpen, setIsEditProfileDialogOpen
     const { isDarkMode } = useThemeContext()
     const { member, authDispatch } = useAuth();
     const { setRerender } = useToggleContext();
-    const [form, setForm] = useState({
-        avatar: member.avatar,
-        cover: member.cover,
-        firstName: member.firstName,
-        lastName: member.lastName,
-        aboutMe: member.aboutMe,
-        gender: member.gender,
-        birthDate: member.birthDate,
-        address: member.address,
-    });
+    const [form, setForm] = useState(member);
     const [formImage, setFromImage] = useState({
         avatar: member.avatar,
         cover: member.cover
