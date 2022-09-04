@@ -6,6 +6,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import LoadingButton from '@mui/lab/LoadingButton';
 import { useAuth } from '../../context/auth-context';
 
 import VisibilityIcon from '@mui/icons-material/Visibility';
@@ -39,7 +40,7 @@ const Login = () => {
         setIsLoading(true);
 
         await axios.post('/auth/login', form)
-            .then(resp => {                
+            .then(resp => {
                 toast.loading('routing you to news feed');
                 toast.success(resp.data.msg);
                 setTimeout(() => {
@@ -61,7 +62,7 @@ const Login = () => {
             <Container>
                 <Grid container spacing={4} alignItems='center' justifyContent='space-between'>
                     <Grid item xs={12} md={6} lg={5} >
-                        <Typography variant='h2' color='primary' className='font-bold'> fuckbook </Typography>
+                        <Typography variant='h2' color='primary' className='font-bold'> friendbook </Typography>
                         <Typography variant='h6' component='p'> Friend Ster helps you connect and share with the people in your life. </Typography>
                     </Grid>
                     <Grid item xs={12} md={6} lg={5} className='text-center'>
@@ -98,18 +99,19 @@ const Login = () => {
                                         )
                                     }}
                                 />
-                                <Button
-                                    disabled={isLoading}
-                                    loading_btn={isLoading ? 'true' : 'false'}
+                                <LoadingButton
+                                    // disabled={isLoading}
+                                    // loading_btn={isLoading ? 'true' : 'false'}
                                     type='submit'
                                     className='mb-4'
                                     variant='contained'
                                     color='primary'
                                     size='large'
                                     fullWidth
+                                    loading={isLoading}
                                 >
                                     LOGIN
-                                </Button>
+                                </LoadingButton>
                             </form>
 
                             <Button variant='text' component={Link} to="/forget-password"> Forget Password ? </Button>
